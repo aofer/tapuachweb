@@ -1,42 +1,41 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 20:27:57 09/05/2010 by Hibernate Tools 3.2.1.GA -->
 <hibernate-mapping>
-    <class name="Forum.PersistentLayer.Members" table="members" catalog="mesdata">
-        <id name="userName" type="string">
-            <column name="UserName" length="14" />
-            <generator class="assigned" />
-        </id>
-        <property name="firstName" type="string">
-            <column name="FirstName" length="14" not-null="true" />
-        </property>
-        <property name="lastName" type="string">
-            <column name="LastName" length="14" not-null="true" />
-        </property>
-        <property name="password" type="string">
-            <column name="Password" length="128" not-null="true" />
-        </property>
-        <property name="dataOfBirth" type="date">
-            <column name="DataOfBirth" length="10" not-null="true" />
-        </property>
-        <property name="nickName" type="string">
-            <column name="NickName" length="14" not-null="true" />
-        </property>
-        <property name="dateOfJoin" type="date">
-            <column name="DateOfJoin" length="10" not-null="true" />
-        </property>
-        <property name="email" type="string">
-            <column name="Email" length="25" not-null="true" />
-        </property>
-        <property name="isAdmin" type="boolean">
-            <column name="isAdmin" not-null="true" />
-        </property>
-        <property name="isModerator" type="boolean">
-            <column name="isModerator" not-null="true" />
-        </property>
-        <property name="isLogin" type="boolean">
-            <column name="isLogin" not-null="true" />
-        </property>
-    </class>
+  <class catalog="mesdata" name="Forum.PersistentLayer.Members" table="members">
+    <id name="userName" type="string">
+      <column length="14" name="UserName"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="firstName" type="string">
+      <column length="14" name="FirstName" not-null="true"/>
+    </property>
+    <property name="lastName" type="string">
+      <column length="14" name="LastName" not-null="true"/>
+    </property>
+    <property name="password" type="string">
+      <column length="128" name="Password" not-null="true"/>
+    </property>
+    <property name="dataOfBirth" type="date">
+      <column length="10" name="DataOfBirth" not-null="true"/>
+    </property>
+    <property name="nickName" type="string">
+      <column length="14" name="NickName" not-null="true"/>
+    </property>
+    <property name="dateOfJoin" type="date">
+      <column length="10" name="DateOfJoin" not-null="true"/>
+    </property>
+    <property name="email" type="string">
+      <column length="25" name="Email" not-null="true"/>
+    </property>
+    <property name="isAdmin" type="boolean">
+      <column name="isAdmin" not-null="true"/>
+    </property>
+    <property name="isModerator" type="boolean">
+      <column name="isModerator" not-null="true"/>
+    </property>
+    <property name="isLogin" type="boolean">
+      <column name="isLogin" not-null="true"/>
+    </property>
+  </class>
 </hibernate-mapping>

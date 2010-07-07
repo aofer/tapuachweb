@@ -34,7 +34,7 @@ public class MainEntryPoint implements EntryPoint {
      * that declares an implementing class as an entry-point
      */
     public void onModuleLoad() {
-      RootLayoutPanel.get().add(new RegistrationPanel());
-
+      //RootLayoutPanel.get().add(new RegistrationPanel());
+        RootLayoutPanel.get().add(new MessageTree());
     }
 }
