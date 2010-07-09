@@ -4,12 +4,12 @@
  */
 
 package org.tapuachForum.server;
-import Forum.DomainLayer.Forum;
-import Forum.DomainLayer.ForumFascade;
-import Forum.Exceptions.BadPasswordException;
-import Forum.Exceptions.NicknameExistsException;
-import Forum.Exceptions.UserExistsException;
-import Forum.Exceptions.UserPrivilegeException;
+import org.tapuachForum.server.DomainLayer.Forum;
+import org.tapuachForum.server.DomainLayer.ForumFascade;
+import org.tapuachForum.server.Exceptions.BadPasswordException;
+import org.tapuachForum.server.Exceptions.NicknameExistsException;
+import org.tapuachForum.server.Exceptions.UserExistsException;
+import org.tapuachForum.server.Exceptions.UserPrivilegeException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.util.Date;
 import org.tapuachForum.client.MyService;

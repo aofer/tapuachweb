@@ -1,5 +1,5 @@
 
-import Forum.DomainLayer.Forum;
+import org.tapuachForum.server.DomainLayer.Forum;
 
 /*
  * To change this template, choose Tools | Templates

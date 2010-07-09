@@ -10,5 +10,6 @@
   <!-- <inherits name="com.google.gwt.user.theme.dark.Dark"/> -->
   <entry-point class="org.tapuachForum.client.MainEntryPoint"/>
   <!-- Do not define servlets here, use web.xml -->
-
+  <source path="client"/>
+  <source path="shared"/>
 </module>
