@@ -4,7 +4,6 @@
  */
 package org.tapuachForum.shared;
 
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
 import org.tapuachForum.shared.MessageData;
 import java.util.ArrayList;
 import java.util.Date;

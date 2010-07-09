@@ -7,7 +7,7 @@ package org.tapuachForum.server.DomainLayer;
 
 
 import org.tapuachForum.server.DomainLayer.Interfaces.MemberInterface;
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
+import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.DomainLayer.SearchEngine.SearchHit;
 import org.tapuachForum.server.Exceptions.*;
 import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;

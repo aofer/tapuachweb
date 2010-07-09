@@ -12,7 +12,7 @@ import org.tapuachForum.server.PersistentLayer.XMLMemberHandler;
 import org.tapuachForum.server.PersistentLayer.SQLMessageHandler;
 import org.tapuachForum.server.PersistentLayer.ForumHandler;
 import org.tapuachForum.server.DomainLayer.Interfaces.MemberInterface;
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
+import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.Exceptions.*;
 import org.tapuachForum.server.DomainLayer.Interfaces.ForumInterface;
 import org.tapuachForum.server.DomainLayer.SearchEngine.SearchEngineHandler;

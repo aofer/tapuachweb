@@ -4,7 +4,7 @@
  */
 package org.tapuachForum.server.DomainLayer.SearchEngine;
 
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
+import org.tapuachForum.shared.MessageInterface;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

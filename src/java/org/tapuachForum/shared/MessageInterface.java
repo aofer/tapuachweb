@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.tapuachForum.server.DomainLayer.Interfaces;
+package org.tapuachForum.shared;
 
 import org.tapuachForum.shared.Message;
 import java.util.ArrayList;

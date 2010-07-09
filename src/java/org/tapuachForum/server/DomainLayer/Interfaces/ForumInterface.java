@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.server.DomainLayer.Interfaces;
 
+import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.Message;
 import org.tapuachForum.server.Exceptions.*;
 import org.tapuachForum.server.PersistentLayer.Data.MemberData;

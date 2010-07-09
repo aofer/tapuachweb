@@ -6,7 +6,7 @@
 package org.tapuachForum.server.DomainLayer.SearchEngine;
 
 import org.tapuachForum.server.DomainLayer.Forum;
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
+import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.DomainLayer.Logger.TapuachLogger;
 import org.tapuachForum.shared.Message;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;

@@ -5,7 +5,7 @@
 package org.tapuachForum.server.DomainLayer;
 
 import org.tapuachForum.shared.Message;
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
+import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.DomainLayer.Logger.TapuachLogger;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
 import org.tapuachForum.server.Exceptions.MessageOwnerException;

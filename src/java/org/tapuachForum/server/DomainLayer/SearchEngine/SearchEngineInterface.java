@@ -1,6 +1,6 @@
 package org.tapuachForum.server.DomainLayer.SearchEngine;
 
-import org.tapuachForum.server.DomainLayer.Interfaces.MessageInterface;
+import org.tapuachForum.shared.MessageInterface;
 
 /**
  * @author Tomer Heber
