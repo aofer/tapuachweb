@@ -5,6 +5,7 @@
 
 package org.tapuachForum.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 import org.compass.annotations.Searchable;
 import org.compass.annotations.SearchableId;
@@ -15,7 +16,7 @@ import org.compass.annotations.SearchableProperty;
  * Contain all the data that a Domain class Message needed from the PersistentLayer
  */
 @Searchable(root = false)
-public class MessageData {
+public class MessageData implements Serializable {
 @SearchableProperty(name = "author")
     private String _nickname;
 @SearchableProperty(name = "subject")

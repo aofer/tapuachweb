@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.tapuachForum.client.UI.MessageViewer;
+package org.tapuachForum.client.UI;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;

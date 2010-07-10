@@ -12,7 +12,9 @@ import org.tapuachForum.server.Exceptions.UserExistsException;
 import org.tapuachForum.server.Exceptions.UserPrivilegeException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.util.Date;
+import java.util.Vector;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.shared.MessageInterface;
 
 
 /**
@@ -45,5 +47,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         }
         return  " " + res;
     }
-
+    public Vector<MessageInterface> viewForum(){
+        return Forum.getInstance().viewForum();
+    }
 }

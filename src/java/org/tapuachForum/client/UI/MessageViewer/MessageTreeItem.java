@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
+import org.tapuachForum.shared.MessageInterface;
 
 /**
  *
@@ -24,7 +25,7 @@ public class MessageTreeItem extends TreeItem {
     private HorizontalPanel _buttonHPanel ;
     private TextBox _body;
 
-    public MessageTreeItem(MessageData msg){
+    public MessageTreeItem(MessageInterface msg){
         super(msg.getSubject() + "   -   " + msg.getNickname());
         _buttonHPanel = new HorizontalPanel();
         _body = new TextBox();
@@ -45,7 +46,7 @@ public class MessageTreeItem extends TreeItem {
 //        addItem(_body);
         addItem(_buttonHPanel);
     }
-    public MessageData getMessage() {
-        return (MessageData) getUserObject();
+    public MessageInterface getMessage() {
+        return (MessageInterface) getUserObject();
     }
 }

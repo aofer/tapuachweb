@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.shared;
 
+import java.io.Serializable;
 import org.tapuachForum.shared.MessageData;
 import java.util.ArrayList;
 import java.util.Date;
@@ -21,7 +22,7 @@ import org.compass.annotations.SearchableReference;
  * @author Amit Ofer
  */
 @Searchable
-public class Message implements MessageInterface {
+public class Message implements MessageInterface,Serializable {
     @SearchableIdComponent
     private MessageData _data;
 
