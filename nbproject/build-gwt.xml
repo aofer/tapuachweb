@@ -13,6 +13,26 @@ target, declare a new one with the same name in build.xml.
     <property file="./nbproject/gwt.properties"/>
 
     <!--
+        Defines a new gwt.shell.java command with the specified java
+        executable
+    -->
+    <target name="-define-gwt-shell-java" if="gwt.shell.java">
+        <presetdef name="gwt.shell.java">
+            <java jvm="${gwt.shell.java}"/>
+        </presetdef>
+    </target>
+
+    <!--
+        Defines a new gwt.shell.java command with the default java
+        executable
+    -->
+    <target name="-define-gwt-shell-java-default" unless="gwt.shell.java">
+        <presetdef name="gwt.shell.java">
+            <java/>
+        </presetdef>
+    </target>
+
+    <!--
     Check for AppEngine
     -->
     <condition property="use.appengine" value="true">
@@ -181,6 +201,13 @@ target, declare a new one with the same name in build.xml.
     -->
     <target name="-init-gwt-dir" depends="init">
         <property name="gwt.dir" value="${auxiliary.org-netbeans-modules-gwt4nb.GWTDir}"/>
+    </target>
+
+    <!--
+    Initializes the gwt.shell.java command
+    -->
+    <target name="-init-gwt-shell-java" depends="-define-gwt-shell-java,
+            -define-gwt-shell-java-default">
     </target>
 
     <!--
@@ -414,7 +441,8 @@ target, declare a new one with the same name in build.xml.
     in Java, needs EJBs or similar. See also
     http://code.google.com/support/bin/answer.py?answer=55200
     -->
-    <target name="debug-connect-gwt-shell" if="netbeans.home" depends="init">
+    <target name="debug-connect-gwt-shell" if="netbeans.home" depends="init,
+            -init-gwt-shell-java">
         <antcall target="-gwt-print-dir"/>
         <antcall target="debug-connect-gwt-shell-15" />
         <antcall target="debug-connect-gwt-shell-16" />
@@ -446,8 +474,10 @@ target, declare a new one with the same name in build.xml.
                    else="${gwtshell.jvmargs.base}">
             <os family="mac"/>
         </condition>
+
+        <property name="gwt.shell.java" value="${java.home}/bin/java"/>
         
-        <java fork="true" classname="com.google.gwt.dev.GWTShell" failonerror="true">
+        <gwt.shell.java fork="true" classname="com.google.gwt.dev.GWTShell" failonerror="true">
             <jvmarg line="${gwt.shell.jvmargs}"/>
             <jvmarg line="${gwt.shell.jvmargs.debugger}"/>
             <classpath>
@@ -471,7 +501,7 @@ target, declare a new one with the same name in build.xml.
             <arg value="-noserver"/>
             <arg value="${client.url}"/>
             <arg line="${gwt.shell.args}"/>
-        </java>
+        </gwt.shell.java>
     </target>
     
     <!--
@@ -499,7 +529,7 @@ target, declare a new one with the same name in build.xml.
             <os family="mac"/>
         </condition>
 
-        <java fork="true" classname="com.google.gwt.dev.HostedMode" failonerror="true">
+        <gwt.shell.java fork="true" classname="com.google.gwt.dev.HostedMode" failonerror="true">
             <jvmarg line="${gwt.shell.jvmargs}"/>
             <jvmarg line="${gwt.shell.jvmargs.debugger}"/>
             <classpath>
@@ -525,7 +555,7 @@ target, declare a new one with the same name in build.xml.
             <arg value="${client.url}"/>
             <arg line="${gwt.shell.args}"/>
             <arg line="${gwt.module}"/>
-        </java>
+        </gwt.shell.java>
     </target>
 
     <!--
@@ -553,7 +583,7 @@ target, declare a new one with the same name in build.xml.
             <os family="mac"/>
         </condition>
 
-        <java fork="true" classname="com.google.gwt.dev.HostedMode" failonerror="true">
+        <gwt.shell.java fork="true" classname="com.google.gwt.dev.HostedMode" failonerror="true">
             <jvmarg line="${gwt.shell.jvmargs}"/>
             <jvmarg line="${gwt.shell.jvmargs.debugger}"/>
             <classpath>
@@ -579,7 +609,7 @@ target, declare a new one with the same name in build.xml.
             <arg value="${client.url}"/>
             <arg line="${gwt.shell.args}"/>
             <arg line="${gwt.module}"/>
-        </java>
+        </gwt.shell.java>
     </target>
 
     <!--
@@ -604,7 +634,7 @@ target, declare a new one with the same name in build.xml.
 
         <delete file="${build.dir}/dev-mode-logs/main.log" failonerror="false"/>
         <parallel>
-            <java fork="true" classname="com.google.gwt.dev.DevMode" failonerror="true">
+            <gwt.shell.java fork="true" classname="com.google.gwt.dev.DevMode" failonerror="true">
                 <jvmarg line="${gwt.shell.jvmargs}"/>
                 <jvmarg line="${gwtshell.jvmargs.base}"/>
                 <classpath>
@@ -634,7 +664,7 @@ target, declare a new one with the same name in build.xml.
                 <arg value="${gwt.shell.code.server.port}"/>
                 <arg line="${gwt.shell.args}"/>
                 <arg line="${gwt.module}"/>
-            </java>
+            </gwt.shell.java>
             <sequential>
                 <antcall target="-wait-for-shell-url"/>
                 <antcall target="-wait-for-shell-url"/>
@@ -656,7 +686,8 @@ target, declare a new one with the same name in build.xml.
     and attaches the debugger to it.
     -->
     <target name="debug-connect-gwt-shell-hosted" if="netbeans.home"
-            depends="init,compile,compile-jsps,-do-compile-single-jsp">
+            depends="init,compile,compile-jsps,-do-compile-single-jsp,
+            -init-gwt-shell-java">
         <antcall target="-gwt-print-dir"/>
         <antcall target="debug-connect-gwt-shell-hosted-15" />
         <antcall target="debug-connect-gwt-shell-hosted-16" />
@@ -689,7 +720,7 @@ target, declare a new one with the same name in build.xml.
             <os family="mac"/>
         </condition>
 
-        <java fork="true" classname="com.google.gwt.dev.GWTShell">
+        <gwt.shell.java fork="true" classname="com.google.gwt.dev.GWTShell">
             <jvmarg line="${gwt.shell.jvmargs}"/>
             <jvmarg line="${gwt.shell.jvmargs.debugger}" />
             <classpath>
@@ -716,7 +747,7 @@ target, declare a new one with the same name in build.xml.
             <arg value="${gwt.shell.logLevel}"/>
             <arg line="${gwt.shell.args}"/>
             <arg value="${gwt.module}"/>
-        </java>
+        </gwt.shell.java>
     </target>
 
     <!--
@@ -744,7 +775,7 @@ target, declare a new one with the same name in build.xml.
             <os family="mac"/>
         </condition>
         
-        <java fork="true" classname="com.google.gwt.dev.HostedMode">
+        <gwt.shell.java fork="true" classname="com.google.gwt.dev.HostedMode">
             <jvmarg line="${gwt.shell.jvmargs}"/>
             <jvmarg line="${gwt.shell.jvmargs.debugger}" />
             <classpath>
@@ -773,7 +804,7 @@ target, declare a new one with the same name in build.xml.
             <arg value="/${client.urlPart}"/>
             <arg line="${gwt.shell.args}"/>
             <arg line="${gwt.module}"/>
-        </java>
+        </gwt.shell.java>
     </target>
 
     <!--
@@ -801,7 +832,7 @@ target, declare a new one with the same name in build.xml.
             <os family="mac"/>
         </condition>
 
-        <java fork="true" classname="com.google.gwt.dev.HostedMode">
+        <gwt.shell.java fork="true" classname="com.google.gwt.dev.HostedMode">
             <jvmarg line="${gwt.shell.jvmargs}"/>
             <jvmarg line="${gwt.shell.jvmargs.debugger}" />
             <classpath>
@@ -830,7 +861,7 @@ target, declare a new one with the same name in build.xml.
             <arg value="/${client.urlPart}"/>
             <arg line="${gwt.shell.args}"/>
             <arg line="${gwt.module}"/>
-        </java>
+        </gwt.shell.java>
     </target>
 
     <!--
@@ -855,7 +886,7 @@ target, declare a new one with the same name in build.xml.
 
         <delete file="${build.dir}/dev-mode-logs/main.log" failonerror="false"/>
         <parallel>
-            <java fork="true" classname="com.google.gwt.dev.DevMode">
+            <gwt.shell.java fork="true" classname="com.google.gwt.dev.DevMode">
                 <jvmarg line="${gwt.shell.jvmargs}"/>
                 <jvmarg line="${gwtshell.jvmargs.base}" />
                 <classpath>
@@ -886,7 +917,7 @@ target, declare a new one with the same name in build.xml.
                 <arg value="${gwt.shell.code.server.port}"/>
                 <arg line="${gwt.shell.args}"/>
                 <arg line="${gwt.module}"/>
-            </java>
+            </gwt.shell.java>
             <sequential>
                 <antcall target="-wait-for-shell-url"/>
                 <antcall target="-wait-for-shell-url"/>

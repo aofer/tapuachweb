@@ -12,6 +12,8 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import java.sql.Ref;
 import java.util.Vector;
@@ -30,17 +32,24 @@ public class MessageViewer extends Composite {
     private Button _addMessageButton;
     private Button _refreshButton;
     private MessageTree _MessageTree;
+    private HorizontalPanel _treePanel;
 
     public MessageViewer(){
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
+        _treePanel  = new HorizontalPanel();
         _addMessageButton = new Button("Add message");
         _refreshButton = new Button("refresh");
         _MessageTree = new MessageTree();
-        _mainPanel.add(_MessageTree);
+        _mainPanel.add(_treePanel);
         _mainPanel.add(_toolbar);
+        _mainPanel.setSpacing(0);
+        _treePanel.add(_MessageTree);
         _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
+  //      _toolbar.setSize("800px", "20px");
+        _toolbar.setBorderWidth(1);
+        _treePanel.setBorderWidth(1);
         initWidget(_mainPanel);
         getService().viewForum(new AsyncCallback<Vector<MessageInterface>>(){
 
@@ -53,6 +62,7 @@ public class MessageViewer extends Composite {
             }
 
         });
+
     }
 
     public static MyServiceAsync getService() {

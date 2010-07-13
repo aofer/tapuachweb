@@ -23,6 +23,12 @@ import org.tapuachForum.shared.MessageInterface;
  */
 public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 //    ForumFascade forum = new ForumFascade();
+    private ForumFascade _forum;
+
+    public MyServiceImpl(){
+        super();
+        _forum = new ForumFascade();
+    }
 
 
     public String myMethod(String s) {

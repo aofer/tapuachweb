@@ -28,6 +28,7 @@ public class MessageTree extends Composite {
     private Tree _messageTree;
     public MessageTree(){
         this._mainPanel = new ScrollPanel();
+        this._mainPanel.setSize("800px", "600px");
         this._messageTree = new Tree();
         this._mainPanel.add(this._messageTree);
         initWidget(this._mainPanel);
@@ -51,7 +52,7 @@ OpenHandler<SupplierWithDetailsModel>() {
         public void onTreeItemStateChanged(TreeItem item) {
         }
         });*/
-       // testInit();
+        testInit();
     }
 
     public void testInit(){
@@ -60,7 +61,7 @@ OpenHandler<SupplierWithDetailsModel>() {
         MessageTreeItem item1 = new MessageTreeItem(m1);
         this._messageTree.addItem(item1);
         MessageData msg2 =  new MessageData("aofer", "testing the forum2222", "Mahabaz baz baz",new Date(), new Date());
-        MessageData msg3 =  new MessageData("aofer", "testing the forum2233333", "Nahabaz baz baz\n i would like to say that \n bufhukdg jkshks dsfjsdkfd dsfkjhsd\n dsgjk\n klshgkj!",new Date(), new Date());
+        MessageData msg3 =  new MessageData("aofer", "testing the forum2233333", "Nahabaz baz baz\n i would like tsdkhgksdhgkjshdjksgdhgdsjkdsjghsdhgsdhgsdhgsdhgsdhdgshdgsjsdgkdsghjdskhskdsgsdgkjsgdjdsgjkhgdskjsgdhsdjkdsjkghsdhgskhgdskjgdsjkksj84578973495789375983475893jksfdkjsdfkjnfsdnkjsdnkjfsdnjksfdnjksnfdskndkjnfdsjkfdnsjksdnfsjdkjfndsknfdsjkfdsnjkdsfnjkfndjksdfnjksdnfdsjkfnjksndkjnfsdkdnfjk####%$%#$^$##$#%#$%%%%%%%%%%%%$$#%$$#$#$#$#$$#$##$$%#$#$%DFFDFDFDFDFdffdgfdgfdgdfdfdf\n\n\ngdsgdsdgj3895o say that \n bufhukdg jkshks dsfjsdkfd dsfkjhsd\n dsgjk\n klshgkj!",new Date(), new Date());
         MessageInterface m2 = new Message(msg2);
         MessageInterface m3 = new Message(msg3);
         MessageTreeItem item2 = new MessageTreeItem(m2);
