@@ -7,12 +7,15 @@ package org.tapuachForum.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
-import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
+import org.tapuachForum.client.UI.RegistrationPanel;
 
 /**
  * Main entry point.
@@ -45,9 +48,20 @@ public class MainEntryPoint implements EntryPoint {
         //Grid _g = new Grid(1,2);
         //_g.setBorderWidth(1);
         //_g.setWidget(0,1));
-        d.addNorth(new LoginPanel(),5);
+        LoginPanel l = new LoginPanel();
+        d.addNorth(l,5);
         d.add(new ScrollPanel(new MessageViewer()));
-        
+        RootLayoutPanel.get().add(d);
+        l.getReg().addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                RootPanel.get().getWidget(0).setVisible(false);
+                // _mainPanel.setVisible(false);
+                RootPanel.get().add(new RegistrationPanel());
+            }
+        });
+
+
         //_g.getCellFormatter().setWidth(0, 0, "400px");
         //_g.getCellFormatter().setWidth(0, 1, "400px");
         //_g.getCellFormatter().setHeight(0, 0, "150px");
@@ -59,7 +73,7 @@ public class MainEntryPoint implements EntryPoint {
     //    _g.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
 
        // _g.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_LEFT);
-        RootLayoutPanel.get().add(d);
+       
         //RootLayoutPanel.get().add(d);
         //d.addNorth(new HTML("content"), 2);
         //d.addNorth(new LoginPanel(), 2);

@@ -54,7 +54,7 @@ public class MessageViewer extends Composite {
         _treePanel.add(_MessageTree);
         _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
-        _toolbar.add(_registrationButton);
+        //_toolbar.add(_registrationButton);
         //      _toolbar.setSize("800px", "20px");
         _toolbar.setBorderWidth(1);
         _treePanel.setBorderWidth(1);
@@ -70,14 +70,14 @@ public class MessageViewer extends Composite {
             }
         });
 
-        _registrationButton.addClickHandler(new ClickHandler() {
+       /* _registrationButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 RootPanel.get().getWidget(0).setVisible(false);
                 // _mainPanel.setVisible(false);
                 RootPanel.get().add(new RegistrationPanel());
             }
-        });
+        });*/
 
         _addMessageButton.addClickHandler(new ClickHandler() {
 
