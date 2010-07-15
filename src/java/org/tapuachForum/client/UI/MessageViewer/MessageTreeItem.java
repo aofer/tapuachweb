@@ -6,14 +6,22 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.tapuachForum.shared.MessageData;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RichTextArea;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
+import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.MessageInterface;
 
 /**
@@ -28,7 +36,7 @@ public class MessageTreeItem extends TreeItem {
     private TextBox _body;
     private TextArea _body2;
 
-    public MessageTreeItem(MessageInterface msg){
+    public MessageTreeItem(final MessageInterface msg){
         super(msg.getSubject() + "   -   " + msg.getNickname() + "  -   " + msg.getWriteDate().toString());
         _buttonHPanel = new HorizontalPanel();
         _body = new TextBox();
@@ -57,6 +65,21 @@ public class MessageTreeItem extends TreeItem {
 //        addItem(_body);
         addItem(_body2);
         addItem(_buttonHPanel);
+
+
+
+        _ReplyButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                int num = msg.getIndex();
+          //      _body2.setVisible(false);
+          //      _buttonHPanel.setVisible(false);
+            RootPanel.get().getWidget(0).setVisible(false);
+                RootPanel.get().add(new addMessageWindow(num));
+
+            }
+        });
+
 
     }
     public MessageInterface getMessage() {

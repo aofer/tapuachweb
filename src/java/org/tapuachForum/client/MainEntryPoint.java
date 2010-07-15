@@ -4,10 +4,9 @@
  */
 package org.tapuachForum.client;
 
-import org.tapuachForum.client.UI.MessageViewer.MessageTree;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.RootPanel;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 
 /**
@@ -16,6 +15,7 @@ import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
  * @author Liron Katav
  */
 public class MainEntryPoint implements EntryPoint {
+
     /**
      * Creates a new instance of MainEntryPoint
      */
@@ -36,7 +36,10 @@ public class MainEntryPoint implements EntryPoint {
      * that declares an implementing class as an entry-point
      */
     public void onModuleLoad() {
-      //RootLayoutPanel.get().add(new RegistrationPanel());
-        RootLayoutPanel.get().add(new MessageViewer());
+
+
+        RootPanel.get().add(new MessageViewer());
+        //      RootLayoutPanel.get().add(new RegistrationPanel());
+        //    RootLayoutPanel.get().add(new addMessageWindow());
     }
 }
