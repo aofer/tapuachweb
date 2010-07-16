@@ -71,11 +71,27 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
                      return "add replay";
     }
 
-    public void editMessage(String nickname, int messageId, String subject, String body) {
+ //   public void editMessage(String nickname, int messageId, String subject, String body) {
 
-    }
+    //}
 
     public Vector<MessageInterface> viewForum() {
         return Forum.getInstance().viewForum();
+    }
+
+    public String editMessage(String nickname, int messageId, String subject, String body) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String login(String username, String password) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String logout(String username) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public String deleteMessage(int messageId) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
