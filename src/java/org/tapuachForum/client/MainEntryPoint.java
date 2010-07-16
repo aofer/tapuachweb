@@ -9,7 +9,8 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
+import com.google.gwt.layout.client.Layout.Alignment;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -44,14 +45,31 @@ public class MainEntryPoint implements EntryPoint {
      */
     public void onModuleLoad() {
       //RootLayoutPanel.get().add(new RegistrationPanel());
-        DockLayoutPanel d = new DockLayoutPanel(Unit.EM);
+        LayoutPanel  lp = new LayoutPanel();
         //Grid _g = new Grid(1,2);
         //_g.setBorderWidth(1);
         //_g.setWidget(0,1));
         LoginPanel l = new LoginPanel();
-        d.addNorth(l,5);
-        d.add(new ScrollPanel(new MessageViewer()));
-        RootLayoutPanel.get().add(d);
+        l.setStyleName("loginpanel");
+        l.setWidth("230px");
+        l.setHeight("120px");
+
+
+        lp.add(l);
+        lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
+        lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
+        MessageViewer m = new MessageViewer();
+        m.setSize("1024 px", "400 px");
+        ScrollPanel s = new ScrollPanel(m);
+        m.setStyleName("messageviewer");
+        //m.setWidth("800px");
+        //m.setHeight("450px");
+
+        
+        lp.add(s);
+        //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
+        lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+        RootLayoutPanel.get().add(lp);
         l.getReg().addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
