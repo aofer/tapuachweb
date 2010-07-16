@@ -88,6 +88,10 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         return res;
     }
 
+
+
+    //}
+
     public String login(String username, String password) {
         String res ="good";
         Forum forum = Forum.getInstance();
@@ -119,6 +123,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     }
 
     public Vector<MessageInterface> viewForum() {
-        return Forum.getInstance().viewForum();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
+
+
 }

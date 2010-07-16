@@ -81,3 +81,17 @@ root {
 .blueBack{
    background-color: #ADD8E6;
 }
+
+  BODY { background: url("splash-apple-green edit2.jpg") }
+
+
+  loginpanel
+{
+position:relative;
+left:500px;
+}
+
+messageviewer{
+    position:relative;
+    top:100px;
+}
