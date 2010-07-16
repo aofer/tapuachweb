@@ -1,0 +1,25 @@
+[ERROR] Remote connection lost
+com.google.gwt.dev.shell.BrowserChannel$RemoteDeathError: Remote connection lost
+	at com.google.gwt.dev.shell.BrowserChannel.reactToMessages(BrowserChannel.java:1683)
+	at com.google.gwt.dev.shell.BrowserChannelServer.processConnection(BrowserChannelServer.java:401)
+	at com.google.gwt.dev.shell.BrowserChannelServer.run(BrowserChannelServer.java:222)
+	at java.lang.Thread.run(Thread.java:619)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readByte(DataInputStream.java:250)
+	at com.google.gwt.dev.shell.BrowserChannel$Message.readMessageType(BrowserChannel.java:1131)
+	at com.google.gwt.dev.shell.BrowserChannel.reactToMessages(BrowserChannel.java:1659)
+	... 3 more
+
+[ERROR] Remote connection lost
+com.google.gwt.dev.shell.BrowserChannel$RemoteDeathError: Remote connection lost
+	at com.google.gwt.dev.shell.BrowserChannel.reactToMessages(BrowserChannel.java:1683)
+	at com.google.gwt.dev.shell.BrowserChannelServer.processConnection(BrowserChannelServer.java:401)
+	at com.google.gwt.dev.shell.BrowserChannelServer.run(BrowserChannelServer.java:222)
+	at java.lang.Thread.run(Thread.java:619)
+Caused by: java.io.EOFException
+	at java.io.DataInputStream.readByte(DataInputStream.java:250)
+	at com.google.gwt.dev.shell.BrowserChannel$Message.readMessageType(BrowserChannel.java:1131)
+	at com.google.gwt.dev.shell.BrowserChannel.reactToMessages(BrowserChannel.java:1659)
+	... 3 more
+
+

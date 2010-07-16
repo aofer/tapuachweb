@@ -1,0 +1,54 @@
+<xsd:schema  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<xsd:complexType name="messageType">
+	<xsd:sequence>
+	<xsd:element name="messageId" type="xsd:integer"/>
+	<xsd:element name="parentId" type="xsd:integer"/>
+	<xsd:element name="subject">
+		<xsd:simpleType>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element> 
+	<xsd:element name="body" type="xsd:string"/>
+	<xsd:element name="createdBy" type="xsd:string"/>
+	<xsd:element name="dateAdded" type="xsd:dateTime"/>
+	<xsd:element name="modifiedDate"   type="xsd:dateTime"/>
+	</xsd:sequence>
+ </xsd:complexType>  
+
+ 
+ <xsd:complexType name="memberType">
+	<xsd:sequence>
+	<xsd:element name="userName" type="xsd:string"/>
+	<xsd:element name="nickName" type="xsd:string"/>
+	<xsd:element name="password">
+		<xsd:simpleType>
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8"/>
+		</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element> 
+	<xsd:element name="eMail" type="xsd:string"/>
+	<xsd:element name="dateJoined" type="xsd:dateTime"/>
+	<xsd:element name="firstName" type="xsd:string"/>
+	<xsd:element name="LastName" type="xsd:string"/>
+	<xsd:element name="dateOfBirth" type="xsd:date"/>
+	<xsd:element name="status" type="xsd:boolean"/>		
+	<xsd:element name ="message" type="messageType" maxOccurs="unbounded"/>
+	</xsd:sequence>
+ </xsd:complexType>
+
+ <xsd:element name="forumType">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name ="forumName" type="xsd:string"/>
+        <xsd:element name ="messageCounter" type="xsd:integer"/>
+		<xsd:element name ="members" type="memberType" maxOccurs="unbounded"/>
+        <xsd:element name ="messages" type="messageType" maxOccurs="unbounded"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  
+</xsd:schema>
