@@ -26,8 +26,13 @@ public interface MyService extends RemoteService {
 
     public String addReply(int parentId, String nickname, String subject, String body);
 
-    public void editMessage(String nickname, int messageId, String subject, String body);
+    public String editMessage(String nickname, int messageId, String subject, String body);
 
+   public String login(String username, String password);
+
+    public String logout (String username);
+
+   public String  deleteMessage(int messageId);
 
     public Vector<MessageInterface> viewForum();
 }

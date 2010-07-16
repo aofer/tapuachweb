@@ -360,8 +360,8 @@ public class RegistrationPanel  extends DockLayoutPanel{
 //                 vPanel.setVisible(false);
 //                 lRegisteration.setVisible(false);
 //                 thisSuper.setVisible(false);
-                 RootPanel.get().remove(1);
-                 RootPanel.get().getWidget(0).setVisible(true);
+                 RootLayoutPanel.get().remove(1);
+                 RootLayoutPanel.get().getWidget(0).setVisible(true);
           //      RootLayoutPanel.get().add(new MessageViewer());
             }
         });

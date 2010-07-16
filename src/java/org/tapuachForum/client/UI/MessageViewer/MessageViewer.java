@@ -5,16 +5,19 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -22,6 +25,7 @@ import java.sql.Ref;
 import java.util.Vector;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.shared.MessageInterface;
 
@@ -73,9 +77,9 @@ public class MessageViewer extends Composite {
        /* _registrationButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-                RootPanel.get().getWidget(0).setVisible(false);
+                RootLayoutPanel.get().getWidget(0).setVisible(false);
                 // _mainPanel.setVisible(false);
-                RootPanel.get().add(new RegistrationPanel());
+                RootPanelRootLayoutPanel.get().add(new RegistrationPanel());
             }
         });*/
 
@@ -83,16 +87,21 @@ public class MessageViewer extends Composite {
 
             public void onClick(ClickEvent event) {
                 //    _mainPanel.setVisible(false);
-                RootPanel.get().getWidget(0).setVisible(false);
-                RootPanel.get().add(new addMessageWindow());
+                RootLayoutPanel.get().getWidget(0).setVisible(false);
+                RootLayoutPanel.get().add(new addMessageWindow());
             }
         });
         _refreshButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 //    _mainPanel.setVisible(false);
-                RootPanel.get().remove(0);
-                RootPanel.get().add(new MessageViewer());
+                RootLayoutPanel.get().remove(0);
+         DockLayoutPanel d = new DockLayoutPanel(Unit.EM);
+                LoginPanel l = new LoginPanel();
+        d.addNorth(l,5);
+        d.add(new ScrollPanel(new MessageViewer()));
+        RootLayoutPanel.get().add(d);
+             //   RootLayoutPanel.get().add(new MessageViewer());
             }
         });
 
@@ -100,10 +109,7 @@ public class MessageViewer extends Composite {
     }
 
     public static MyServiceAsync getService() {
-        // Create the client proxy. Note that although you are creating the
-        // service interface proper, you cast the result to the asynchronous
-        // version of the interface. The cast is always safe because the
-        // generated proxy implements the asynchronous interface automatically.
+
         return GWT.create(MyService.class);
     }
 

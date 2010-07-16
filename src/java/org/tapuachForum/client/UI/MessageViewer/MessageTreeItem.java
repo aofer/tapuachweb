@@ -2,9 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.tapuachForum.client.UI.MessageViewer;
-
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -29,14 +27,15 @@ import org.tapuachForum.shared.MessageInterface;
  * @author amit
  */
 public class MessageTreeItem extends TreeItem {
+
     private Button _ReplyButton;
     private Button _ModifyButton;
     private Button _DeleteButton;
-    private HorizontalPanel _buttonHPanel ;
+    private HorizontalPanel _buttonHPanel;
     private TextBox _body;
     private TextArea _body2;
 
-    public MessageTreeItem(final MessageInterface msg){
+    public MessageTreeItem(final MessageInterface msg) {
         super(msg.getSubject() + "   -   " + msg.getNickname() + "  -   " + msg.getWriteDate().toString());
         _buttonHPanel = new HorizontalPanel();
         _body = new TextBox();
@@ -44,9 +43,9 @@ public class MessageTreeItem extends TreeItem {
         this._ReplyButton = new Button("Add reply");
         this._ReplyButton.setSize("100", "25");
         this._ModifyButton = new Button("Modify message");
-        this._ModifyButton.setEnabled(false);
+        this._ModifyButton.setEnabled(true);
         this._DeleteButton = new Button("Delete message");
-        this._DeleteButton.setEnabled(false);
+        this._DeleteButton.setEnabled(true);
         this._buttonHPanel.add(_ReplyButton);
         this._buttonHPanel.add(_DeleteButton);
         this._buttonHPanel.add(_ModifyButton);
@@ -57,32 +56,82 @@ public class MessageTreeItem extends TreeItem {
         _body2.setText(msg.getBody());
         _body.setReadOnly(true);
         _body2.setReadOnly(true);
-        _body2.setSize("750px","200px");
-            if (msg.getModifiedDate().compareTo(msg.getWriteDate()) != 0){
-                Label dateLabel = new Label("The message was modified on " + msg.getModifiedDate().toString());
-                addItem(dateLabel);
+        _body2.setSize("750px", "200px");
+        if (msg.getModifiedDate().compareTo(msg.getWriteDate()) != 0) {
+            Label dateLabel = new Label("The message was modified on " + msg.getModifiedDate().toString());
+            addItem(dateLabel);
         }
 //        addItem(_body);
         addItem(_body2);
         addItem(_buttonHPanel);
 
+        _ModifyButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                int num = msg.getIndex();
+                String subject = msg.getSubject();
+                String nickName = msg.getNickname();
+                String body = msg.getBody();
+                //      _body2.setVisible(false);
+                //      _buttonHPanel.setVisible(false);
+                RootLayoutPanel.get().getWidget(0).setVisible(false);
+                RootLayoutPanel.get().add(new addMessageWindow(num, subject, nickName, body));
+
+            }
+        });
 
 
         _ReplyButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 int num = msg.getIndex();
-          //      _body2.setVisible(false);
-          //      _buttonHPanel.setVisible(false);
-            RootPanel.get().getWidget(0).setVisible(false);
-                RootPanel.get().add(new addMessageWindow(num));
+                RootLayoutPanel.get().getWidget(0).setVisible(false);
+                RootLayoutPanel.get().add(new addMessageWindow(num));
+
+            }
+        });
+
+        final AsyncCallback<String> callback = new AsyncCallback<String>() {
+
+            public void onSuccess(String result) {
+                if (result.equals("good")) {
+                    _body.setText(" MESSAGE AS BEET DELETED!!!");
+                } else {
+                    _body.setText(" MESSAGE AS not BEET DELETED!!! because " + result);
+                }
+
+
+            }
+
+            public void onFailure(Throwable caught) {
+                // lResult.setText("Communication failed");
+                //       lResult.setStyleName("redResutl") ;
+                _body.setText(" MESSAGE AS BEET DELETED!!! (MAYBE)");
+
+            }
+        };
+
+        _DeleteButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                _body.setText("  **** THE MESSEAGE WILL BE DELETE!!!  THERE IS PROBLEM WITH THE COMPASS, SO IT IS STILL NOT WORKING.. BUT IT IS READY...");
+                getService().deleteMessage(msg.getIndex(), callback);
 
             }
         });
 
 
     }
+
     public MessageInterface getMessage() {
         return (MessageInterface) getUserObject();
+    }
+
+    public static MyServiceAsync getService() {
+        // Create the client proxy. Note that although you are creating the
+        // service interface proper, you cast the result to the asynchronous
+        // version of the interface. The cast is always safe because the
+        // generated proxy implements the asynchronous interface automatically.
+        return GWT.create(MyService.class);
     }
 }

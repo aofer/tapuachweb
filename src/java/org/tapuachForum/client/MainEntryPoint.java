@@ -55,9 +55,9 @@ public class MainEntryPoint implements EntryPoint {
         l.getReg().addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-                RootPanel.get().getWidget(0).setVisible(false);
+                RootLayoutPanel.get().getWidget(0).setVisible(false);
                 // _mainPanel.setVisible(false);
-                RootPanel.get().add(new RegistrationPanel());
+                RootLayoutPanel.get().add(new RegistrationPanel());
             }
         });
 
