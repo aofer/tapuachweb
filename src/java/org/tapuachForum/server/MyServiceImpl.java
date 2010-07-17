@@ -100,7 +100,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         } catch (NoSuchUserException ex) {
             res = "There is not such user in the system";
         } catch (WrongPasswordException ex) {
-           res = "The Password is worng. Please Re-Type it.";
+           res = "The Password is wrong. Please Re-Type it.";
         }
         return res;
     }

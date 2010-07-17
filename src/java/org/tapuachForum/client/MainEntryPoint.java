@@ -44,11 +44,7 @@ public class MainEntryPoint implements EntryPoint {
      * that declares an implementing class as an entry-point
      */
     public void onModuleLoad() {
-      //RootLayoutPanel.get().add(new RegistrationPanel());
         LayoutPanel  lp = new LayoutPanel();
-        //Grid _g = new Grid(1,2);
-        //_g.setBorderWidth(1);
-        //_g.setWidget(0,1));
         LoginPanel l = new LoginPanel();
         l.setStyleName("loginpanel");
         l.setWidth("230px");
@@ -61,41 +57,25 @@ public class MainEntryPoint implements EntryPoint {
         MessageViewer m = new MessageViewer();
         m.setSize("1024 px", "400 px");
         ScrollPanel s = new ScrollPanel(m);
+        s.setHeight("430px");
         m.setStyleName("messageviewer");
-        //m.setWidth("800px");
-        //m.setHeight("450px");
-
+        
         
         lp.add(s);
         //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
         lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+        //ScrollPanel ms = new ScrollPanel(lp);
         RootLayoutPanel.get().add(lp);
         l.getReg().addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-                RootLayoutPanel.get().getWidget(0).setVisible(false);
+                //RootLayoutPanel.get().getWidget(0).setVisible(false);
                 // _mainPanel.setVisible(false);
                 RootLayoutPanel.get().add(new RegistrationPanel());
             }
         });
 
 
-        //_g.getCellFormatter().setWidth(0, 0, "400px");
-        //_g.getCellFormatter().setWidth(0, 1, "400px");
-        //_g.getCellFormatter().setHeight(0, 0, "150px");
-         //_g.getCellFormatter().setVerticalAlignment(0,1,HasVerticalAlignment.ALIGN_TOP );
-     
-     
-//      _g.getCellFormatter().setVerticalAlignment(0,1,HasVerticalAlignment.ALIGN_TOP );
-
-    //    _g.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
-
-       // _g.getCellFormatter().setHorizontalAlignment(0, 1, HasHorizontalAlignment.ALIGN_LEFT);
-       
-        //RootLayoutPanel.get().add(d);
-        //d.addNorth(new HTML("content"), 2);
-        //d.addNorth(new LoginPanel(), 2);
-   //     d.add(new MessageViewer());
-        //d.addSouth(new MessageViewer(),50);
+        
     }
 }

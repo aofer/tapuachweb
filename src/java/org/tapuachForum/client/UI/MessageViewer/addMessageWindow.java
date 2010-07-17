@@ -17,11 +17,15 @@ import org.tapuachForum.client.MyServiceAsync;
  *
  * @author amit
  */
-public class addMessageWindow extends Composite {
+public class addMessageWindow extends PopupPanel {
 
+   // final PopupPanel _pp = new PopupPanel(false);
     final FormPanel _mainPanel = new FormPanel();
 
+
+
     public addMessageWindow() {
+        super(false,true);
         final VerticalPanel _holder;
         final Label _header;
         final Label _LSubject;
@@ -39,7 +43,7 @@ public class addMessageWindow extends Composite {
 
         _holder = new VerticalPanel();
         _mainPanel.setWidget(_holder);
-
+        this.setWidget(_mainPanel);
         _header = new Label("Add message");
         _LSubject = new Label("Subject:");
         _TBSubject = new TextBox();
@@ -59,7 +63,11 @@ public class addMessageWindow extends Composite {
         _buttonsPanel.add(_Bcancel);
         _holder.add(_buttonsPanel);
         _holder.add(lResult);
-        initWidget(_holder);
+       this.setGlassEnabled(true);
+        //initWidget(_holder);
+        //_pp.center();
+
+     
 
         final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 
@@ -86,6 +94,8 @@ public class addMessageWindow extends Composite {
                 lResult.setText("please wait while the server adding your message.");
                 //getService().myMethod("test", callback);
                 getService().addMessage(_nickName, subject, body, callback);
+                addMessageWindow.super.hide();
+
 
             }
         });
@@ -95,10 +105,12 @@ public class addMessageWindow extends Composite {
 
             public void onClick(ClickEvent event) {
            //     _holder.setVisible(false);
-            RootLayoutPanel.get().remove(1);
-            RootLayoutPanel.get().getWidget(0).setVisible(true);
+            //RootLayoutPanel.get().remove(1);
+            //RootLayoutPanel.get().getWidget(0).setVisible(true);
+              addMessageWindow.super.hide();
             }
         });
+        this.center();
     }
 
     public addMessageWindow(final int parentId) {
@@ -139,7 +151,7 @@ public class addMessageWindow extends Composite {
         _buttonsPanel.add(_Bcancel);
         _holder.add(_buttonsPanel);
         _holder.add(lResult);
-        initWidget(_holder);
+//        initWidget(_holder);
 
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
@@ -222,7 +234,7 @@ public class addMessageWindow extends Composite {
         _buttonsPanel.add(_Bcancel);
         _holder.add(_buttonsPanel);
         _holder.add(lResult);
-        initWidget(_holder);
+      //  initWidget(_holder);
 
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
@@ -260,10 +272,8 @@ public class addMessageWindow extends Composite {
         _Bcancel.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-           //     _holder.setVisible(false);
-            RootLayoutPanel.get().remove(1);
-            RootLayoutPanel.get().getWidget(0).setVisible(true);
-            }
+           // hide();
+               }
         });
     }
     public static MyServiceAsync getService() {
