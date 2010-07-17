@@ -5,6 +5,8 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dev.shell.log.SwingLoggerPanel;
+import com.google.gwt.dev.shell.log.SwingLoggerPanel.CloseHandler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -15,6 +17,7 @@ import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
@@ -43,6 +46,7 @@ public class MessageViewer extends Composite {
     private Button _registrationButton;
     private MessageTree _MessageTree;
     private HorizontalPanel _treePanel;
+    private PopupPanel _addmsg;
 
     public MessageViewer() {
         _mainPanel = new VerticalPanel();
@@ -54,14 +58,17 @@ public class MessageViewer extends Composite {
         _MessageTree = new MessageTree();
         _mainPanel.add(_treePanel);
         _mainPanel.add(_toolbar);
-        _mainPanel.setSpacing(0);
+        //_mainPanel.setSpacing(0);
+
+        //_addmsg = new PopupPanel(false);
+        //_addmsg.add(new addMessageWindow());
         _treePanel.add(_MessageTree);
         _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
         //_toolbar.add(_registrationButton);
         //      _toolbar.setSize("800px", "20px");
-        _toolbar.setBorderWidth(1);
-        _treePanel.setBorderWidth(1);
+        //_toolbar.setBorderWidth(1);
+        //_treePanel.setBorderWidth(1);
         initWidget(_mainPanel);
         getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
 
@@ -87,21 +94,48 @@ public class MessageViewer extends Composite {
 
             public void onClick(ClickEvent event) {
                 //    _mainPanel.setVisible(false);
-                RootLayoutPanel.get().getWidget(0).setVisible(false);
-                RootLayoutPanel.get().add(new addMessageWindow());
+                //RootLayoutPanel.get().getWidget(0).setVisible(false);
+                //RootLayoutPanel.get().add(new addMessageWindow());
+                //_addmsg.setGlassEnabled(true);
+           addMessageWindow aw = new addMessageWindow();
+                
             }
         });
         _refreshButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 //    _mainPanel.setVisible(false);
-                RootLayoutPanel.get().remove(0);
-         DockLayoutPanel d = new DockLayoutPanel(Unit.EM);
-                LoginPanel l = new LoginPanel();
-        d.addNorth(l,5);
-        d.add(new ScrollPanel(new MessageViewer()));
-        RootLayoutPanel.get().add(d);
-             //   RootLayoutPanel.get().add(new MessageViewer());
+              RootLayoutPanel.get().remove(0);
+                LayoutPanel  lp = new LayoutPanel();
+        LoginPanel l = new LoginPanel();
+        l.setStyleName("loginpanel");
+        l.setWidth("230px");
+        l.setHeight("120px");
+
+
+        lp.add(l);
+        lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
+        lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
+        MessageViewer m = new MessageViewer();
+        m.setSize("1024 px", "400 px");
+        ScrollPanel s = new ScrollPanel(m);
+        s.setHeight("430px");
+        m.setStyleName("messageviewer");
+
+
+        lp.add(s);
+        //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
+        lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+        //ScrollPanel ms = new ScrollPanel(lp);
+        RootLayoutPanel.get().add(lp);
+                  l.getReg().addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                //RootLayoutPanel.get().getWidget(0).setVisible(false);
+                // _mainPanel.setVisible(false);
+                RootLayoutPanel.get().add(new RegistrationPanel());
+            }
+        });
             }
         });
 
