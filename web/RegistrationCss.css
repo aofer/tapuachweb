@@ -95,3 +95,10 @@ messageviewer{
     position:relative;
     top:100px;
 }
+
+infoText{
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    font-variant: normal;
+}

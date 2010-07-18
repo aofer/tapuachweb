@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
@@ -9,21 +10,23 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import java.util.Date;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 
 /**
  *
- * @author amit
+ * @author Nir
  */
-public class addMessageWindow extends PopupPanel {
+public class editMessageWindow  extends PopupPanel{
 
-    // final PopupPanel _pp = new PopupPanel(false);
     final FormPanel _mainPanel = new FormPanel();
 
-    public addMessageWindow() {
-        super(false, true);
-        final VerticalPanel _holder;
+
+
+      public editMessageWindow(final int messageId ,final String subject,final String nickName,final String body) {
+         super(false,true);
+          final VerticalPanel _holder;
         final Label _header;
         final Label _LSubject;
         final TextBox _TBSubject;
@@ -37,16 +40,18 @@ public class addMessageWindow extends PopupPanel {
         _mainPanel.setAction("/myFormHandler");
         _mainPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
         _mainPanel.setMethod(FormPanel.METHOD_POST);
-
+        this.setWidget(_mainPanel);
         _holder = new VerticalPanel();
         _holder.setStyleName("blueBack");
         _mainPanel.setWidget(_holder);
-        this.setWidget(_mainPanel);
+
         _header = new Label("Add message");
         _LSubject = new Label("Subject:");
         _TBSubject = new TextBox();
+        _TBSubject.setText(subject);
         _LBody = new Label("body:");
         _TABody = new TextArea();
+        _TABody.setText(body);
         lResult = new Label("Please enter the messege details or press cancel to go back to the Forum");
         _BSave = new Button("Save");
         _Bcancel = new Button("cancel");
@@ -61,58 +66,57 @@ public class addMessageWindow extends PopupPanel {
         _buttonsPanel.add(_Bcancel);
         _holder.add(_buttonsPanel);
         _holder.add(lResult);
-        this.setGlassEnabled(true);
+           this.setGlassEnabled(true);
         //initWidget(_holder);
         //_pp.center();
 
+        final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
-
-        final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
-
-            public void onSuccess(Integer result) {
-                int resultInt = result.intValue();
-                lResult.setText("the answer is" + resultInt);
-            }
-
-            public void onFailure(Throwable caught) {
+            public void onSuccess(String result) {
+      //    lResult.setText(result);
                 RootLayoutPanel.get().remove(1);
-                RootLayoutPanel.get().getWidget(0).setVisible(true);
+            RootLayoutPanel.get().getWidget(0).setVisible(true);
+          //      int resultInt = result.intValue();
+           //     lResult.setText("the answer is" + resultInt);
+            }
+
+            public void onFailure(Throwable  caught) {
+            RootLayoutPanel.get().remove(1);
+               RootLayoutPanel.get().getWidget(0).setVisible(true);
+           //      lResult.setText("some thing wrong " + messageId+ " "+ subject+" " + body+" " + nickName);
 
             }
-        };
+         };
 
         _BSave.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
+
                 String subject = _TBSubject.getText();
                 String body = _TABody.getText();
-                String _nickName = "bobspong";
-
                 lResult.setStyleName("panel");
-                lResult.setText("please wait while the server adding your message.");
-                //getService().myMethod("test", callback);
-                getService().addMessage(_nickName, subject, body, callback);
-                addMessageWindow.super.hide();
+                lResult.setText("please wait while the server updating  the message.");
 
-
+                getService().editMessage( nickName, messageId, subject, body, callback);
+                editMessageWindow.super.hide();
             }
         });
 
 
         _Bcancel.addClickHandler(new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
-                //     _holder.setVisible(false);
-                //RootLayoutPanel.get().remove(1);
-                //RootLayoutPanel.get().getWidget(0).setVisible(true);
-                addMessageWindow.super.hide();
+           public void onClick(ClickEvent event) {
+           //     _holder.setVisible(false);
+            //RootLayoutPanel.get().remove(1);
+            //RootLayoutPanel.get().getWidget(0).setVisible(true);
+              editMessageWindow.super.hide();
             }
         });
         this.center();
     }
-
     public static MyServiceAsync getService() {
         return GWT.create(MyService.class);
     }
-}    
+}
+
 

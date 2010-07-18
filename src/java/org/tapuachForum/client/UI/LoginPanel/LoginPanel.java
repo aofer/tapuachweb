@@ -13,10 +13,12 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.RegistrationPanel;
 
 /**
  *
@@ -74,8 +76,7 @@ public class LoginPanel extends Composite {
             public void onSuccess(String result) {
 
                 if (!userIsOnline) {
-                    if (result.startsWith("good")) {
-                        userName = result.substring(5);
+                    if (result.equals("good")) {
                         _user.setText("");
                         _pass.setText("");
                         //             _info= new Label("  User " + userName + " online");
@@ -87,9 +88,10 @@ public class LoginPanel extends Composite {
                         _buttp.remove(_login);
                         _buttp.remove(_info);
                         userIsOnline = true;
-                        _buttp.add(_logout);
-                        _info.setText("  User " + userName + " online");
+                        _info.setText("  User " + userName + " is online");
                         _buttp.add(_info);
+                        _buttp.add(_logout);
+
 
                     } else {
                         //      _buttp.remove(_info);
@@ -106,6 +108,8 @@ public class LoginPanel extends Composite {
                     _passp.add(_pass);
                     _buttp.add(_login);
                     _buttp.add(_reg);
+                     _info.setText(userName + " was log out.");
+                     _buttp.add(_info);
                     userIsOnline = false;
                 }
             }
@@ -116,9 +120,15 @@ public class LoginPanel extends Composite {
                     _buttp.remove(_login);
                     _buttp.add(_logout);
                     _buttp.add(_login);
+                    _info.setText(" Problem with login");
+                    _buttp.add(_info);
+
                 } else {
                     _buttp.remove(_logout);
+                    _info.setText(" Problem with logout");
+                    _buttp.add(_info);
                 }
+
             }
         };
 
@@ -132,6 +142,7 @@ public class LoginPanel extends Composite {
                 _info.setText("   Please wait while connecting to server...");
                 //  _buttp.add(_info);
                 String username = _user.getText();
+                userName = username;
                 String password = _pass.getText();
                 getService().login(username, password, callback);
             }
@@ -147,7 +158,19 @@ public class LoginPanel extends Composite {
             }
         });
 
+               _reg.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                //RootLayoutPanel.get().getWidget(0).setVisible(false);
+                // _mainPanel.setVisible(false);
+                RootLayoutPanel.get().add(new RegistrationPanel());
+            }
+                    });
+
         // Listen for the button clicks
+           this.setStyleName("loginpanel");
+       this.setWidth("230px");
+        this.setHeight("120px");
     }
 
     public static MyServiceAsync getService() {

@@ -2,8 +2,8 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.tapuachForum.client.UI;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -12,19 +12,19 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.IncompatibleRemoteServiceException;
-import com.google.gwt.user.client.rpc.InvocationException;
+
 import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.datepicker.client.DateBox;
 import java.util.Date;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
-import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
+
 /**
  *
  * @author amit
  */
-public class RegistrationPanel  extends DockLayoutPanel{
+public class RegistrationPanel extends DockLayoutPanel {
+
     DockLayoutPanel thisSuper = this;
     final HorizontalPanel firstNamePanel;
     final HorizontalPanel lastNamePanel;
@@ -35,7 +35,6 @@ public class RegistrationPanel  extends DockLayoutPanel{
     final HorizontalPanel rePasswordPanel;
     final HorizontalPanel buttonsPanel;
     final HorizontalPanel birthDayPanel;
-
     final VerticalPanel vPanel;
     final DockPanel vPanel2;
     //labels
@@ -56,15 +55,12 @@ public class RegistrationPanel  extends DockLayoutPanel{
     final TextBox tUsername;
     final DateBox tBirthDay;
     final Date tDate;
-
-
-
     final PasswordTextBox tPassword;
     final PasswordTextBox tRePassword;
     final Label lRegisteration;
     final Button bRegister;
     final Button bCancel;
-    final Button  bClear;
+    final Button bClear;
     //error Labels
     final Label lFirstNameError;
     final Label lLastNameError;
@@ -73,14 +69,14 @@ public class RegistrationPanel  extends DockLayoutPanel{
     final Label lusernameError;
     final Label lpasswordError;
     final Label lrePasswordError;
-     final Label lBirthDayError;
+    final Label lBirthDayError;
 
     public RegistrationPanel() {
         super(Unit.PX);
         //buttons
         bRegister = new Button("Register");
-        bCancel = new Button("Cancel");
-        bClear = new Button("clear");
+        bCancel = new Button("Close");
+        bClear = new Button("Clear");
         //panels
         firstNamePanel = new HorizontalPanel();
         lastNamePanel = new HorizontalPanel();
@@ -146,40 +142,40 @@ public class RegistrationPanel  extends DockLayoutPanel{
         tRePassword = new PasswordTextBox();
         lrePasswordError = new Label("");
         lrePasswordError.setStyleName("error");
-          tRePassword.setStyleName("autoFormItem-Textbox");
+        tRePassword.setStyleName("autoFormItem-Textbox");
 
         lBirthDay = new Label("Birth Day");
         lBirthDay.setStyleName("autoFormItem-Label");
         tBirthDay = new DateBox();
         tBirthDay.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yyyy")));
-         tDate = new Date();
-         Date tDate2 = new Date();
-    // Set the value in the text box when the user selects a date
-            tBirthDay.getDatePicker().addValueChangeHandler(new ValueChangeHandler() {
-      public void onValueChange(ValueChangeEvent event) {
-       Date today = new Date();
-          Date date = (Date) event.getValue();
-      if (date.compareTo(today) >0)
-          lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
-      else{
-           lBirthDayError.setText("");
-        tBirthDay.setValue(date);
-      }
+        tDate = new Date();
+        Date tDate2 = new Date();
+        // Set the value in the text box when the user selects a date
+        tBirthDay.getDatePicker().addValueChangeHandler(new ValueChangeHandler() {
+            public void onValueChange(ValueChangeEvent event) {
+                Date today = new Date();
+                Date date = (Date) event.getValue();
+                if (date.compareTo(today) > 0) {
+                    lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
+                } else {
+                    lBirthDayError.setText("");
+                    tBirthDay.setValue(date);
+                }
 
-      }
-    });
-     tBirthDay.getDatePicker().setStyleName("blueBack");
+            }
+        });
+        tBirthDay.getDatePicker().setStyleName("blueBack");
         lBirthDayError = new Label("");
         lBirthDayError.setStyleName("error");
 
 
         lResult = new Label("result");
-          //header
+        //header
         lRegisteration = new Label("Registration");
         lRegisteration.setStyleName("headline");
         this.addNorth(lRegisteration, 50);
         this.setStyleName("panel");
-        this.setSize("400px","520px");
+        this.setSize("400px", "520px");
 
 
         firstNamePanel.add(lFirstName);
@@ -196,8 +192,8 @@ public class RegistrationPanel  extends DockLayoutPanel{
         emailPanel.add(tEmail);
         emailPanel.setStyleName("autoFormItem-Panel");
 
-         nicknamePanel.add(lNickName);
-          nicknamePanel.add(tNickName);
+        nicknamePanel.add(lNickName);
+        nicknamePanel.add(tNickName);
         nicknamePanel.setStyleName("autoFormItem-Panel");
 
         usernamePanel.add(lUsername);
@@ -226,7 +222,7 @@ public class RegistrationPanel  extends DockLayoutPanel{
         vPanel.add(lFirstNameError);
         vPanel.add(firstNamePanel);
 
-         vPanel.add(lLastNameError);
+        vPanel.add(lLastNameError);
         vPanel.add(lastNamePanel);
 
         vPanel.add(lemailError);
@@ -247,7 +243,7 @@ public class RegistrationPanel  extends DockLayoutPanel{
         vPanel.add(birthDayPanel);
 
         vPanel.add(buttonsPanel);
-        vPanel.setCellVerticalAlignment(buttonsPanel, HorizontalPanel.ALIGN_MIDDLE );
+        vPanel.setCellVerticalAlignment(buttonsPanel, HorizontalPanel.ALIGN_MIDDLE);
 
 
 
@@ -266,7 +262,7 @@ public class RegistrationPanel  extends DockLayoutPanel{
         // hPanel.add(vPanelLeft);
         //hPanel.add(vPanelRight);
         //adds to left
-     //   grid.setWidget(0, 0, lFirstNameError);
+        //   grid.setWidget(0, 0, lFirstNameError);
         //grid.setWidget(1, 0, lFirstName);
       /*  grid.setWidget(2, 0, lLastName);
         grid.setWidget(3, 0, lEmail);
@@ -275,16 +271,16 @@ public class RegistrationPanel  extends DockLayoutPanel{
         grid.setWidget(6, 0, lPassword);
         grid.setWidget(7, 0, lRePassword);
         grid.setWidget(8, 0, bCancel);
-       // vPanelLeft.add(lFirstName);
+        // vPanelLeft.add(lFirstName);
         //vPanelLeft.add(lLastName);
-       // vPanelLeft.add(lEmail);
+        // vPanelLeft.add(lEmail);
         //vPanelLeft.add(lNickName);
         //vPanelLeft.add(lUsername);
         //vPanelLeft.add(lPassword);
         //vPanelLeft.add(lRePassword);
         //vPanelLeft.add(bCancel);
         //adds to right
-     //   grid.setWidget(0, 1, tFirstName);
+        //   grid.setWidget(0, 1, tFirstName);
         grid.setWidget(1, 1, tLastName);
 
         grid.setWidget(2, 1, tEmail);
@@ -294,7 +290,7 @@ public class RegistrationPanel  extends DockLayoutPanel{
         grid.setWidget(6, 1, tRePassword);
         grid.setWidget(7, 1, bRegister);
 
-       // vPanelRight.add(tFirstName);
+        // vPanelRight.add(tFirstName);
         //vPanelRight.add(tLastName);
         //vPanelRight.add(tEmail);
         //vPanelRight.add(tNickName);
@@ -304,16 +300,18 @@ public class RegistrationPanel  extends DockLayoutPanel{
         //vPanelRight.add(bRegister);
 
         //hPanel.add(grid);*/
-        this.addSouth(lResult,60);
+        this.addSouth(lResult, 60);
         this.add(vPanel2);
 
-         // Create an asynchronous callback to handle the result.
+        // Create an asynchronous callback to handle the result.
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
+
             public void onSuccess(String result) {
-               if (result.contains("was"))
+                if (result.contains("was")) {
                     lResult.setStyleName("greenBack");
-                  else
-                        lResult.setStyleName("redBack");
+                } else {
+                    lResult.setStyleName("redBack");
+                }
                 lResult.setText(result);
 
 
@@ -321,7 +319,7 @@ public class RegistrationPanel  extends DockLayoutPanel{
 
             public void onFailure(Throwable caught) {
                 lResult.setText("Communication failed");
-                    lResult.setStyleName("redResutl") ;
+                lResult.setStyleName("redResutl");
 
             }
         };
@@ -344,41 +342,43 @@ public class RegistrationPanel  extends DockLayoutPanel{
                     clearErrors();
                     lResult.setStyleName("panel");
                     lResult.setText("please wait while the server checking your details.");
-                //getService().myMethod("test", callback);
-                getService().register(firstname, lastName, email, nickname, username, pass, dateBirth, callback);
+                    //getService().myMethod("test", callback);
+                    getService().register(firstname, lastName, email, nickname, username, pass, dateBirth, callback);
                 }
             }
         });
 
-         // Listen for the button clicks
-        bCancel.addClickHandler(new ClickHandler(){
+        // Listen for the button clicks
+        bCancel.addClickHandler(new ClickHandler() {
+
             public void onClick(ClickEvent event) {
                 // Make remote call. Control flow will continue immediately and later
                 // 'callback' will be invoked when the RPC completes.
-       //         remove(vPanel);
+                //         remove(vPanel);
 //                vPanel2.setVisible(false);
 //                 vPanel.setVisible(false);
 //                 lRegisteration.setVisible(false);
 //                 thisSuper.setVisible(false);
-                 RootLayoutPanel.get().remove(1);
-                 RootLayoutPanel.get().getWidget(0).setVisible(true);
-          //      RootLayoutPanel.get().add(new MessageViewer());
+                RootLayoutPanel.get().remove(1);
+                RootLayoutPanel.get().getWidget(0).setVisible(true);
+                //      RootLayoutPanel.get().add(new MessageViewer());
             }
         });
 
-        bClear.addClickHandler(new ClickHandler(){
+        bClear.addClickHandler(new ClickHandler() {
+
             public void onClick(ClickEvent event) {
                 // Make remote call. Control flow will continue immediately and later
                 // 'callback' will be invoked when the RPC completes.
                 clearFileds();
-         //      remove(vPanel);
-        //       add(vPanel);
+                //      remove(vPanel);
+                //       add(vPanel);
             }
         });
 
     }
 
-      public static MyServiceAsync getService() {
+    public static MyServiceAsync getService() {
         // Create the client proxy. Note that although you are creating the
         // service interface proper, you cast the result to the asynchronous
         // version of the interface. The cast is always safe because the
@@ -386,78 +386,78 @@ public class RegistrationPanel  extends DockLayoutPanel{
         return GWT.create(MyService.class);
     }
 
-     private void clearFileds() {
-         tEmail.setText("") ;
-         tFirstName.setText("");
-         tLastName.setText("");
-         tLastName.setText("");
-         tFirstName.setText("");
-         tLastName.setText("");
-         tNickName.setText("");
-         tPassword.setText("");
-         tRePassword.setText("");
-         tUsername.setText("");
-         tBirthDay.setValue(null);
-     }
+    private void clearFileds() {
+        tEmail.setText("");
+        tFirstName.setText("");
+        tLastName.setText("");
+        tLastName.setText("");
+        tFirstName.setText("");
+        tLastName.setText("");
+        tNickName.setText("");
+        tPassword.setText("");
+        tRePassword.setText("");
+        tUsername.setText("");
+        tBirthDay.setValue(null);
+        clearErrors();
+    }
 
-          private void clearErrors() {
+    private void clearErrors() {
         lFirstNameError.setText("");
         lLastNameError.setText("");
-         lemailError.setText("") ;
-         lnicknameError.setText("");
-         lpasswordError.setText("");
-         lrePasswordError.setText("");
-         lusernameError.setText("");
-         lBirthDayError.setText("");
-     }
+        lemailError.setText("");
+        lnicknameError.setText("");
+        lpasswordError.setText("");
+        lrePasswordError.setText("");
+        lusernameError.setText("");
+        lBirthDayError.setText("");
+    }
 
-
-      private boolean correctInput() {
-          boolean ans = true;
+    private boolean correctInput() {
+        boolean ans = true;
         if (tFirstName.getText().compareTo("") == 0) {
-            lFirstNameError.setText( "please enter a first name");
+            lFirstNameError.setText("please enter a first name");
             ans = false;
         }
         if (tLastName.getText().compareTo("") == 0) {
-            lLastNameError.setText( "please enter a last name");
-            ans= false;
+            lLastNameError.setText("please enter a last name");
+            ans = false;
         }
 
         if (tEmail.getText().compareTo("") == 0) {                 //.matches("[a-zA-Z0-9]+@([a-zA-Z0-9]+)[.]{1}([a-zA-Z.]+)")) {
-            lemailError.setText( "wrong email adress");
-            ans= false;
+            lemailError.setText("wrong email adress");
+            ans = false;
         }
 
         if (tUsername.getText().compareTo("") == 0) {
-           lusernameError.setText( "please enter a username");
-            ans= false;
+            lusernameError.setText("please enter a username");
+            ans = false;
         }
 
         if (tNickName.getText().compareTo("") == 0) {
-              lnicknameError.setText( "please enter a nickname");
-            ans= false;
+            lnicknameError.setText("please enter a nickname");
+            ans = false;
         }
 
-          if (tPassword.getText().compareTo("") == 0) {
-              lpasswordError.setText( "please enter a password");
-            ans= false;
+        if (tPassword.getText().compareTo("") == 0) {
+            lpasswordError.setText("please enter a password");
+            ans = false;
         }
-          if (tRePassword.getText().compareTo("") == 0) {
-              lrePasswordError.setText( "please re-enter password");
-            ans= false;
+        if (tRePassword.getText().compareTo("") == 0) {
+            lrePasswordError.setText("please re-enter password");
+            ans = false;
         }
         String p1 = new String(tPassword.getText());
         String p2 = new String(tRePassword.getText());
         if (p1.compareTo(p2) != 0) {
-              lpasswordError.setText( "passwords don't match,please try again");
-              lrePasswordError.setText( "");
-              tPassword.setText("");
-              tRePassword.setText("");
-            ans= false;
+            lpasswordError.setText("passwords don't match,please try again");
+            lrePasswordError.setText("");
+            tPassword.setText("");
+            tRePassword.setText("");
+            ans = false;
         }
-        if  (p1.length() != 8) {
-            lpasswordError.setText( "password should be 8 chars long.");
-            ans= false;
+        if (p1.length() != 8) {
+            lpasswordError.setText("password should be 8 chars long.");
+            ans = false;
         }
 
         return ans;
