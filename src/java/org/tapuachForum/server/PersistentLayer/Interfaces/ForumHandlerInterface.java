@@ -113,4 +113,7 @@ public interface ForumHandlerInterface {
          */
         public void initForum();
 
+        public boolean getStatus(String userName);
+
+
 }

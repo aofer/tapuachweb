@@ -22,7 +22,7 @@ public interface GuestInterface extends UserInterface {
     */
     public void register(String username,String password,String nickname,String email,
             String firstName,String lastName,Date dateOfBirth)
-            throws UserExistsException, NicknameExistsException, BadPasswordException;
+            throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException;
     /**
      *login to the forum (turns the guest into a logged in member)
      * only works if the given username exists the the password matches

@@ -45,7 +45,7 @@ public class Guest extends User implements GuestInterface {
     //amit's version
     public void register(String username,String password,String nickname,String email,
             String firstName,String lastName,Date dateOfBirth)
-            throws UserExistsException, NicknameExistsException, BadPasswordException {
+            throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException{
         Forum.getInstance().register(username,password,nickname,email,firstName,lastName,dateOfBirth);
     }
     /**
