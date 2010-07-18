@@ -74,8 +74,10 @@ public class MessageTreeItem extends TreeItem {
                 String body = msg.getBody();
                 //      _body2.setVisible(false);
                 //      _buttonHPanel.setVisible(false);
-                RootLayoutPanel.get().getWidget(0).setVisible(false);
-                RootLayoutPanel.get().add(new addMessageWindow(num, subject, nickName, body));
+
+           //     RootLayoutPanel.get().getWidget(0).setVisible(false);
+             editMessageWindow hr = new editMessageWindow(num, subject, nickName, body);
+                //    RootLayoutPanel.get().add(new editMessageWindow(num, subject, nickName, body));
 
             }
         });
@@ -85,9 +87,9 @@ public class MessageTreeItem extends TreeItem {
 
             public void onClick(ClickEvent event) {
                 int num = msg.getIndex();
-                RootLayoutPanel.get().getWidget(0).setVisible(false);
-                RootLayoutPanel.get().add(new addMessageWindow(num));
-
+         //       RootLayoutPanel.get().getWidget(0).setVisible(false);
+              //  RootLayoutPanel.get().add(new replayMessageWindow(num));
+              replayMessageWindow aw =new replayMessageWindow(num,msg.getSubject());
             }
         });
 

@@ -2,6 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
@@ -9,20 +10,22 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
+import java.util.Date;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 
 /**
  *
- * @author amit
+ * @author Nir
  */
-public class addMessageWindow extends PopupPanel {
+public class replayMessageWindow  extends PopupPanel{
 
-    // final PopupPanel _pp = new PopupPanel(false);
-    final FormPanel _mainPanel = new FormPanel();
+        final FormPanel _mainPanel = new FormPanel();
 
-    public addMessageWindow() {
-        super(false, true);
+
+
+    public replayMessageWindow(final int parentId, final String subject) {
+       super(false,true);
         final VerticalPanel _holder;
         final Label _header;
         final Label _LSubject;
@@ -39,10 +42,10 @@ public class addMessageWindow extends PopupPanel {
         _mainPanel.setMethod(FormPanel.METHOD_POST);
 
         _holder = new VerticalPanel();
-        _holder.setStyleName("blueBack");
+                _holder.setStyleName("blueBack");
         _mainPanel.setWidget(_holder);
         this.setWidget(_mainPanel);
-        _header = new Label("Add message");
+        _header = new Label("Add Replay to subject : " + subject);
         _LSubject = new Label("Subject:");
         _TBSubject = new TextBox();
         _LBody = new Label("body:");
@@ -61,22 +64,21 @@ public class addMessageWindow extends PopupPanel {
         _buttonsPanel.add(_Bcancel);
         _holder.add(_buttonsPanel);
         _holder.add(lResult);
-        this.setGlassEnabled(true);
+       this.setGlassEnabled(true);
         //initWidget(_holder);
         //_pp.center();
 
+        final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
-
-        final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
-
-            public void onSuccess(Integer result) {
-                int resultInt = result.intValue();
-                lResult.setText("the answer is" + resultInt);
+            public void onSuccess(String result) {
+                lResult.setText("the answer is" + result);
             }
 
             public void onFailure(Throwable caught) {
-                RootLayoutPanel.get().remove(1);
-                RootLayoutPanel.get().getWidget(0).setVisible(true);
+             //   lResult.setText("Communication failed?");
+             //   lResult.setStyleName("badResutl");
+            RootLayoutPanel.get().remove(1);
+            RootLayoutPanel.get().getWidget(0).setVisible(true);
 
             }
         };
@@ -89,11 +91,10 @@ public class addMessageWindow extends PopupPanel {
                 String _nickName = "bobspong";
 
                 lResult.setStyleName("panel");
-                lResult.setText("please wait while the server adding your message.");
+                lResult.setText("please wait while the server adding your message");
                 //getService().myMethod("test", callback);
-                getService().addMessage(_nickName, subject, body, callback);
-                addMessageWindow.super.hide();
-
+             getService().addReply(parentId, _nickName, subject, body, callback);
+             replayMessageWindow.super.hide();
 
             }
         });
@@ -101,18 +102,18 @@ public class addMessageWindow extends PopupPanel {
 
         _Bcancel.addClickHandler(new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
-                //     _holder.setVisible(false);
-                //RootLayoutPanel.get().remove(1);
-                //RootLayoutPanel.get().getWidget(0).setVisible(true);
-                addMessageWindow.super.hide();
+           public void onClick(ClickEvent event) {
+           //     _holder.setVisible(false);
+            //RootLayoutPanel.get().remove(1);
+            //RootLayoutPanel.get().getWidget(0).setVisible(true);
+              replayMessageWindow.super.hide();
             }
         });
         this.center();
     }
 
+
     public static MyServiceAsync getService() {
         return GWT.create(MyService.class);
     }
-}    
-
+}

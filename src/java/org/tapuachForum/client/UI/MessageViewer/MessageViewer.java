@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.client.UI.MessageViewer;
 
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dev.shell.log.SwingLoggerPanel;
 import com.google.gwt.dev.shell.log.SwingLoggerPanel.CloseHandler;
@@ -15,6 +16,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
@@ -47,8 +49,10 @@ public class MessageViewer extends Composite {
     private MessageTree _MessageTree;
     private HorizontalPanel _treePanel;
     private PopupPanel _addmsg;
+    private Label _info;
 
     public MessageViewer() {
+           // private Label _info;
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
         _treePanel = new HorizontalPanel();
@@ -56,6 +60,8 @@ public class MessageViewer extends Composite {
         _refreshButton = new Button("refresh");
         _registrationButton = new Button("Registration");
         _MessageTree = new MessageTree();
+        _info = new Label ("");
+        _mainPanel.add(_info);
         _mainPanel.add(_treePanel);
         _mainPanel.add(_toolbar);
         //_mainPanel.setSpacing(0);
@@ -70,16 +76,20 @@ public class MessageViewer extends Composite {
         //_toolbar.setBorderWidth(1);
         //_treePanel.setBorderWidth(1);
         initWidget(_mainPanel);
+        _info.setText("Please wait while downloading mesagses from the server....");
         getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
 
             public void onSuccess(Vector<MessageInterface> result) {
                 getMessageTree().refreshTree(result);
+                 _info.setText("");
+                 _info.setStyleName("infoText");
             }
 
             public void onFailure(Throwable caught) {
                 throw new UnsupportedOperationException("Not supported yet.");
             }
         });
+
 
        /* _registrationButton.addClickHandler(new ClickHandler() {
 
@@ -104,20 +114,53 @@ public class MessageViewer extends Composite {
         _refreshButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-                //    _mainPanel.setVisible(false);
-              RootLayoutPanel.get().remove(0);
-                LayoutPanel  lp = new LayoutPanel();
-        LoginPanel l = new LoginPanel();
-        l.setStyleName("loginpanel");
-        l.setWidth("230px");
-        l.setHeight("120px");
-
-
-        lp.add(l);
-        lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
-        lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
+//                //    _mainPanel.setVisible(false);
+//              RootLayoutPanel.get().remove(0);
+//                LayoutPanel  lp = new LayoutPanel();
+//        LoginPanel l = new LoginPanel();
+//        l.setStyleName("loginpanel");
+//        l.setWidth("230px");
+//        l.setHeight("120px");
+//
+//
+//        lp.add(l);
+//        lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
+//        lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
+//        MessageViewer m = new MessageViewer();
+//        m.setSize("1024 px", "400 px");
+//        ScrollPanel s = new ScrollPanel(m);
+//        s.setHeight("430px");
+//        m.setStyleName("messageviewer");
+//
+//
+//        lp.add(s);
+//        //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
+//        lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+//        //ScrollPanel ms = new ScrollPanel(lp);
+//        RootLayoutPanel.get().add(lp);
+//                  l.getReg().addClickHandler(new ClickHandler() {
+//
+//            public void onClick(ClickEvent event) {
+//                //RootLayoutPanel.get().getWidget(0).setVisible(false);
+//                // _mainPanel.setVisible(false);
+//                RootLayoutPanel.get().add(new RegistrationPanel());
+//            }
+//        });
+                                //    _mainPanel.setVisible(false);
+        //      RootLayoutPanel.get().getWidget(0);
+                LayoutPanel  lp =  (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                lp.remove(1);
+//        LoginPanel l = new LoginPanel();
+//        l.setStyleName("loginpanel");
+//        l.setWidth("230px");
+//        l.setHeight("120px");
+//
+//
+//        lp.add(l);
+//        lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
+//        lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
         MessageViewer m = new MessageViewer();
-        m.setSize("1024 px", "400 px");
+        m.setSize("1024 px", "300 px");
         ScrollPanel s = new ScrollPanel(m);
         s.setHeight("430px");
         m.setStyleName("messageviewer");
@@ -127,15 +170,8 @@ public class MessageViewer extends Composite {
         //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
         lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
         //ScrollPanel ms = new ScrollPanel(lp);
-        RootLayoutPanel.get().add(lp);
-                  l.getReg().addClickHandler(new ClickHandler() {
+     //   RootLayoutPanel.get().add(lp);
 
-            public void onClick(ClickEvent event) {
-                //RootLayoutPanel.get().getWidget(0).setVisible(false);
-                // _mainPanel.setVisible(false);
-                RootLayoutPanel.get().add(new RegistrationPanel());
-            }
-        });
             }
         });
 
