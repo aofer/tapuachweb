@@ -17,9 +17,12 @@ import org.tapuachForum.server.Exceptions.UserExistsException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.util.Date;
 import java.util.Vector;
+import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.server.Exceptions.UserLoggedException;
 import org.tapuachForum.server.Exceptions.WrongPasswordException;
 import org.tapuachForum.shared.MessageInterface;
+import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
 
 /**
  *
@@ -53,6 +56,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
             res = "nicknameTBA" + " already exist.";
         } catch (BadPasswordException ex) {
             res = "password does not meet the policy, please choose a different password.";
+        } catch (UserLoggedException ex){
+            res = "user is alreay login. You can't login with this user!";
         }
         return " " + res;
     }
@@ -102,6 +107,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         } catch (WrongPasswordException ex) {
            res = "The Password is wrong. Please Re-Type it.";
         }
+        ClientUser clientUser = new ClientUser(forum.getMember(username).getNickName(), forum.getMember(username).getType());
         return res;
     }
     
@@ -123,7 +129,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     }
 
     public Vector<MessageInterface> viewForum() {
-        throw new UnsupportedOperationException("Not supported yet.");
+      return Forum.getInstance().viewForum();
     }
 
 

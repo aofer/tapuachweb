@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.tapuachForum.server.Exceptions.UserLoggedException;
 
 /**
  *
@@ -61,7 +62,7 @@ public class UserHandler {
      * @throws BadPasswordException
      */
     public void register(String username, String password, String nickname,
-            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException {
+            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException,UserLoggedException {
         //Member newMember = new Member(newMemberData);
         if (this._XmlForum.checkUsername(username)) {
             throw new UserExistsException();
@@ -69,6 +70,11 @@ public class UserHandler {
             throw new NicknameExistsException();
         } else if (!checkPasswordPolicy(password)) {
             throw new BadPasswordException();
+              //             *******************    old check***********************************************8*/
+            ///     }else if (isLogged(username)){
+        //             *******************    old check***********************************************8*/
+               }else if (this._XmlForum.getStatus(username)){
+                       throw new UserLoggedException();
         } else {
             String encryptedPassword = this.encryptPassword(password);
             this._XmlForum.register(username, nickname, encryptedPassword, email, firstName, lastName, dateOfBirth);
@@ -143,9 +149,9 @@ public class UserHandler {
      * This method getting all the online members
      * @return Vector<XMLMemberInterface>
      */
-    public Vector<MemberInterface> getOnlineMembers() {
-        return _onlineMembers;
-    }
+//    public Vector<MemberInterface> getOnlineMembers() {
+//        return _onlineMembers;
+//    }
 
     /**
      *this method checks if the entered user meets our password policy
@@ -248,4 +254,6 @@ public class UserHandler {
         }
         return res;
     }
+
+
 }
