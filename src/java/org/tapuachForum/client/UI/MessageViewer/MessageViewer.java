@@ -62,8 +62,10 @@ public class MessageViewer extends Composite {
         _MessageTree = new MessageTree();
         _info = new Label ("");
         _mainPanel.add(_info);
-        _mainPanel.add(_treePanel);
         _mainPanel.add(_toolbar);
+        _toolbar.setVisible(false);
+        _mainPanel.add(_treePanel);
+
         //_mainPanel.setSpacing(0);
 
         //_addmsg = new PopupPanel(false);
@@ -77,12 +79,14 @@ public class MessageViewer extends Composite {
         //_treePanel.setBorderWidth(1);
         initWidget(_mainPanel);
         _info.setText("Please wait while downloading mesagses from the server....");
+        _info.setStyleName("infoText");
         getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
 
             public void onSuccess(Vector<MessageInterface> result) {
                 getMessageTree().refreshTree(result);
                  _info.setText("");
-                 _info.setStyleName("infoText");
+                 _toolbar.setVisible(true);
+                 
             }
 
             public void onFailure(Throwable caught) {

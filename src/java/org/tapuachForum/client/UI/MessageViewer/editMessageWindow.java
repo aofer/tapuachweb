@@ -6,6 +6,7 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -73,16 +74,22 @@ public class editMessageWindow  extends PopupPanel{
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
             public void onSuccess(String result) {
-      //    lResult.setText(result);
-                RootLayoutPanel.get().remove(1);
-            RootLayoutPanel.get().getWidget(0).setVisible(true);
-          //      int resultInt = result.intValue();
-           //     lResult.setText("the answer is" + resultInt);
+                 editMessageWindow.super.hide();
+                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                lp.remove(1);
+                MessageViewer m = new MessageViewer();
+                m.setSize("1024 px", "300 px");
+                ScrollPanel s = new ScrollPanel(m);
+                s.setHeight("430px");
+                m.setStyleName("messageviewer");
+                lp.add(s);
+                lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
             }
 
             public void onFailure(Throwable  caught) {
-            RootLayoutPanel.get().remove(1);
-               RootLayoutPanel.get().getWidget(0).setVisible(true);
+                        lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
+       //     RootLayoutPanel.get().remove(1);
+           //    RootLayoutPanel.get().getWidget(0).setVisible(true);
            //      lResult.setText("some thing wrong " + messageId+ " "+ subject+" " + body+" " + nickName);
 
             }
@@ -91,7 +98,8 @@ public class editMessageWindow  extends PopupPanel{
         _BSave.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-
+                _BSave.setEnabled(false);
+                _Bcancel.setEnabled(false);
                 String subject = _TBSubject.getText();
                 String body = _TABody.getText();
                 lResult.setStyleName("panel");

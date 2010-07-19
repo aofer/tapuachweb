@@ -6,6 +6,7 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -71,14 +72,24 @@ public class replyMessageWindow  extends PopupPanel{
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
             public void onSuccess(String result) {
-                lResult.setText("the answer is" + result);
+                replyMessageWindow.super.hide();
+                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                lp.remove(1);
+                MessageViewer m = new MessageViewer();
+                m.setSize("1024 px", "300 px");
+                ScrollPanel s = new ScrollPanel(m);
+                s.setHeight("430px");
+                m.setStyleName("messageviewer");
+                lp.add(s);
+                lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
             }
 
             public void onFailure(Throwable caught) {
-             //   lResult.setText("Communication failed?");
-             //   lResult.setStyleName("badResutl");
-            RootLayoutPanel.get().remove(1);
-            RootLayoutPanel.get().getWidget(0).setVisible(true);
+                lResult.setText("PROBLEM!! the problem is" + caught.getMessage());
+                //   lResult.setText("Communication failed?");
+                //   lResult.setStyleName("badResutl");
+                //   RootLayoutPanel.get().remove(1);
+                //   RootLayoutPanel.get().getWidget(0).setVisible(true);
 
             }
         };
@@ -86,15 +97,16 @@ public class replyMessageWindow  extends PopupPanel{
         _BSave.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
+               _BSave.setEnabled(false);
+                _Bcancel.setEnabled(false);
                 String subject = _TBSubject.getText();
                 String body = _TABody.getText();
                 String _nickName = "bobspong";
-
                 lResult.setStyleName("panel");
                 lResult.setText("please wait while the server adding your message");
                 //getService().myMethod("test", callback);
              getService().addReply(parentId, _nickName, subject, body, callback);
-             replyMessageWindow.super.hide();
+         //    replyMessageWindow.super.hide();
 
             }
         });

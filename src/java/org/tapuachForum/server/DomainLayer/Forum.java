@@ -87,7 +87,7 @@ public class Forum implements ForumInterface {
      * @return a vector containing all online members
      */
     public Vector<MemberInterface> getOnlineMembers() {
-        return _forum.getOnlineMembers();
+        return _userHandler.getOnlineMembers();
     }
 
     /**

@@ -43,6 +43,8 @@ public class MemberData {
         this._email=email;
         this._dateJoined=joined;
         this._dateOfBirth=birthday;
+        this._status = false;
+
     }
 
          public MemberData(String userName, String nickName, String password, String firstName, String lastName, String email, Date joined, Date birthday, boolean status) {
