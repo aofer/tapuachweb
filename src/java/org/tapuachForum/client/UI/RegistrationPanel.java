@@ -23,9 +23,9 @@ import org.tapuachForum.client.MyServiceAsync;
  *
  * @author amit
  */
-public class RegistrationPanel extends DockLayoutPanel {
+public class RegistrationPanel extends PopupPanel {
 
-    DockLayoutPanel thisSuper = this;
+   DockLayoutPanel dp = new DockLayoutPanel(Unit.PX);
     final HorizontalPanel firstNamePanel;
     final HorizontalPanel lastNamePanel;
     final HorizontalPanel emailPanel;
@@ -72,7 +72,8 @@ public class RegistrationPanel extends DockLayoutPanel {
     final Label lBirthDayError;
 
     public RegistrationPanel() {
-        super(Unit.PX);
+        super(false,true);
+        this.add(dp);
         //buttons
         bRegister = new Button("Register");
         bCancel = new Button("Close");
@@ -173,9 +174,9 @@ public class RegistrationPanel extends DockLayoutPanel {
         //header
         lRegisteration = new Label("Registration");
         lRegisteration.setStyleName("headline");
-        this.addNorth(lRegisteration, 50);
-        this.setStyleName("panel");
-        this.setSize("400px", "520px");
+        dp.addNorth(lRegisteration, 50);
+        dp.setStyleName("panel");
+        dp.setSize("400px", "520px");
 
 
         firstNamePanel.add(lFirstName);
@@ -300,8 +301,8 @@ public class RegistrationPanel extends DockLayoutPanel {
         //vPanelRight.add(bRegister);
 
         //hPanel.add(grid);*/
-        this.addSouth(lResult, 60);
-        this.add(vPanel2);
+        dp.addSouth(lResult, 60);
+        dp.add(vPanel2);
 
         // Create an asynchronous callback to handle the result.
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
@@ -359,8 +360,9 @@ public class RegistrationPanel extends DockLayoutPanel {
 //                 vPanel.setVisible(false);
 //                 lRegisteration.setVisible(false);
 //                 thisSuper.setVisible(false);
-                RootLayoutPanel.get().remove(1);
-                RootLayoutPanel.get().getWidget(0).setVisible(true);
+                //RootLayoutPanel.get().remove(1);
+                //RootLayoutPanel.get().getWidget(0).setVisible(true);
+                RegistrationPanel.super.hide();
                 //      RootLayoutPanel.get().add(new MessageViewer());
             }
         });
@@ -446,8 +448,8 @@ public class RegistrationPanel extends DockLayoutPanel {
             lrePasswordError.setText("please re-enter password");
             ans = false;
         }
-        String p1 = new String(tPassword.getText());
-        String p2 = new String(tRePassword.getText());
+        String p1 = tPassword.getText();
+        String p2 = tRePassword.getText();
         if (p1.compareTo(p2) != 0) {
             lpasswordError.setText("passwords don't match,please try again");
             lrePasswordError.setText("");

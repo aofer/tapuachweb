@@ -4,8 +4,6 @@
  */
 package org.tapuachForum.server;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.tapuachForum.server.DomainLayer.Forum;
 import org.tapuachForum.server.DomainLayer.ForumFascade;
 import org.tapuachForum.server.Exceptions.BadPasswordException;
@@ -17,12 +15,11 @@ import org.tapuachForum.server.Exceptions.UserExistsException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.util.Date;
 import java.util.Vector;
-import org.tapuachForum.client.UI.ClientUser;
+//import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.server.Exceptions.UserLoggedException;
 import org.tapuachForum.server.Exceptions.WrongPasswordException;
 import org.tapuachForum.shared.MessageInterface;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
 
 /**
  *
@@ -107,7 +104,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         } catch (WrongPasswordException ex) {
            res = "The Password is wrong. Please Re-Type it.";
         }
-        ClientUser clientUser = new ClientUser(forum.getMember(username).getNickName(), forum.getMember(username).getType());
+     //   ClientUser clientUser = new ClientUser(forum.getMember(username).getNickName(), forum.getMember(username).getType());
         return res;
     }
     

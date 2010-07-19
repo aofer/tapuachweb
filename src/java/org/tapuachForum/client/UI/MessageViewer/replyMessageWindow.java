@@ -18,13 +18,13 @@ import org.tapuachForum.client.MyServiceAsync;
  *
  * @author Nir
  */
-public class replayMessageWindow  extends PopupPanel{
+public class replyMessageWindow  extends PopupPanel{
 
         final FormPanel _mainPanel = new FormPanel();
 
 
 
-    public replayMessageWindow(final int parentId, final String subject) {
+    public replyMessageWindow(final int parentId, final String subject) {
        super(false,true);
         final VerticalPanel _holder;
         final Label _header;
@@ -45,7 +45,7 @@ public class replayMessageWindow  extends PopupPanel{
                 _holder.setStyleName("blueBack");
         _mainPanel.setWidget(_holder);
         this.setWidget(_mainPanel);
-        _header = new Label("Add Replay to subject : " + subject);
+        _header = new Label("Add Reply to subject : " + subject);
         _LSubject = new Label("Subject:");
         _TBSubject = new TextBox();
         _LBody = new Label("body:");
@@ -94,7 +94,7 @@ public class replayMessageWindow  extends PopupPanel{
                 lResult.setText("please wait while the server adding your message");
                 //getService().myMethod("test", callback);
              getService().addReply(parentId, _nickName, subject, body, callback);
-             replayMessageWindow.super.hide();
+             replyMessageWindow.super.hide();
 
             }
         });
@@ -106,7 +106,7 @@ public class replayMessageWindow  extends PopupPanel{
            //     _holder.setVisible(false);
             //RootLayoutPanel.get().remove(1);
             //RootLayoutPanel.get().getWidget(0).setVisible(true);
-              replayMessageWindow.super.hide();
+              replyMessageWindow.super.hide();
             }
         });
         this.center();
