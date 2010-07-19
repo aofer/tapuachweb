@@ -35,7 +35,7 @@ public class UserHandler {
 
     private ForumHandlerInterface _XmlForum;
     private XMLMemberInterface _XmlMember;
-    private Vector<MemberInterface> _onlineMembers;
+    //private Vector<MemberInterface> _onlineMembers;
 
     /**
      * constructor
@@ -43,7 +43,7 @@ public class UserHandler {
      * @param xmlMember
      */
     public UserHandler(ForumHandlerInterface xmlForum, XMLMemberInterface xmlMember) {
-        this._onlineMembers = new Vector<MemberInterface>();
+//        this._onlineMembers = new Vector<MemberInterface>();
         this._XmlForum = xmlForum;
         this._XmlMember = xmlMember;
     }
@@ -62,7 +62,7 @@ public class UserHandler {
      * @throws BadPasswordException
      */
     public void register(String username, String password, String nickname,
-            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException,UserLoggedException {
+            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException {
         //Member newMember = new Member(newMemberData);
         if (this._XmlForum.checkUsername(username)) {
             throw new UserExistsException();
@@ -70,11 +70,11 @@ public class UserHandler {
             throw new NicknameExistsException();
         } else if (!checkPasswordPolicy(password)) {
             throw new BadPasswordException();
-              //             *******************    old check***********************************************8*/
+            //             *******************    old check***********************************************8*/
             ///     }else if (isLogged(username)){
-        //             *******************    old check***********************************************8*/
-               }else if (this._XmlForum.getStatus(username)){
-                       throw new UserLoggedException();
+            //             *******************    old check***********************************************8*/
+        } else if (this._XmlForum.getStatus(username)) {
+            throw new UserLoggedException();
         } else {
             String encryptedPassword = this.encryptPassword(password);
             this._XmlForum.register(username, nickname, encryptedPassword, email, firstName, lastName, dateOfBirth);
@@ -122,14 +122,15 @@ public class UserHandler {
      * @param username
      */
     public void logout(String username) {
-        for (int i = 0; i < this._onlineMembers.size(); i++) {
-            if (this._onlineMembers.elementAt(i).getUserName().equals(username)) {
-                /// ADD BY NIR.   TO MAKE USER OFFLINE ALSO ON THE XML@@@\@@!!!!!
-                _XmlForum.logoff(username);
-                this._onlineMembers.removeElementAt(i);
-                break;
-            }
-        }
+        _XmlForum.logoff(username);
+//        for (int i = 0; i < this._onlineMembers.size(); i++) {
+//            if (this._onlineMembers.elementAt(i).getUserName().equals(username)) {
+//                /// ADD BY NIR.   TO MAKE USER OFFLINE ALSO ON THE XML@@@\@@!!!!!
+//                _XmlForum.logoff(username);
+//                this._onlineMembers.removeElementAt(i);
+//                break;
+//            }
+//        }
     }
 
     /**
@@ -152,7 +153,6 @@ public class UserHandler {
 //    public Vector<MemberInterface> getOnlineMembers() {
 //        return _onlineMembers;
 //    }
-
     /**
      *this method checks if the entered user meets our password policy
      * @param password
@@ -169,7 +169,7 @@ public class UserHandler {
     private void addMember(MemberInterface member) {
         /// ADD BY NIR.   TO MAKE USER ONLINE ALSO ON THE XML@@@\@@!!!!!
         _XmlForum.login(member.getUserName());
-        this._onlineMembers.add(member);
+  //      this._onlineMembers.add(member);
     }
 
     /**
@@ -233,27 +233,37 @@ public class UserHandler {
 
     }
 
-   
-    public List<Member> getMembers(){
+    public List<Member> getMembers() {
         List<MemberData> membersData = this._XmlMember.getMember();
         List<Member> res = new LinkedList<Member>();
         eMemberType type;
         Member tMember = null;
-        for (int i = 0;i < membersData.size();i++){
+        for (int i = 0; i < membersData.size(); i++) {
             MemberData data = membersData.get(i);
             type = this._XmlMember.getMemberType(data.getUserName());
-            if (type == eMemberType.Admin){
-            }
-            else if (type == eMemberType.member){
+            if (type == eMemberType.Admin) {
+            } else if (type == eMemberType.member) {
                 tMember = new Member(data);
                 res.add(tMember);
-            }
-            else{
-
+            } else {
             }
         }
         return res;
     }
 
-
+    public Vector<MemberInterface> getOnlineMembers() {
+        List<MemberData> membersData = this._XmlMember.getMember();
+        Vector<MemberInterface> res = new Vector<MemberInterface>();
+        eMemberType type;
+        Member tMember = null;
+        for (int i = 0; i < membersData.size(); i++) {
+            MemberData data = membersData.get(i);
+            type = this._XmlMember.getMemberType(data.getUserName());
+            if (data.getStatus()) {
+                tMember = new Member(data);
+                res.add(tMember);
+            }
+        }
+        return res;
+    }
 }

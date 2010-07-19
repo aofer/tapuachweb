@@ -170,7 +170,7 @@ public class RegistrationPanel extends PopupPanel {
         lBirthDayError.setStyleName("error");
 
 
-        lResult = new Label("result");
+        lResult = new Label("");
         //header
         lRegisteration = new Label("Registration");
         lRegisteration.setStyleName("headline");
@@ -314,13 +314,19 @@ public class RegistrationPanel extends PopupPanel {
                     lResult.setStyleName("redBack");
                 }
                 lResult.setText(result);
+                 bCancel.setEnabled(true);
+                 bRegister.setEnabled(true);
+                 bClear.setEnabled(true);
 
 
             }
 
             public void onFailure(Throwable caught) {
-                lResult.setText("Communication failed");
+                lResult.setText("Communication failed. the problem is: " +caught.getMessage() );
                 lResult.setStyleName("redResutl");
+                       bCancel.setEnabled(true);
+                    bRegister.setEnabled(true);
+                    bClear.setEnabled(true);
 
             }
         };
@@ -332,6 +338,9 @@ public class RegistrationPanel extends PopupPanel {
 
             public void onClick(ClickEvent event) {
                 if (correctInput()) {
+                    bCancel.setEnabled(false);
+                    bRegister.setEnabled(false);
+                    bClear.setEnabled(false);
                     String firstname = tFirstName.getText();
                     String lastName = tLastName.getText();
                     String email = tEmail.getText();
