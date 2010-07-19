@@ -92,10 +92,14 @@ public class LoginPanel extends Composite {
                         _info.setText("  User " + userName + " is online");
                         _buttp.add(_info);
                         _buttp.add(_logout);
+                        _login.setEnabled(true);
+                        _reg.setEnabled(true);
 
 
                     } else {
                         //      _buttp.remove(_info);
+                        _login.setEnabled(true);
+                        _reg.setEnabled(true);
                         _info.setText(result);
                         //     _buttp.add(_info);
                     }
@@ -103,20 +107,23 @@ public class LoginPanel extends Composite {
                 } else {
                     _buttp.remove(_info);
                     _buttp.remove(_logout);
+                    _logout.setEnabled(true);
                     _userp.add(_uLabel);
                     _userp.add(_user);
                     _passp.add(_pLabel);
                     _passp.add(_pass);
                     _buttp.add(_login);
                     _buttp.add(_reg);
-                     _info.setText(userName + " is logged out.");
-                     _buttp.add(_info);
+                    _info.setText(userName + " is logged out.");
+                    _buttp.add(_info);
                     userIsOnline = false;
                 }
             }
 
             public void onFailure(Throwable caught) {
                 if (!userIsOnline) {
+                    _login.setEnabled(true);
+                    _reg.setEnabled(true);
                     _buttp.remove(_reg);
                     _buttp.remove(_login);
                     _buttp.add(_logout);
@@ -126,6 +133,8 @@ public class LoginPanel extends Composite {
 
                 } else {
                     _buttp.remove(_logout);
+                    _logout.setEnabled(true);
+
                     _info.setText(" Problem with logout");
                     _buttp.add(_info);
                 }
@@ -139,6 +148,8 @@ public class LoginPanel extends Composite {
         _login.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
+                _login.setEnabled(false);
+                _reg.setEnabled(false);
                 //         _buttp.remove(_info);
                 _info.setText("   Please wait while connecting to server...");
                 //  _buttp.add(_info);
@@ -151,6 +162,7 @@ public class LoginPanel extends Composite {
         _logout.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
+                _logout.setEnabled(false);
                 _info.setText("  Please wait while disconnecting...");
                 //         _buttp.add(_info);
                 //          userName;
@@ -159,21 +171,21 @@ public class LoginPanel extends Composite {
             }
         });
 
-               _reg.addClickHandler(new ClickHandler() {
+        _reg.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 //RootLayoutPanel.get().getWidget(0).setVisible(false);
                 // _mainPanel.setVisible(false);
                 //RootLayoutPanel.get().add(new RegistrationPanel());
-                
-             RegistrationPanel rp = new RegistrationPanel();
+
+                RegistrationPanel rp = new RegistrationPanel();
                 rp.center();
             }
-                    });
+        });
 
         // Listen for the button clicks
-           this.setStyleName("loginpanel");
-       this.setWidth("230px");
+        this.setStyleName("loginpanel");
+        this.setWidth("230px");
         this.setHeight("120px");
     }
 

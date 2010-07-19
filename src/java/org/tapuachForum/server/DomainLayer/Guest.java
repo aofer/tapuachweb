@@ -45,7 +45,7 @@ public class Guest extends User implements GuestInterface {
     //amit's version
     public void register(String username,String password,String nickname,String email,
             String firstName,String lastName,Date dateOfBirth)
-            throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException{
+            throws UserExistsException, NicknameExistsException, BadPasswordException{
         Forum.getInstance().register(username,password,nickname,email,firstName,lastName,dateOfBirth);
     }
     /**
@@ -55,7 +55,7 @@ public class Guest extends User implements GuestInterface {
      * @throws NoSuchUserException - is thrown when there is no registered user that matches the username
      * @throws WrongPasswordException - is thrown when the user typed the wrong password
      */
-    public void logIn(String username, String password) throws NoSuchUserException, WrongPasswordException {
+    public void logIn(String username, String password) throws NoSuchUserException, WrongPasswordException,UserLoggedException {
         Forum.getInstance().login(username, password);
     }
 

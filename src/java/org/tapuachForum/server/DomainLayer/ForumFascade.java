@@ -63,7 +63,7 @@ public class ForumFascade {
      * @throws BadPasswordException
      * @throws UserPrivilegeException
      */ 
-    public void register(String username, String password, String nickname, String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException,UserPrivilegeException {
+    public void register(String username, String password, String nickname, String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserPrivilegeException {
         if (this._user.getType() == eMemberType.guest){
             ((Guest)this._user).register(username, password, nickname, email, firstName, lastName, dateOfBirth);
         }
@@ -80,7 +80,7 @@ public class ForumFascade {
      * @throws WrongPasswordException
      * @throws UserPrivilegeException
      */
-    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserPrivilegeException {
+    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserPrivilegeException, UserLoggedException {
         if (this._user.getType() == eMemberType.guest){
             ((Guest)this._user).logIn(username, password);
         }

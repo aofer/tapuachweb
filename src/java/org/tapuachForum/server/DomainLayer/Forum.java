@@ -119,7 +119,7 @@ public class Forum implements ForumInterface {
      * @throws BadPasswordException
      */
     public synchronized void register(String username, String password, String nickname,
-            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException,UserLoggedException {
+            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException {
         TapuachLogger.getInstance().info("user:  " + username + " registered to the forum");
         this._userHandler.register(username, password, nickname, email, firstName, lastName, dateOfBirth);
     }
@@ -132,7 +132,7 @@ public class Forum implements ForumInterface {
      * @throws NoSuchUserException
      * @throws WrongPasswordException
      */
-    public synchronized void login(String username, String password) throws NoSuchUserException, WrongPasswordException {
+    public synchronized void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserLoggedException {
         TapuachLogger.getInstance().info("user:  " + username + " logged in");
         this._userHandler.login(username, password);
     }

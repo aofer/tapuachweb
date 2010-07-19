@@ -42,7 +42,7 @@ public interface ForumInterface {
     */
     public Vector<MessageInterface> viewForum();
    public void register(String username,String password,String nickname,
-            String email,String firstName,String lastName,Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException,UserLoggedException;
+            String email,String firstName,String lastName,Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException;
     /**
      * this method is used when the user wants to log in
      * @param username -  the user name for the login
@@ -50,7 +50,7 @@ public interface ForumInterface {
      * @throws NoSuchUserException - is thrown when there is no such user
      * @throws WrongPasswordException - is thrown when the password doesn't match
      */
-    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException;
+    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserLoggedException;
 
     /**
      * this method is used for logging out of the forum
