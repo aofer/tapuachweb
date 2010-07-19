@@ -89,7 +89,7 @@ public class MessageTreeItem extends TreeItem {
                 int num = msg.getIndex();
          //       RootLayoutPanel.get().getWidget(0).setVisible(false);
               //  RootLayoutPanel.get().add(new replayMessageWindow(num));
-              replayMessageWindow aw =new replayMessageWindow(num,msg.getSubject());
+              replyMessageWindow aw =new replyMessageWindow(num,msg.getSubject());
             }
         });
 

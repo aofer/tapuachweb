@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -108,7 +109,7 @@ public class LoginPanel extends Composite {
                     _passp.add(_pass);
                     _buttp.add(_login);
                     _buttp.add(_reg);
-                     _info.setText(userName + " was log out.");
+                     _info.setText(userName + " is logged out.");
                      _buttp.add(_info);
                     userIsOnline = false;
                 }
@@ -163,7 +164,10 @@ public class LoginPanel extends Composite {
             public void onClick(ClickEvent event) {
                 //RootLayoutPanel.get().getWidget(0).setVisible(false);
                 // _mainPanel.setVisible(false);
-                RootLayoutPanel.get().add(new RegistrationPanel());
+                //RootLayoutPanel.get().add(new RegistrationPanel());
+                
+             RegistrationPanel rp = new RegistrationPanel();
+                rp.center();
             }
                     });
 
