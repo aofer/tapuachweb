@@ -53,8 +53,6 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
             res = "nicknameTBA" + " already exist.";
         } catch (BadPasswordException ex) {
             res = "password does not meet the policy, please choose a different password.";
-        } catch (UserLoggedException ex){
-            res = "user is alreay login. You can't login with this user!";
         }
         return " " + res;
     }
@@ -72,62 +70,59 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         try {
             forum.addReply(parentId, nickname, subject, body);
         } catch (MessageNotFoundException ex) {
-           res = "MessageNotFoundException";
+            res = "MessageNotFoundException";
         }
         return res;
     }
 
     public String editMessage(String nickname, int messageId, String subject, String body) {
-         String res = "good";
+        String res = "good";
         Forum forum = Forum.getInstance();
         try {
             forum.editMessage(nickname, messageId, subject, body);
         } catch (MessageNotFoundException ex) {
-           res ="MessageNotFoundException";
+            res = "MessageNotFoundException";
         } catch (MessageOwnerException ex) {
-          res = "MessageOwnerException";
+            res = "MessageOwnerException";
         }
         return res;
     }
 
-
-
     //}
-
     public String login(String username, String password) {
-        String res ="good";
+        String res = "good";
         Forum forum = Forum.getInstance();
         try {
             forum.login(username, password);
         } catch (NoSuchUserException ex) {
             res = "There is not such user in the system";
         } catch (WrongPasswordException ex) {
-           res = "The Password is wrong. Please Re-Type it.";
+            res = "The Password is wrong. Please Re-Type it.";
+        } catch (UserLoggedException ex) {
+            res = "user is alreay login. You can't login with this user!";
         }
-     //   ClientUser clientUser = new ClientUser(forum.getMember(username).getNickName(), forum.getMember(username).getType());
+        //   ClientUser clientUser = new ClientUser(forum.getMember(username).getNickName(), forum.getMember(username).getType());
         return res;
     }
-    
+
     public String logout(String username) {
         Forum forum = Forum.getInstance();
         forum.logout(username);
         return "cool";
     }
 
-    public String  deleteMessage(int messageId){
-       String res = "good";
+    public String deleteMessage(int messageId) {
+        String res = "good";
         Forum forum = Forum.getInstance();
         try {
             forum.deleteMessage(messageId);
         } catch (MessageNotFoundException ex) {
-           res = "MessageNotFoundException";
+            res = "MessageNotFoundException";
         }
         return res;
     }
 
     public Vector<MessageInterface> viewForum() {
-      return Forum.getInstance().viewForum();
+        return Forum.getInstance().viewForum();
     }
-
-
 }

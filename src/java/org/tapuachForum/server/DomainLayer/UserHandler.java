@@ -62,7 +62,7 @@ public class UserHandler {
      * @throws BadPasswordException
      */
     public void register(String username, String password, String nickname,
-            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException {
+            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException {
         //Member newMember = new Member(newMemberData);
         if (this._XmlForum.checkUsername(username)) {
             throw new UserExistsException();
@@ -73,8 +73,7 @@ public class UserHandler {
             //             *******************    old check***********************************************8*/
             ///     }else if (isLogged(username)){
             //             *******************    old check***********************************************8*/
-        } else if (this._XmlForum.getStatus(username)) {
-            throw new UserLoggedException();
+
         } else {
             String encryptedPassword = this.encryptPassword(password);
             this._XmlForum.register(username, nickname, encryptedPassword, email, firstName, lastName, dateOfBirth);
@@ -88,13 +87,15 @@ public class UserHandler {
      * @throws NoSuchUserException
      * @throws WrongPasswordException
      */
-    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException {
+    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException, UserLoggedException {
         String encryptedPassword = this.encryptPassword(password);
         String tPassword = this._XmlForum.userExists(username);
         if (tPassword == null) {
             throw new NoSuchUserException(username);
         } else if (!tPassword.equals(encryptedPassword)) {
             throw new WrongPasswordException();
+        } else if (this._XmlForum.getStatus(username)) {
+            throw new UserLoggedException();
         } else {
             MemberData data = this._XmlMember.getMember(username);
             MemberInterface tMember;
@@ -169,7 +170,7 @@ public class UserHandler {
     private void addMember(MemberInterface member) {
         /// ADD BY NIR.   TO MAKE USER ONLINE ALSO ON THE XML@@@\@@!!!!!
         _XmlForum.login(member.getUserName());
-  //      this._onlineMembers.add(member);
+        //      this._onlineMembers.add(member);
     }
 
     /**
