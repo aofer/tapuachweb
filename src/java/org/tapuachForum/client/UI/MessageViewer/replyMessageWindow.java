@@ -85,11 +85,10 @@ public class replyMessageWindow  extends PopupPanel{
             }
 
             public void onFailure(Throwable caught) {
-                lResult.setText("PROBLEM!! the problem is" + caught.getMessage());
-                //   lResult.setText("Communication failed?");
-                //   lResult.setStyleName("badResutl");
-                //   RootLayoutPanel.get().remove(1);
-                //   RootLayoutPanel.get().getWidget(0).setVisible(true);
+                         _Bcancel.setEnabled(true);
+                  _Bcancel.setText("Go Back");
+       //           lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
+                lResult.setText("There was a problem to add replay. Please REFRESH the forum and try again.");
 
             }
         };

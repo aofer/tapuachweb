@@ -92,8 +92,8 @@ public class LoginPanel extends Composite {
                         _info.setText("  User " + userName + " is online");
                         _buttp.add(_info);
                         _buttp.add(_logout);
-                        _login.setEnabled(true);
-                        _reg.setEnabled(true);
+                        _logout.setEnabled(true);
+
 
 
                     } else {
@@ -107,7 +107,7 @@ public class LoginPanel extends Composite {
                 } else {
                     _buttp.remove(_info);
                     _buttp.remove(_logout);
-                    _logout.setEnabled(true);
+                    
                     _userp.add(_uLabel);
                     _userp.add(_user);
                     _passp.add(_pLabel);
@@ -116,6 +116,8 @@ public class LoginPanel extends Composite {
                     _buttp.add(_reg);
                     _info.setText(userName + " is logged out.");
                     _buttp.add(_info);
+                                            _login.setEnabled(true);
+                        _reg.setEnabled(true);
                     userIsOnline = false;
                 }
             }
@@ -124,19 +126,10 @@ public class LoginPanel extends Composite {
                 if (!userIsOnline) {
                     _login.setEnabled(true);
                     _reg.setEnabled(true);
-                    _buttp.remove(_reg);
-                    _buttp.remove(_login);
-                    _buttp.add(_logout);
-                    _buttp.add(_login);
-                    _info.setText(" Problem with login");
-                    _buttp.add(_info);
-
+                     _info.setText(" Problem with login. Please try again.");
                 } else {
-                    _buttp.remove(_logout);
                     _logout.setEnabled(true);
-
-                    _info.setText(" Problem with logout");
-                    _buttp.add(_info);
+                    _info.setText(" Problem with logout. Please try again.");
                 }
 
             }

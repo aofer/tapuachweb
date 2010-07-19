@@ -87,10 +87,10 @@ public class editMessageWindow  extends PopupPanel{
             }
 
             public void onFailure(Throwable  caught) {
-                        lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
-       //     RootLayoutPanel.get().remove(1);
-           //    RootLayoutPanel.get().getWidget(0).setVisible(true);
-           //      lResult.setText("some thing wrong " + messageId+ " "+ subject+" " + body+" " + nickName);
+                 _Bcancel.setEnabled(true);
+                  _Bcancel.setText("Go Back");
+       //           lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
+                lResult.setText("There was a problem to edit the message. Please REFRESH the forum and try again.");
 
             }
          };

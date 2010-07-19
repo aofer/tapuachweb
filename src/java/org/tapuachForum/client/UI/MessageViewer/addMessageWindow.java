@@ -86,7 +86,9 @@ public class addMessageWindow extends PopupPanel {
             public void onFailure(Throwable caught) {
                   _Bcancel.setEnabled(true);
                   _Bcancel.setText("Go Back");
-                  lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
+       //           lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
+                lResult.setText("There was a problem to add the message. Please REFRESH the forum and try again.");
+
        //         RootLayoutPanel.get().remove(1);
       //          RootLayoutPanel.get().getWidget(0).setVisible(true);
 

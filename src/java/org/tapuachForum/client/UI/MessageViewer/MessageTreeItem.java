@@ -5,6 +5,7 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -12,9 +13,11 @@ import org.tapuachForum.shared.MessageData;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
@@ -34,12 +37,14 @@ public class MessageTreeItem extends TreeItem {
     private HorizontalPanel _buttonHPanel;
     private TextBox _body;
     private TextArea _body2;
+    private Label _info;
 
     public MessageTreeItem(final MessageInterface msg) {
         super(msg.getSubject() + "   -   " + msg.getNickname() + "  -   " + msg.getWriteDate().toString());
         _buttonHPanel = new HorizontalPanel();
         _body = new TextBox();
         _body2 = new TextArea();
+        _info = new Label ("");
         this._ReplyButton = new Button("Add reply");
         this._ReplyButton.setSize("100", "25");
         this._ModifyButton = new Button("Modify message");
@@ -49,6 +54,7 @@ public class MessageTreeItem extends TreeItem {
         this._buttonHPanel.add(_ReplyButton);
         this._buttonHPanel.add(_DeleteButton);
         this._buttonHPanel.add(_ModifyButton);
+        this._buttonHPanel.add(_info);
         this._buttonHPanel.setSpacing(5);
         setTitle(msg.getBody());
         setUserObject(msg);
@@ -97,18 +103,25 @@ public class MessageTreeItem extends TreeItem {
 
             public void onSuccess(String result) {
                 if (result.equals("good")) {
-                    _body.setText(" MESSAGE AS BEET DELETED!!!");
-                } else {
-                    _body.setText(" MESSAGE AS not BEET DELETED!!! because " + result);
-                }
-
+                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                lp.remove(1);
+                MessageViewer m = new MessageViewer();
+                m.setSize("1024 px", "300 px");
+                ScrollPanel s = new ScrollPanel(m);
+                s.setHeight("430px");
+                m.setStyleName("messageviewer");
+                lp.add(s);
+                lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+            }
 
             }
 
             public void onFailure(Throwable caught) {
+                _info.setText("There was a problem to delete a message. Please REFRESH the forum and try again.");
+
                 // lResult.setText("Communication failed");
                 //       lResult.setStyleName("redResutl") ;
-                _body.setText(" MESSAGE AS BEET DELETED!!! (MAYBE)");
+
 
             }
         };
@@ -116,7 +129,10 @@ public class MessageTreeItem extends TreeItem {
         _DeleteButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-                _body.setText("  **** THE MESSEAGE WILL BE DELETE!!!  THERE IS PROBLEM WITH THE COMPASS, SO IT IS STILL NOT WORKING.. BUT IT IS READY...");
+           _info.setText("Please wait while the message is been delete....");
+                _DeleteButton.setEnabled(false);
+                _ReplyButton.setEnabled(false);
+                _ModifyButton.setEnabled(false);
                 getService().deleteMessage(msg.getIndex(), callback);
 
             }
