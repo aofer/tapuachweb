@@ -4,8 +4,12 @@
  */
 package org.tapuachForum.server.DomainLayer.Interfaces;
 
+import org.tapuachForum.shared.UserInterface;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.server.Exceptions.*;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
+import org.tapuachForum.shared.MemberData;
 import java.util.Date;
 
 /**

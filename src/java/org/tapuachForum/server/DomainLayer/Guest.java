@@ -4,16 +4,21 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import java.io.Serializable;
+import org.tapuachForum.shared.User;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.server.DomainLayer.Interfaces.GuestInterface;
 import org.tapuachForum.server.Exceptions.*;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 import java.util.Date;
 
 /**
  * this class is for the guest user
  * @author Amit Ofer
  */
-public class Guest extends User implements GuestInterface {
+public class Guest extends User implements GuestInterface,Serializable {
 
     /**
      *constructor

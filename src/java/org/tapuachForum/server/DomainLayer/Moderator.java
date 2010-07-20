@@ -4,23 +4,33 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import java.io.Serializable;
+import org.tapuachForum.shared.Member;
 import org.tapuachForum.server.DomainLayer.Interfaces.ModeratorInterface;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.MemberData;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
  * @author amit
  */
-public class Moderator extends Member implements ModeratorInterface {
+public class Moderator extends Member implements ModeratorInterface,Serializable {
 
-	/**
+  public Moderator() {
+
+    }
+
+    /**
 	 * Constructor for the Moderator class
 	 * @param data
 	 */
     public Moderator(MemberData data) {
-        super(data);
+        super(data,eMemberType.Moderator);
+    }
+
+        public Moderator(MemberData data, eMemberType type) {
+        super(data, type);
     }
 
     /**

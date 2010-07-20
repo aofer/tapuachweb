@@ -9,6 +9,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import java.util.Date;
 import java.util.Vector;
+import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
 
 /**
@@ -28,9 +29,9 @@ public interface MyService extends RemoteService {
 
     public String editMessage(String nickname, int messageId, String subject, String body);
 
-   public String login(String username, String password);
+   public MemberInterface login(String username, String password);
 
-    public String logout (String username);
+    public MemberInterface logout (String username);
 
    public String  deleteMessage(int messageId);
 

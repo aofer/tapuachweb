@@ -1,20 +1,23 @@
-package org.tapuachForum.server.DomainLayer;
+package org.tapuachForum.shared;
 
-import org.tapuachForum.server.DomainLayer.Interfaces.MemberInterface;
+import java.io.Serializable;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
 import org.tapuachForum.server.Exceptions.MessageOwnerException;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
 import java.util.Date;
+import org.tapuachForum.server.DomainLayer.Forum;
 
 /**
  *this class represents a registered member in the forum
  * @author Amit Ofer
  */
-public class Member extends User implements MemberInterface {
+public class Member extends User implements MemberInterface,Serializable {
 
     private MemberData _data;
+    private eMemberType _type;
 
+    public Member() {
+
+    }
     /**
      *constructor
      * @param forum
@@ -26,10 +29,11 @@ public class Member extends User implements MemberInterface {
      * @param email
      * @param dateOfBirth
      */
-    public Member(MemberData data) {
+    public Member(MemberData data, eMemberType type) {
         super();
         this._data = data;
         this._data.setDateJoined(new Date());
+        this._type = type;
     }
 
     /**
@@ -101,7 +105,7 @@ public class Member extends User implements MemberInterface {
      * when the user logs out he becomes a guest and therefore can no longer write messages
      */
     public void logOut() {
-        Forum.getInstance().logout(this.getUserName());
+   //     Forum.getInstance().logout(this.getUserName());
     }
 
     /**
@@ -109,9 +113,9 @@ public class Member extends User implements MemberInterface {
      * @param subject - the subject of the message
      * @param body - the body of the message
      */
-    public void writeMessage(String subject, String body)  {
-        Forum.getInstance().addMessage(this.getNickName(), subject, body);
-    }
+//    public void writeMessage(String subject, String body)  {
+//        Forum.getInstance().addMessage(this.getNickName(), subject, body);
+//    }
 
     /**
      * this method is used to add a new reply to a message
@@ -119,24 +123,28 @@ public class Member extends User implements MemberInterface {
      * @param subject - the subject of the new reply
      * @param body - the body of the message
      */
-    public void writeReply(int parentId, String subject, String body) throws MessageNotFoundException {
-        Forum.getInstance().addReply(parentId, this.getNickName(), subject, body);
-    }
+//    public void writeReply(int parentId, String subject, String body) throws MessageNotFoundException {
+//        Forum.getInstance().addReply(parentId, this.getNickName(), subject, body);
+//    }
 
-    /**
-     * edit a message by changing the subject or the body of the message
-     * @param messageId - the Id of the number that needs to be edited
-     * @param subject - the new subject
-     * @param body - the new body
-     */
-    public void editMessage(int messageId, String subject, String body) throws MessageNotFoundException, MessageOwnerException {
-        Forum.getInstance().editMessage(this.getNickName(), messageId, subject, body);
-    }
+//    /**
+//     * edit a message by changing the subject or the body of the message
+//     * @param messageId - the Id of the number that needs to be edited
+//     * @param subject - the new subject
+//     * @param body - the new body
+//     */
+//    public void editMessage(int messageId, String subject, String body) throws MessageNotFoundException, MessageOwnerException {
+//        Forum.getInstance().editMessage(this.getNickName(), messageId, subject, body);
+//    }
 
     /**
      * This method returns the type of the user
      */
     public eMemberType getType() {
-        return eMemberType.member;
+        return _type;
     }
+
+
+
 }
+

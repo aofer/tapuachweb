@@ -5,6 +5,7 @@
 package org.tapuachForum.client.UI.LoginPanel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -12,21 +13,28 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.ClientUser;
+import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.RegistrationPanel;
+import org.tapuachForum.shared.Member;
+import org.tapuachForum.shared.MemberData;
+import org.tapuachForum.shared.MemberInterface;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
  * @author Arseny
  */
 public class LoginPanel extends Composite {
-
     private VerticalPanel _mainPanel;
     private HorizontalPanel _userp;
     private HorizontalPanel _passp;
@@ -41,9 +49,7 @@ public class LoginPanel extends Composite {
     private Button _logout;
     private boolean userIsOnline;
     private String userName;
-
     public LoginPanel() {
-        userName = "who?";
         userIsOnline = false;
         _mainPanel = new VerticalPanel();
         _uLabel = new Label("Username:");
@@ -72,12 +78,12 @@ public class LoginPanel extends Composite {
 
 
 
-        final AsyncCallback<String> callback = new AsyncCallback<String>() {
+        final AsyncCallback<MemberInterface> callback = new AsyncCallback<MemberInterface>() {
 
-            public void onSuccess(String result) {
-
+            public void onSuccess(MemberInterface result) {
                 if (!userIsOnline) {
-                    if (result.equals("good")) {
+                    userName = ClientUser.getClient(result).getUserName();
+                    if (result.getType() != eMemberType.guest) {
                         _user.setText("");
                         _pass.setText("");
                         //             _info= new Label("  User " + userName + " online");
@@ -93,32 +99,52 @@ public class LoginPanel extends Composite {
                         _buttp.add(_info);
                         _buttp.add(_logout);
                         _logout.setEnabled(true);
+                                        LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                lp.remove(1);
+                MessageViewer m = new MessageViewer();
+                m.setSize("1024 px", "300 px");
+                ScrollPanel s = new ScrollPanel(m);
+                s.setHeight("430px");
+                m.setStyleName("messageviewer");
+                lp.add(s);
+                lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
 
 
 
                     } else {
                         //      _buttp.remove(_info);
+                        userName = "bob";
                         _login.setEnabled(true);
                         _reg.setEnabled(true);
-                        _info.setText(result);
+                        _info.setText(result.getUserName());
                         //     _buttp.add(_info);
                     }
 
                 } else {
+                    ClientUser.setClient();
                     _buttp.remove(_info);
                     _buttp.remove(_logout);
-                    
+
                     _userp.add(_uLabel);
                     _userp.add(_user);
                     _passp.add(_pLabel);
                     _passp.add(_pass);
                     _buttp.add(_login);
                     _buttp.add(_reg);
-                    _info.setText(userName + " is logged out.");
+                    _info.setText(userName+ " is logged out.");
                     _buttp.add(_info);
                                             _login.setEnabled(true);
                         _reg.setEnabled(true);
                     userIsOnline = false;
+                                    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                lp.remove(1);
+                MessageViewer m = new MessageViewer();
+                m.setSize("1024 px", "300 px");
+                ScrollPanel s = new ScrollPanel(m);
+                s.setHeight("430px");
+                m.setStyleName("messageviewer");
+                lp.add(s);
+                lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
                 }
             }
 

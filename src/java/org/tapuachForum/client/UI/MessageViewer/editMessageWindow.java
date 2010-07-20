@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.*;
 import java.util.Date;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.ClientUser;
 
 /**
  *
@@ -105,7 +106,7 @@ public class editMessageWindow  extends PopupPanel{
                 lResult.setStyleName("panel");
                 lResult.setText("please wait while the server updating  the message.");
 
-                getService().editMessage( nickName, messageId, subject, body, callback);
+                getService().editMessage( ClientUser.getClient().getNickName(), messageId, subject, body, callback);
                 editMessageWindow.super.hide();
             }
         });

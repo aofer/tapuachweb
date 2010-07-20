@@ -12,6 +12,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.*;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.ClientUser;
 
 /**
  *
@@ -102,7 +103,7 @@ public class addMessageWindow extends PopupPanel {
                 _Bcancel.setEnabled(false);
                 String subject = _TBSubject.getText();
                 String body = _TABody.getText();
-                String _nickName = "bobspong";
+                String _nickName = ClientUser.getClient().getNickName();
                 lResult.setStyleName("panel");
                 lResult.setText("please wait while the server adding your message.");
                 //getService().myMethod("test", callback);
@@ -129,5 +130,5 @@ public class addMessageWindow extends PopupPanel {
     public static MyServiceAsync getService() {
         return GWT.create(MyService.class);
     }
-}    
+}
 

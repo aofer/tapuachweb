@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.tapuachForum.server.Exceptions;
+package org.tapuachForum.shared;
 
 /**
  *
