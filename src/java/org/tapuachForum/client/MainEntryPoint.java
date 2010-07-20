@@ -7,16 +7,12 @@ package org.tapuachForum.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.layout.client.Layout.Alignment;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
-import org.tapuachForum.client.UI.RegistrationPanel;
+import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 
 /**
  * Main entry point.
@@ -46,9 +42,6 @@ public class MainEntryPoint implements EntryPoint {
     public void onModuleLoad() {
         LayoutPanel  lp = new LayoutPanel();
         LoginPanel l = new LoginPanel();
-//        l.setStyleName("loginpanel");
-//        l.setWidth("230px");
-//        l.setHeight("120px");
         lp.add(l);
         lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
         lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
@@ -61,9 +54,14 @@ public class MainEntryPoint implements EntryPoint {
         
         
         lp.add(s);
-        //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
+
+        OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.setWidgetTopHeight(op,565, Unit.PX, 60, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+    
         lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
-        //ScrollPanel ms = new ScrollPanel(lp);
+      
         RootLayoutPanel.get().add(lp);
        
     }
