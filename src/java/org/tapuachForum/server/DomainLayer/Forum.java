@@ -4,6 +4,10 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import org.tapuachForum.shared.Member;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.shared.Message;
 import org.tapuachForum.server.PersistentLayer.SQLMemberHandler;
 import org.tapuachForum.server.PersistentLayer.XMLMessageHandler;
@@ -11,12 +15,12 @@ import org.tapuachForum.server.PersistentLayer.SQLForumHandler;
 import org.tapuachForum.server.PersistentLayer.XMLMemberHandler;
 import org.tapuachForum.server.PersistentLayer.SQLMessageHandler;
 import org.tapuachForum.server.PersistentLayer.ForumHandler;
-import org.tapuachForum.server.DomainLayer.Interfaces.MemberInterface;
+import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.Exceptions.*;
 import org.tapuachForum.server.DomainLayer.Interfaces.ForumInterface;
 import org.tapuachForum.server.DomainLayer.SearchEngine.SearchEngineHandler;
-import org.tapuachForum.server.DomainLayer.SearchEngine.SearchHit;
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.server.PersistentLayer.Interfaces.ForumHandlerInterface;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMemberInterface;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMessageInterface;
@@ -119,7 +123,7 @@ public class Forum implements ForumInterface {
      * @throws BadPasswordException
      */
     public synchronized void register(String username, String password, String nickname,
-            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException,UserLoggedException {
+            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException {
         TapuachLogger.getInstance().info("user:  " + username + " registered to the forum");
         this._userHandler.register(username, password, nickname, email, firstName, lastName, dateOfBirth);
     }
@@ -132,7 +136,7 @@ public class Forum implements ForumInterface {
      * @throws NoSuchUserException
      * @throws WrongPasswordException
      */
-    public synchronized void login(String username, String password) throws NoSuchUserException, WrongPasswordException {
+    public synchronized void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserLoggedException {
         TapuachLogger.getInstance().info("user:  " + username + " logged in");
         this._userHandler.login(username, password);
     }

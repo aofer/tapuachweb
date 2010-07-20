@@ -1,6 +1,7 @@
 package org.tapuachForum.server.PersistentLayer.Interfaces;
 
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
+import org.tapuachForum.shared.eMemberType;
+import org.tapuachForum.shared.MemberData;
 import java.util.List;
 
 /**

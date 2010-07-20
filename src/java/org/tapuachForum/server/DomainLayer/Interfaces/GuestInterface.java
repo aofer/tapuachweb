@@ -4,8 +4,12 @@
  */
 package org.tapuachForum.server.DomainLayer.Interfaces;
 
+import org.tapuachForum.shared.UserInterface;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.server.Exceptions.*;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
+import org.tapuachForum.shared.MemberData;
 import java.util.Date;
 
 /**
@@ -22,12 +26,12 @@ public interface GuestInterface extends UserInterface {
     */
     public void register(String username,String password,String nickname,String email,
             String firstName,String lastName,Date dateOfBirth)
-            throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException;
+            throws UserExistsException, NicknameExistsException, BadPasswordException;
     /**
      *login to the forum (turns the guest into a logged in member)
      * only works if the given username exists the the password matches
      * @param username
      * @param password
      */
-    public void logIn(String username, String password) throws NoSuchUserException, WrongPasswordException;
+    public void logIn(String username, String password) throws NoSuchUserException, WrongPasswordException,  UserLoggedException;
 }

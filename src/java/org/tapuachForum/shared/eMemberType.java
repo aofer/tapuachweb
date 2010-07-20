@@ -3,12 +3,12 @@
  * and open the template in the editor.
  */
 
-package org.tapuachForum.server.Exceptions;
+package org.tapuachForum.shared;
 
 /**
  *
  * @author Kipi
  */
-public class UserLoggedException extends Exception {
-
-}
+public enum eMemberType {
+    Admin, Moderator, member,guest
+};

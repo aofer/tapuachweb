@@ -8,7 +8,9 @@ package org.tapuachForum.client;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Date;
 import java.util.Vector;
+import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
+import org.tapuachForum.shared.SearchHit;
 
 /**
  *
@@ -26,12 +28,16 @@ public interface MyServiceAsync {
 
     public void editMessage(String nickname, int messageId, String subject, String body, AsyncCallback<String> callback) ;
 
-        public void login(String username, String password, AsyncCallback<String> callback) ;
+    public void login(String username, String password, AsyncCallback<MemberInterface> callback) ;
 
-    public void logout (String username, AsyncCallback<String> callback);
+    public void logout (String username, AsyncCallback<MemberInterface> callback);
 
     public void  deleteMessage(int messageId, AsyncCallback<String> callback);
 
     public void viewForum(AsyncCallback<Vector<MessageInterface>> asyncCallback);
+
+    public void searchByAuthor(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
+
+    public void searchByContext(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
 
       }

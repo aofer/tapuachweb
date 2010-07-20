@@ -5,6 +5,8 @@
 
 package org.tapuachForum.server.Exceptions;
 
+import org.tapuachForum.shared.ForumException;
+
 /**
  *
  * @author Yura

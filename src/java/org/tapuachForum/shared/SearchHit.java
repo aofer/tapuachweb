@@ -1,4 +1,4 @@
-package org.tapuachForum.server.DomainLayer.SearchEngine;
+package org.tapuachForum.shared;
 
 import org.tapuachForum.shared.MessageInterface;
 

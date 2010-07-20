@@ -4,18 +4,19 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
-import org.tapuachForum.server.DomainLayer.Interfaces.MemberInterface;
+import org.tapuachForum.shared.Member;
+import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.server.DomainLayer.Logger.TapuachLogger;
-import org.tapuachForum.server.Exceptions.BadPasswordException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.server.Exceptions.NicknameExistsException;
-import org.tapuachForum.server.Exceptions.NoSuchUserException;
+import org.tapuachForum.shared.NoSuchUserException;
 import org.tapuachForum.server.Exceptions.UserExistsException;
 import org.tapuachForum.server.Exceptions.UserNotExistException;
 import org.tapuachForum.server.Exceptions.WrongPasswordException;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
+import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.server.PersistentLayer.Interfaces.ForumHandlerInterface;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMemberInterface;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -25,7 +26,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.tapuachForum.server.Exceptions.UserLoggedException;
+import org.tapuachForum.shared.UserLoggedException;
 
 /**
  *
@@ -62,7 +63,7 @@ public class UserHandler {
      * @throws BadPasswordException
      */
     public void register(String username, String password, String nickname,
-            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException {
+            String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException {
         //Member newMember = new Member(newMemberData);
         if (this._XmlForum.checkUsername(username)) {
             throw new UserExistsException();
@@ -73,8 +74,7 @@ public class UserHandler {
             //             *******************    old check***********************************************8*/
             ///     }else if (isLogged(username)){
             //             *******************    old check***********************************************8*/
-        } else if (this._XmlForum.getStatus(username)) {
-            throw new UserLoggedException();
+
         } else {
             String encryptedPassword = this.encryptPassword(password);
             this._XmlForum.register(username, nickname, encryptedPassword, email, firstName, lastName, dateOfBirth);
@@ -88,31 +88,35 @@ public class UserHandler {
      * @throws NoSuchUserException
      * @throws WrongPasswordException
      */
-    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException {
+    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException, UserLoggedException {
         String encryptedPassword = this.encryptPassword(password);
         String tPassword = this._XmlForum.userExists(username);
         if (tPassword == null) {
             throw new NoSuchUserException(username);
         } else if (!tPassword.equals(encryptedPassword)) {
             throw new WrongPasswordException();
+        } else if (this._XmlForum.getStatus(username)) {
+            throw new UserLoggedException();
         } else {
             MemberData data = this._XmlMember.getMember(username);
             MemberInterface tMember;
             eMemberType type = this._XmlMember.getMemberType(username);
-            switch (type) {
-                case Admin:
-                    tMember = new Admin(data);
+                         tMember = new Member(data,type);
                     this.addMember(tMember);
-                    break;
-                case Moderator:
-                    tMember = new Moderator(data);
-                    this.addMember(tMember);
-                    break;
-                case member:
-                    tMember = new Member(data);
-                    this.addMember(tMember);
-                    break;
-            }
+//            switch (type) {
+//                case Admin:
+//                    tMember = new Admin(data);
+//                    this.addMember(tMember);
+//                    break;
+//                case Moderator:
+//                    tMember = new Moderator(data);
+//                    this.addMember(tMember);
+//                    break;
+//                case member:
+//                    tMember = new Member(data);
+//                    this.addMember(tMember);
+//                    break;
+//            }
         }
 
     }
@@ -169,7 +173,7 @@ public class UserHandler {
     private void addMember(MemberInterface member) {
         /// ADD BY NIR.   TO MAKE USER ONLINE ALSO ON THE XML@@@\@@!!!!!
         _XmlForum.login(member.getUserName());
-  //      this._onlineMembers.add(member);
+        //      this._onlineMembers.add(member);
     }
 
     /**
@@ -210,7 +214,7 @@ public class UserHandler {
                 tMember = new Moderator(data);
                 break;
             case member:
-                tMember = new Member(data);
+                tMember = new Member(data,type);
                 break;
         }
         return tMember;
@@ -243,7 +247,7 @@ public class UserHandler {
             type = this._XmlMember.getMemberType(data.getUserName());
             if (type == eMemberType.Admin) {
             } else if (type == eMemberType.member) {
-                tMember = new Member(data);
+                tMember = new Member(data,type);
                 res.add(tMember);
             } else {
             }
@@ -260,7 +264,7 @@ public class UserHandler {
             MemberData data = membersData.get(i);
             type = this._XmlMember.getMemberType(data.getUserName());
             if (data.getStatus()) {
-                tMember = new Member(data);
+                tMember = new Member(data,type);
                 res.add(tMember);
             }
         }

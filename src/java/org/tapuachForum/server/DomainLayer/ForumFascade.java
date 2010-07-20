@@ -6,11 +6,16 @@
 package org.tapuachForum.server.DomainLayer;
 
 
-import org.tapuachForum.server.DomainLayer.Interfaces.MemberInterface;
+import org.tapuachForum.shared.User;
+import org.tapuachForum.shared.Member;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
+import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
-import org.tapuachForum.server.DomainLayer.SearchEngine.SearchHit;
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.server.Exceptions.*;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
@@ -37,9 +42,9 @@ public class ForumFascade {
      * @return String
      * @throws MessageNotFoundException
      */
-    public String readMessage(int messageId) throws MessageNotFoundException {
-        return this._user.readMessage(messageId);
-    }
+//    public String readMessage(int messageId) throws MessageNotFoundException {
+//        return this._user.readMessage(messageId);
+//    }
 
     /**
      * This method returns all the messages in the forum
@@ -63,7 +68,7 @@ public class ForumFascade {
      * @throws BadPasswordException
      * @throws UserPrivilegeException
      */ 
-    public void register(String username, String password, String nickname, String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException,UserPrivilegeException {
+    public void register(String username, String password, String nickname, String email, String firstName, String lastName, Date dateOfBirth) throws UserExistsException, NicknameExistsException, BadPasswordException, UserPrivilegeException {
         if (this._user.getType() == eMemberType.guest){
             ((Guest)this._user).register(username, password, nickname, email, firstName, lastName, dateOfBirth);
         }
@@ -80,7 +85,7 @@ public class ForumFascade {
      * @throws WrongPasswordException
      * @throws UserPrivilegeException
      */
-    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserPrivilegeException {
+    public void login(String username, String password) throws NoSuchUserException, WrongPasswordException,UserPrivilegeException, UserLoggedException {
         if (this._user.getType() == eMemberType.guest){
             ((Guest)this._user).logIn(username, password);
         }
@@ -110,14 +115,14 @@ public class ForumFascade {
      * @param body
      * @throws UserPrivilegeException
      */
-    public void addMessage(String Subject, String body) throws UserPrivilegeException  {
-        if (this._user.getType() == eMemberType.guest){
-            throw new UserPrivilegeException("Guests can't write messages, please login or register first.");
-        }
-        else{
-            ((Member)this._user).writeMessage(Subject, body);
-        }
-    }
+//    public void addMessage(String Subject, String body) throws UserPrivilegeException  {
+//        if (this._user.getType() == eMemberType.guest){
+//            throw new UserPrivilegeException("Guests can't write messages, please login or register first.");
+//        }
+//        else{
+//            ((Member)this._user).writeMessage(Subject, body);
+//        }
+//    }
     
     /**
      * This method allows a logged-in user add reply to exists message
@@ -128,14 +133,14 @@ public class ForumFascade {
      * @throws MessageNotFoundException
      * @throws UserPrivilegeException
      */
-    public void addReply(int parentId,String Subject, String body) throws MessageNotFoundException,  UserPrivilegeException {
-        if (this._user.getType() == eMemberType.guest){
-            throw new UserPrivilegeException("Guests can't write replies, please login or register first.");
-        }
-        else{
-            ((Member)this._user).writeReply(parentId, Subject, body);
-        }
-    }
+//    public void addReply(int parentId,String Subject, String body) throws MessageNotFoundException,  UserPrivilegeException {
+//        if (this._user.getType() == eMemberType.guest){
+//            throw new UserPrivilegeException("Guests can't write replies, please login or register first.");
+//        }
+//        else{
+//            ((Member)this._user).writeReply(parentId, Subject, body);
+//        }
+//    }
 
     
     /**
@@ -148,14 +153,14 @@ public class ForumFascade {
      * @throws MessageOwnerException
      * @throws UserPrivilegeException
      */
-    public void editMessage(int messageId, String newSubject, String newBody) throws MessageNotFoundException, MessageOwnerException, UserPrivilegeException {
-        if (this._user.getType() == eMemberType.guest){
-            throw new UserPrivilegeException("Guests can't edit messages, please login or register first.");
-        }
-        else{
-            ((Member)this._user).editMessage(messageId, newSubject, newBody);
-        }
-    }
+//    public void editMessage(int messageId, String newSubject, String newBody) throws MessageNotFoundException, MessageOwnerException, UserPrivilegeException {
+//        if (this._user.getType() == eMemberType.guest){
+//            throw new UserPrivilegeException("Guests can't edit messages, please login or register first.");
+//        }
+//        else{
+//            ((Member)this._user).editMessage(messageId, newSubject, newBody);
+//        }
+//    }
 
     /**
      *  This method allows a only moderator to delete messages

@@ -1,4 +1,4 @@
-package org.tapuachForum.server.Exceptions;
+package org.tapuachForum.shared;
 public abstract class ForumException extends Exception{
     private  String message;
     public ForumException(String message) {

@@ -5,6 +5,7 @@
 
 package org.tapuachForum.server.DomainLayer.SearchEngine;
 
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.server.DomainLayer.Forum;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.DomainLayer.Logger.TapuachLogger;
