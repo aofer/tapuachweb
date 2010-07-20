@@ -30,9 +30,11 @@ import java.sql.Ref;
 import java.util.Vector;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.shared.MessageInterface;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
@@ -57,6 +59,10 @@ public class MessageViewer extends Composite {
         _toolbar = new HorizontalPanel();
         _treePanel = new HorizontalPanel();
         _addMessageButton = new Button("Add message");
+        if (ClientUser.getClient() == null)
+            ClientUser.setClient();
+       if (ClientUser.getClient().getType() == eMemberType.guest)
+           _addMessageButton.setEnabled(false);
         _refreshButton = new Button("refresh");
         _registrationButton = new Button("Registration");
         _MessageTree = new MessageTree();
@@ -86,7 +92,7 @@ public class MessageViewer extends Composite {
                 getMessageTree().refreshTree(result);
                  _info.setText("");
                  _toolbar.setVisible(true);
-                 
+
             }
 
             public void onFailure(Throwable caught) {
@@ -112,7 +118,7 @@ public class MessageViewer extends Composite {
                 //RootLayoutPanel.get().add(new addMessageWindow());
                 //_addmsg.setGlassEnabled(true);
            addMessageWindow aw = new addMessageWindow();
-                
+
             }
         });
         _refreshButton.addClickHandler(new ClickHandler() {

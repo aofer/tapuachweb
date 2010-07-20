@@ -4,16 +4,21 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import java.io.Serializable;
+import org.tapuachForum.shared.User;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.server.DomainLayer.Interfaces.GuestInterface;
 import org.tapuachForum.server.Exceptions.*;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 import java.util.Date;
 
 /**
  * this class is for the guest user
  * @author Amit Ofer
  */
-public class Guest extends User implements GuestInterface {
+public class Guest extends User implements GuestInterface,Serializable {
 
     /**
      *constructor
@@ -45,7 +50,7 @@ public class Guest extends User implements GuestInterface {
     //amit's version
     public void register(String username,String password,String nickname,String email,
             String firstName,String lastName,Date dateOfBirth)
-            throws UserExistsException, NicknameExistsException, BadPasswordException, UserLoggedException{
+            throws UserExistsException, NicknameExistsException, BadPasswordException{
         Forum.getInstance().register(username,password,nickname,email,firstName,lastName,dateOfBirth);
     }
     /**
@@ -55,7 +60,7 @@ public class Guest extends User implements GuestInterface {
      * @throws NoSuchUserException - is thrown when there is no registered user that matches the username
      * @throws WrongPasswordException - is thrown when the user typed the wrong password
      */
-    public void logIn(String username, String password) throws NoSuchUserException, WrongPasswordException {
+    public void logIn(String username, String password) throws NoSuchUserException, WrongPasswordException,UserLoggedException {
         Forum.getInstance().login(username, password);
     }
 

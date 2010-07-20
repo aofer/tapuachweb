@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.server.DomainLayer.SearchEngine;
 
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
 import java.util.List;

@@ -1,5 +1,6 @@
 package org.tapuachForum.server.DomainLayer.SearchEngine;
 
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.MessageInterface;
 
 /**

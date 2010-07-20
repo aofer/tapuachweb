@@ -2,11 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.tapuachForum.server.DomainLayer.Interfaces;
+package org.tapuachForum.shared;
 
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
 import org.tapuachForum.server.Exceptions.MessageOwnerException;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 import java.util.Date;
 
 /**
@@ -21,7 +21,7 @@ public interface MemberInterface {
      * @param subject - the new subject
      * @param body - the new body
      */
-    void editMessage(int messageId, String subject, String body) throws MessageNotFoundException, MessageOwnerException;
+//    void editMessage(int messageId, String subject, String body) throws MessageNotFoundException, MessageOwnerException;
 
     /**
      * getter for the date the member registered the forum
@@ -82,9 +82,9 @@ public interface MemberInterface {
      * @param subject - the subject of the message
      * @param body - the body of the message
      */
-    void writeMessage(String subject, String body) throws MessageNotFoundException, MessageOwnerException;
-
-    void writeReply(int parentId, String subject, String body) throws MessageNotFoundException, MessageOwnerException;
+//    void writeMessage(String subject, String body) throws MessageNotFoundException, MessageOwnerException;
+//
+//    void writeReply(int parentId, String subject, String body) throws MessageNotFoundException, MessageOwnerException;
 
     eMemberType getType();
 

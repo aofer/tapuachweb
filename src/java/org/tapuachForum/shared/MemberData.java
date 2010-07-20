@@ -3,15 +3,19 @@
  * and open the template in the editor.
  */
 
-package org.tapuachForum.server.PersistentLayer.Data;
+package org.tapuachForum.shared;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  *
  * @author Kipi
  */
-public class MemberData {
+
+
+    
+public class MemberData implements Serializable {
     private String _userName;
     private String _nickName;
     private String _password;
@@ -27,6 +31,10 @@ public class MemberData {
     public MemberData(String userName,String nickName,String password)
     {
         this(userName, nickName, password, "", "", "", null, null);
+    }
+
+    public MemberData()
+    {
     }
     
     public MemberData(String userName,String nickName,String password, String firstName,String lastName, String email,Date birthday)
@@ -118,6 +126,8 @@ public class MemberData {
     public Date getDateOfBirth() {
         return _dateOfBirth;
     }
+
+
 
     //Setters
     /**

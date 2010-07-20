@@ -4,9 +4,9 @@
  */
 package org.tapuachForum.server.PersistentLayer;
 
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
+import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMemberInterface;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
