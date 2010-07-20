@@ -4,10 +4,14 @@
  */
 package org.tapuachForum.server.DomainLayer.Interfaces;
 
+import org.tapuachForum.shared.MemberInterface;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.Message;
 import org.tapuachForum.server.Exceptions.*;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
+import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.server.PersistentLayer.ForumHandler;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMessageInterface;
 import org.tapuachForum.server.PersistentLayer.XMLMemberHandler;

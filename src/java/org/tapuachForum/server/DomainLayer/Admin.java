@@ -4,23 +4,27 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import java.io.Serializable;
 import org.tapuachForum.server.DomainLayer.Interfaces.AdminInterface;
 import org.tapuachForum.server.Exceptions.UserNotExistException;
-import org.tapuachForum.server.PersistentLayer.Data.MemberData;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.MemberData;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
  * @author amit
  */
-public class Admin extends Moderator implements AdminInterface {
+public class Admin extends Moderator implements AdminInterface,Serializable {
+        	public Admin() {
+
+    }
 
 	/**
 	 * Constructor for the Admin class
 	 * @param data
 	 */
 	public Admin(MemberData data) {
-        super(data);
+        super(data, eMemberType.Admin);
     }
 
 	/**

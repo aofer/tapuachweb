@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.*;
 import java.util.Date;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.ClientUser;
 
 /**
  *
@@ -100,7 +101,7 @@ public class replyMessageWindow  extends PopupPanel{
                 _Bcancel.setEnabled(false);
                 String subject = _TBSubject.getText();
                 String body = _TABody.getText();
-                String _nickName = "bobspong";
+                String _nickName = ClientUser.getClient().getNickName();
                 lResult.setStyleName("panel");
                 lResult.setText("please wait while the server adding your message");
                 //getService().myMethod("test", callback);

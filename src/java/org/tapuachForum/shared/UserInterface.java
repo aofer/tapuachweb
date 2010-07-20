@@ -2,10 +2,10 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.tapuachForum.server.DomainLayer.Interfaces;
+package org.tapuachForum.shared;
 
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
-import org.tapuachForum.server.PersistentLayer.Interfaces.eMemberType;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
@@ -20,6 +20,6 @@ public interface UserInterface {
      * @return a string containing the subject and content of the mesage
      * @throws MessageNotFoundException - when there is no message with the given messageId
      */
-    public String readMessage(int messageId) throws MessageNotFoundException;
+//    public String readMessage(int messageId) throws MessageNotFoundException;
     public abstract eMemberType getType();
 }

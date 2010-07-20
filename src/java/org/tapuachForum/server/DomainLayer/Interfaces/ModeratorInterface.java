@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.server.DomainLayer.Interfaces;
 
+import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
 
 /**

@@ -9,21 +9,20 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.tapuachForum.shared.MessageData;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RichTextArea;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.shared.MessageInterface;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
@@ -51,6 +50,16 @@ public class MessageTreeItem extends TreeItem {
         this._ModifyButton.setEnabled(true);
         this._DeleteButton = new Button("Delete message");
         this._DeleteButton.setEnabled(true);
+        if (ClientUser.getClient().getType() == eMemberType.guest) {
+            this._DeleteButton.setEnabled(false);
+            this._ModifyButton.setEnabled(false);
+            this._ReplyButton.setEnabled(false);
+        } else if (ClientUser.getClient().getType() == eMemberType.member && !ClientUser.getClient().getNickName().equals(msg.getNickname())) {
+            this._DeleteButton.setEnabled(false);
+            this._ModifyButton.setEnabled(false);
+        }
+
+
         this._buttonHPanel.add(_ReplyButton);
         this._buttonHPanel.add(_DeleteButton);
         this._buttonHPanel.add(_ModifyButton);
