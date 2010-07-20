@@ -40,4 +40,6 @@ public interface MyServiceAsync {
 
     public void searchByContext(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
 
+     public void onLineUsers(AsyncCallback<Vector<MemberInterface>> asyncCallback);
+
       }

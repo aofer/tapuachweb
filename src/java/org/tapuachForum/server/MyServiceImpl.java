@@ -154,4 +154,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         return new Vector(Arrays.asList(results));
 
     }
+
+     public Vector<MemberInterface> onLineUsers(){
+         return Forum.getInstance().getOnlineMembers();
+     }
 }

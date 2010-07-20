@@ -15,7 +15,7 @@ import org.tapuachForum.shared.MemberInterface;
  *
  * @author Nir
  */
-public class ClientUser implements MemberInterface  {
+public class ClientUser   {
    public MemberInterface mem;
    public boolean isLogin;
    public static ClientUser Client;
@@ -83,6 +83,10 @@ public class ClientUser implements MemberInterface  {
     public void logOut() {
          mem.logOut() ;
     }
+    
+   public  eMemberType getType() {
+        return mem.getType() ;
+    }
 
 //    public void writeMessage(String subject, String body) throws MessageNotFoundException, MessageOwnerException {
 //        throw new UnsupportedOperationException("Not supported yet.");
@@ -100,10 +104,6 @@ public class ClientUser implements MemberInterface  {
         else
             return true;
     }
-        public eMemberType getType() {
-        return mem.getType() ;
-    }
-
-    }
+ }
 
 

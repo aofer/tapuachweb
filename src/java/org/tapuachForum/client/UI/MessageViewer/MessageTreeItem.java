@@ -113,14 +113,14 @@ public class MessageTreeItem extends TreeItem {
             public void onSuccess(String result) {
                 if (result.equals("good")) {
                 LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(1);
+                lp.remove(2);
                 MessageViewer m = new MessageViewer();
                 m.setSize("1024 px", "300 px");
                 ScrollPanel s = new ScrollPanel(m);
                 s.setHeight("430px");
                 m.setStyleName("messageviewer");
                 lp.add(s);
-                lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+                lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
             }
 
             }

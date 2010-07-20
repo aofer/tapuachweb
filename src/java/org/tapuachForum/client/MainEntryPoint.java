@@ -49,19 +49,13 @@ public class MainEntryPoint implements EntryPoint {
         m.setSize("1024 px", "300 px");
         ScrollPanel s = new ScrollPanel(m);
         s.setHeight("430px");
-
         m.setStyleName("messageviewer");
-        
-        
-        lp.add(s);
-
         OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
+        lp.add(s);
         lp.setWidgetTopHeight(op,565, Unit.PX, 60, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-    
         lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
-      
         RootLayoutPanel.get().add(lp);
        
     }

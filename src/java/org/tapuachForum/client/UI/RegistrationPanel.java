@@ -151,12 +151,13 @@ public class RegistrationPanel extends PopupPanel {
         tBirthDay.setFormat(new DateBox.DefaultFormat(DateTimeFormat.getFormat("dd/MM/yyyy")));
         tDate = new Date();
         Date tDate2 = new Date();
+        tBirthDay.setValue(null);
         // Set the value in the text box when the user selects a date
         tBirthDay.getDatePicker().addValueChangeHandler(new ValueChangeHandler() {
             public void onValueChange(ValueChangeEvent event) {
                 Date today = new Date();
                 Date date = (Date) event.getValue();
-                if (date.compareTo(today) > 0) {
+                if ((date.compareTo(today) > 0) | (date == null)){
                     lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
                 } else {
                     lBirthDayError.setText("");
@@ -466,11 +467,36 @@ public class RegistrationPanel extends PopupPanel {
             tRePassword.setText("");
             ans = false;
         }
-        if (p1.length() != 8) {
-            lpasswordError.setText("password should be 8 chars long.");
+        if (p1.length() < 8) {
+            lpasswordError.setText("password to short");
             ans = false;
         }
 
+       if (tBirthDay == null){
+           lBirthDayError.setText("please enter BirthDay date");
+                ans = false;
+       }
+
+        if (!this.tFirstName.getText().matches("[a-zA-Z]{3,20}")) {
+            lFirstNameError.setText( "first name should be only between 3 to 20 letters ");
+            return false;
+        }
+        if (!this.tLastName.getText().matches("[a-zA-Z]{3,20}")) {
+           lLastNameError.setText("last name should be only between 3 to 20 letters ");
+            return false;
+        }
+        if (!tEmail.getText().matches("[a-zA-Z0-9]+@([a-zA-Z0-9]+)[.]{1}([a-zA-Z.]+)")){
+            lemailError.setText("invalid email ");
+            return false;
+        }
+        if (!this.tUsername.getText().matches("[a-zA-Z0-9]+")){
+            lusernameError.setText("invalid user name ");
+            return false;
+        }
+        if (!this.tNickName.getText().matches("[a-zA-Z0-9]+")){
+           lnicknameError.setText("invalid nickname ");
+            return false;
+        }
         return ans;
     }
 }
