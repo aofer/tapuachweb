@@ -206,17 +206,18 @@ public class UserHandler {
         MemberData data = this._XmlMember.getMember(username);
         MemberInterface tMember = null;
         eMemberType type = this._XmlMember.getMemberType(username);
-        switch (type) {
-            case Admin:
-                tMember = new Admin(data);
-                break;
-            case Moderator:
-                tMember = new Moderator(data);
-                break;
-            case member:
-                tMember = new Member(data,type);
-                break;
-        }
+//        switch (type) {
+//            case Admin:
+//                tMember = new Admin(data);
+//                break;
+//            case Moderator:
+//                tMember = new Moderator(data);
+//                break;
+//            case member:
+//                tMember = new Member(data,type);
+//                break;
+//        }
+          tMember = new Member(data,type);
         return tMember;
     }
 
@@ -245,12 +246,12 @@ public class UserHandler {
         for (int i = 0; i < membersData.size(); i++) {
             MemberData data = membersData.get(i);
             type = this._XmlMember.getMemberType(data.getUserName());
-            if (type == eMemberType.Admin) {
-            } else if (type == eMemberType.member) {
+        //    if (type == eMemberType.Admin) {
+       //     } else if (type == eMemberType.member) {
                 tMember = new Member(data,type);
                 res.add(tMember);
-            } else {
-            }
+      //      } else {
+      //      }
         }
         return res;
     }

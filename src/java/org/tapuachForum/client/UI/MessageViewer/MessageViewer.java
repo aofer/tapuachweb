@@ -32,6 +32,7 @@ import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
+import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
@@ -48,6 +49,7 @@ public class MessageViewer extends Composite {
     private Button _addMessageButton;
     private Button _refreshButton;
     private Button _registrationButton;
+    private Button _refreshUsersButton;
     private MessageTree _MessageTree;
     private HorizontalPanel _treePanel;
     private PopupPanel _addmsg;
@@ -64,6 +66,7 @@ public class MessageViewer extends Composite {
        if (ClientUser.getClient().getType() == eMemberType.guest)
            _addMessageButton.setEnabled(false);
         _refreshButton = new Button("refresh");
+        _refreshUsersButton = new Button("refresh Users");
         _registrationButton = new Button("Registration");
         _MessageTree = new MessageTree();
         _info = new Label ("");
@@ -79,6 +82,7 @@ public class MessageViewer extends Composite {
         _treePanel.add(_MessageTree);
         _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
+        _toolbar.add(_refreshUsersButton);
         //_toolbar.add(_registrationButton);
         //      _toolbar.setSize("800px", "20px");
         //_toolbar.setBorderWidth(1);
@@ -121,6 +125,23 @@ public class MessageViewer extends Composite {
 
             }
         });
+
+           _refreshUsersButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+               LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+              ScrollPanel s = (ScrollPanel)  lp.getWidget(2);
+              lp.remove(2);
+              lp.remove(1);
+        s.setHeight("430px");
+        OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.add(s);
+        lp.setWidgetTopHeight(op,565, Unit.PX, 60, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+        lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
+            }
+        });
         _refreshButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
@@ -159,7 +180,7 @@ public class MessageViewer extends Composite {
                                 //    _mainPanel.setVisible(false);
         //      RootLayoutPanel.get().getWidget(0);
                 LayoutPanel  lp =  (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(1);
+                lp.remove(2);
 //        LoginPanel l = new LoginPanel();
 //        l.setStyleName("loginpanel");
 //        l.setWidth("230px");
