@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.Vector;
 import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
+import org.tapuachForum.shared.SearchHit;
 
 /**
  *
@@ -36,4 +37,8 @@ public interface MyService extends RemoteService {
    public String  deleteMessage(int messageId);
 
     public Vector<MessageInterface> viewForum();
+
+    public Vector<SearchHit> searchByAuthor(String searchValue, int from, int to);
+
+    public Vector<SearchHit> searchByContext(String searchValue, int from, int to);
 }

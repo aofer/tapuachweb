@@ -13,10 +13,12 @@ import org.tapuachForum.server.Exceptions.NicknameExistsException;
 import org.tapuachForum.shared.NoSuchUserException;
 import org.tapuachForum.server.Exceptions.UserExistsException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Vector;
 //import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.UserLoggedException;
 import org.tapuachForum.server.Exceptions.WrongPasswordException;
 import org.tapuachForum.shared.Member;
@@ -137,5 +139,19 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 
     public Vector<MessageInterface> viewForum() {
         return Forum.getInstance().viewForum();
+    }
+
+    public Vector<SearchHit> searchByAuthor(String searchValue, int from, int to) {
+        Forum forum = Forum.getInstance();
+        SearchHit[] results = forum.searchByAuthor(searchValue, from, to);
+        return new Vector(Arrays.asList(results));
+
+    }
+
+    public Vector<SearchHit> searchByContext(String searchValue, int from, int to) {
+       Forum forum = Forum.getInstance();
+        SearchHit[] results = forum.searchByContent(searchValue, from, to);
+        return new Vector(Arrays.asList(results));
+
     }
 }

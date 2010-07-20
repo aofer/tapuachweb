@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.Vector;
 import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
+import org.tapuachForum.shared.SearchHit;
 
 /**
  *
@@ -34,5 +35,9 @@ public interface MyServiceAsync {
     public void  deleteMessage(int messageId, AsyncCallback<String> callback);
 
     public void viewForum(AsyncCallback<Vector<MessageInterface>> asyncCallback);
+
+    public void searchByAuthor(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
+
+    public void searchByContext(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
 
       }
