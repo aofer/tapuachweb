@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 20:27:57 09/05/2010 by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+  <class catalog="mesdata" name="Forum.PersistentLayer.Message" table="message">
+    <id name="number" type="int">
+      <column name="number"/>
+      <generator class="assigned"/>
+    </id>
+    <property name="title" type="string">
+      <column length="250" name="title" not-null="true"/>
+    </property>
+    <property name="body" type="string">
+      <column length="250" name="body" not-null="true"/>
+    </property>
+    <property name="author" type="string">
+      <column length="14" name="Author" not-null="true"/>
+    </property>
+    <property name="idFather" type="int">
+      <column name="IdFather" not-null="true"/>
+    </property>
+    <property name="dateOfAdd" type="date">
+      <column length="10" name="DateOfAdd" not-null="true"/>
+    </property>
+    <property name="dateOfEdit" type="date">
+      <column length="10" name="DateOfEdit" not-null="true"/>
+    </property>
+  </class>
+</hibernate-mapping>

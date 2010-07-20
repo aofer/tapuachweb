@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<forum>
+    <forumName>tapuach</forumName>
+    <members>
+        <userName>Arseny</userName>
+        <nickName>arsenik</nickName>
+        <password>123456</password>
+        <eMail>a@a.com</eMail>
+        <dateJoined>2010-03-12T13:10:31.941+02:00</dateJoined>
+        <firstName>a</firstName>
+        <LastName>k</LastName>
+        <dateOfBirth>2010-03-12+02:00</dateOfBirth>
+        <status>false</status>
+    </members>
+    <members>
+        <userName>nir</userName>
+        <nickName>arsenik</nickName>
+        <password>123456</password>
+        <eMail>a@a.com</eMail>
+        <dateJoined>2010-03-12T13:10:54.100+02:00</dateJoined>
+        <firstName>a</firstName>
+        <LastName>k</LastName>
+        <dateOfBirth>2010-03-12+02:00</dateOfBirth>
+        <status>false</status>
+    </members>
+</forum>

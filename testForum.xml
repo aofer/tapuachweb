@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<forumType>
+    <forumName>Tapuach</forumName>
+    <messageCounter>1</messageCounter>
+    <members>
+        <userName>membUserNameToRegister</userName>
+        <nickName>membNickName</nickName>
+        <password>c39cd9c59b8aa2c8a6d0d8d484cdff0d</password>
+        <eMail>membFirstName</eMail>
+        <dateJoined>2010-05-07T12:04:15.636+03:00</dateJoined>
+        <firstName>membLastName</firstName>
+        <LastName>memb@agr</LastName>
+        <dateOfBirth>2010-05-07+03:00</dateOfBirth>
+        <status>true</status>
+        <isModerator>true</isModerator>
+        <isAdmin>false</isAdmin>
+    </members>
+    <members>
+        <userName>admin</userName>
+        <nickName>adminy</nickName>
+        <password>21232f297a57a5a743894a0e4a801fc3</password>
+        <eMail>thebestadmin@gmail.com</eMail>
+        <dateJoined>2010-06-07T13:54:16.210+03:00</dateJoined>
+        <firstName>ad</firstName>
+        <LastName>min</LastName>
+        <dateOfBirth>2010-06-07+03:00</dateOfBirth>
+        <status>false</status>
+        <isModerator>false</isModerator>
+        <isAdmin>true</isAdmin>
+    </members>
+    <members>
+        <userName>j</userName>
+        <nickName>j</nickName>
+        <password>ed2b1f468c5f915f3f1cf75d7068baae</password>
+        <eMail>j</eMail>
+        <dateJoined>2010-06-07T13:55:20.282+03:00</dateJoined>
+        <firstName>admin</firstName>
+        <LastName>j</LastName>
+        <dateOfBirth>2010-06-07+03:00</dateOfBirth>
+        <status>false</status>
+        <isModerator>false</isModerator>
+        <isAdmin>false</isAdmin>
+    </members>
+</forumType>

@@ -1,0 +1,104 @@
+/* 
+    Document   : RegistrationCss
+    Created on : 05/06/2010, 17:03:25
+    Author     : amit
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/* 
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root { 
+    display: block;
+
+}
+
+    .headline {
+    color: #003399;
+    display: block;
+    width: 400px;
+    padding: 2px 4px;
+    text-align : center;
+    background-color: #ADD8E6;
+
+        font-size: 24px;
+    font-family: Verdana,Arial,Helvetica,sans-serif;
+}
+
+.panel {
+    background-color: #cccccc;
+}
+
+.error {
+    background-color: #cccccc;
+    color: #ff0033;
+    font-size: 12px;
+}
+
+
+.labelStyle{
+    background-color: #cccccc;
+    font-size: 18px;
+    font-family: Arial,Helvetica,sans-serif;
+    text-decoration: none;
+    color: #003399;
+    text-align: left;
+    margin-right: 10px;
+}
+.autoFormItem-Panel {
+  background-color: #ADD8E6;
+  border: 1px solid #87B3FF;
+  padding: 1px;
+  margin: 5px 5px 5px 100px;
+  width: 270px;
+}
+
+.autoFormItem-Label {
+  background-color: #ADD8E6;
+  padding: 1px;
+  width: 120px;
+  font-size: smaller;
+}
+
+.autoFormItem-Textbox {
+  background-color: #FFDEAD;
+  padding: 1px;
+  width: 150px;
+  font-size: smaller;
+}
+
+.greenBack{
+   background-color: #00cc00;
+}
+
+.redBack{
+   background-color: #ff0033;
+}
+
+.blueBack{
+   background-color: #ADD8E6;
+}
+
+  BODY { background: url("test12.jpg") }
+
+
+  loginpanel
+{
+position:relative;
+left:500px;
+}
+
+messageviewer{
+    position:relative;
+    top:100px;
+}
+
+infoText{
+    color: red;
+    text-align: center;
+    font-weight: bold;
+    font-variant: normal;
+}
