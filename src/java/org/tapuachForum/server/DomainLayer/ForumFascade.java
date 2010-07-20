@@ -13,7 +13,7 @@ import org.tapuachForum.shared.UserLoggedException;
 import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
-import org.tapuachForum.server.DomainLayer.SearchEngine.SearchHit;
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.server.Exceptions.*;
 import org.tapuachForum.shared.eMemberType;
 import java.util.Date;

@@ -20,7 +20,7 @@ import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.server.Exceptions.*;
 import org.tapuachForum.server.DomainLayer.Interfaces.ForumInterface;
 import org.tapuachForum.server.DomainLayer.SearchEngine.SearchEngineHandler;
-import org.tapuachForum.server.DomainLayer.SearchEngine.SearchHit;
+import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.server.PersistentLayer.Interfaces.ForumHandlerInterface;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMemberInterface;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMessageInterface;
