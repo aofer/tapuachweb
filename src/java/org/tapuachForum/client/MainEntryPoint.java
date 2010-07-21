@@ -81,7 +81,9 @@ public class MainEntryPoint implements EntryPoint {
 
         RootLayoutPanel.get().add(lp);
 
+
      Window.addWindowClosingHandler(new Window.ClosingHandler() {
+
 
             @Override
             public void onWindowClosing(final ClosingEvent event) {
@@ -112,17 +114,6 @@ public class MainEntryPoint implements EntryPoint {
 //                } else {
 //                    event.setMessage(" bye bye ");
 //                }
-//            }
-//        });
-
-
-//        Window.addCloseHandler(new CloseHandler<Window>() {
-//
-//            @Override
-//            public void onClose(CloseEvent<Window> event) {
-//                //           if (ClientUser.getClient().isLogin()) {
-//                //               getService().logout(ClientUser.getClient().getUserName(), callback);
-//                //             }
 //            }
 //        });
 

@@ -28,7 +28,7 @@ public class editMessageWindow  extends PopupPanel{
 
       public editMessageWindow(final int messageId ,final String subject,final String nickName,final String body) {
          super(false,true);
-          final VerticalPanel _holder;
+        final VerticalPanel _holder;
         final Label _header;
         final Label _LSubject;
         final TextBox _TBSubject;
