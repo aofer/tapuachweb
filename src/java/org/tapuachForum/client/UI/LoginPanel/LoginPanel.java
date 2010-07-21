@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.AdminPanel;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.RegistrationPanel;
@@ -47,6 +48,7 @@ public class LoginPanel extends Composite {
     private Button _login;
     private Button _reg;
     private Button _logout;
+    private Button _administer;
     private boolean userIsOnline;
     private String userName;
     public LoginPanel() {
@@ -59,6 +61,7 @@ public class LoginPanel extends Composite {
         _pass = new PasswordTextBox();
         _login = new Button("Login");
         _logout = new Button("Logout");
+        _administer = new Button("Administer");
         _reg = new Button("Register");
         _userp = new HorizontalPanel();
         _userp.add(_uLabel);
@@ -98,7 +101,9 @@ public class LoginPanel extends Composite {
                         _info.setText("  User " + userName + " is online");
                         _buttp.add(_info);
                         _buttp.add(_logout);
+                        //_buttp.add(_administer);
                         _logout.setEnabled(true);
+                        if(userName.compareTo("admin") ==0  ){   _buttp.add(_administer);}
                                         LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
                 lp.remove(2);
                 MessageViewer m = new MessageViewer();
@@ -124,7 +129,7 @@ public class LoginPanel extends Composite {
                     ClientUser.setClient();
                     _buttp.remove(_info);
                     _buttp.remove(_logout);
-
+                    _buttp.remove(_administer);
                     _userp.add(_uLabel);
                     _userp.add(_user);
                     _passp.add(_pLabel);
@@ -202,6 +207,13 @@ public class LoginPanel extends Composite {
             }
         });
 
+        _administer.addClickHandler(new ClickHandler() {
+                   public void onClick(ClickEvent event) {
+                        AdminPanel ap = new AdminPanel((""));
+                        ap.center();
+                   }
+
+   });
         // Listen for the button clicks
         this.setStyleName("loginpanel");
         this.setWidth("230px");
