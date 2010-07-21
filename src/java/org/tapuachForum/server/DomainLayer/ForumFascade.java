@@ -186,7 +186,7 @@ public class ForumFascade {
      */
     public void upgradeUser(String username) throws UserNotExistException, UserPrivilegeException {
         if (this._user.getType() == eMemberType.Admin){
-            ((Admin)this._user).upgradeUser(username);
+    //        ((Admin)this._user).upgradeUser(username);
         }
         else{
             throw new UserPrivilegeException("Only Admins can upgrade users.");
