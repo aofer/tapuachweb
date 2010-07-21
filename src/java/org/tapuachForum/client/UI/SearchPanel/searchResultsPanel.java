@@ -4,6 +4,8 @@
  */
 package org.tapuachForum.client.UI.SearchPanel;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Composite;
@@ -32,7 +34,8 @@ import org.tapuachForum.shared.MessageInterface;
  */
 public class searchResultsPanel extends PopupPanel {
 
-    private static final int pageSize = 10;
+    private SearchHit[] new_Results;
+    private static final int pageSize = 3;
     private ScrollPanel _scrollPanelGrid;
     private HorizontalPanel _navigationPanel;
     private DockPanel contentDockPanel;
@@ -44,11 +47,14 @@ public class searchResultsPanel extends PopupPanel {
     private Button _buttonLastPage;
     private Button _buttonReturn;
     private int _selectedRowIndex = -1;
+    public int indexOfPages;
+    public int numberOfPages;
+    private int restOfPages;
 
-    public searchResultsPanel(SearchHit[] result) {
+    public searchResultsPanel(final SearchHit[] result) {
         super(false, true);
 
-
+        new_Results = result;
         contentDockPanel = new DockPanel();
         _scrollPanelGrid = new ScrollPanel();
         _lTitle = new Label("Search Results:");
@@ -68,7 +74,7 @@ public class searchResultsPanel extends PopupPanel {
         this.setGlassEnabled(true);
         this.setWidget(contentDockPanel);
 
- //       initWidget(contentDockPanel);*************************************************************************************************
+        //       initWidget(contentDockPanel);*************************************************************************************************
         this.setSize("450px", "300px");
 
         _lTitle.setStyleName("titleStyle");
@@ -94,25 +100,26 @@ public class searchResultsPanel extends PopupPanel {
         _resultsTable.setWidget(0, 5, lScore);
         _scrollPanelGrid.add(_resultsTable);
         _scrollPanelGrid.setStyleName("blueBack");
-           this.setGlassEnabled(true);
+        this.setGlassEnabled(true);
         this._resultsTable.addTableListener(new TableListener() {
+
             public void onCellClicked(SourcesTableEvents sender, int row, int column) {
                 searchResultsPanel.this.cellClicked(row, column);
             }
         });
 
         _navigationPanel.setSize("100%", "26px");
-
         _navigationPanel.add(_buttonReturn);
         _navigationPanel.setCellHeight(_buttonReturn, "23px");
         _buttonReturn.setSize("70", "23");
         _navigationPanel.setCellVerticalAlignment(_buttonReturn, HasVerticalAlignment.ALIGN_BOTTOM);
-        _buttonReturn.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        _buttonReturn.addClickHandler(new ClickHandler() {
+
+              public void onClick(ClickEvent event) {
                 searchResultsPanel.this.buttonReturnClicked();
             }
-        });
 
+        });
 
 
         _navigationPanel.add(_buttonFirstPage);
@@ -120,6 +127,7 @@ public class searchResultsPanel extends PopupPanel {
         _buttonFirstPage.setSize("25", "23");
         _navigationPanel.setCellVerticalAlignment(_buttonFirstPage, HasVerticalAlignment.ALIGN_BOTTOM);
         _buttonFirstPage.addClickListener(new ClickListener() {
+
             public void onClick(Widget sender) {
                 searchResultsPanel.this.buttonFirstPageClicked();
             }
@@ -129,11 +137,13 @@ public class searchResultsPanel extends PopupPanel {
 
 
         _navigationPanel.add(_buttonPrevPage);
+        _buttonPrevPage.setEnabled(false);
         _navigationPanel.setCellHeight(_buttonPrevPage, "23px");
         _buttonPrevPage.setSize("20", "23");
         _navigationPanel.setCellVerticalAlignment(_buttonPrevPage, HasVerticalAlignment.ALIGN_BOTTOM);
-        _buttonPrevPage.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        _buttonPrevPage.addClickHandler(new ClickHandler() {
+
+              public void onClick(ClickEvent event) {
                 searchResultsPanel.this.buttonPrevPageClicked();
             }
         });
@@ -145,8 +155,9 @@ public class searchResultsPanel extends PopupPanel {
         _navigationPanel.setCellHeight(_buttonNextPage, "23px");
         _buttonNextPage.setSize("20", "23");
         _navigationPanel.setCellVerticalAlignment(_buttonNextPage, HasVerticalAlignment.ALIGN_BOTTOM);
-        _buttonNextPage.addClickListener(new ClickListener() {
-            public void onClick(Widget sender) {
+        _buttonNextPage.addClickHandler(new ClickHandler() {
+
+              public void onClick(ClickEvent event) {
                 searchResultsPanel.this.buttonNextPageClicked();
             }
         });
@@ -159,6 +170,7 @@ public class searchResultsPanel extends PopupPanel {
         _buttonLastPage.setSize("25", "23");
         _navigationPanel.setCellVerticalAlignment(_buttonLastPage, HasVerticalAlignment.ALIGN_BOTTOM);
         _buttonLastPage.addClickListener(new ClickListener() {
+
             public void onClick(Widget sender) {
                 searchResultsPanel.this.buttonLastPageClicked();
             }
@@ -174,28 +186,39 @@ public class searchResultsPanel extends PopupPanel {
         contentDockPanel.setCellWidth(_navigationPanel, "100%");
         contentDockPanel.setCellVerticalAlignment(_navigationPanel, HasVerticalAlignment.ALIGN_BOTTOM);
         contentDockPanel.setStyleName("blueBack");
+        indexOfPages = 0;
+        numberOfPages = new_Results.length / pageSize;
+        restOfPages = new_Results.length % pageSize;
 
-    //        SearchHit[] shArray = new SearchHit[result.size()];
-    ///    for  (int i = 0; i <result.size();  i++)
-    //        shArray[i] = result.get(i);
-   //   refreshResultsPanel ( result);
-        Date tDate = new Date();
-        if ((result != null) && (result.length > 0))
-            addMessageToTable(result[0]);
-        else
-            addMessageToTable(new SearchHit(new Message(new MessageData("nick cool","hey there","hey body", tDate, tDate)), 15));
+        refreshResultsPanel();
+//        Date tDate = new Date();
+//        if ((result != null) && (result.length > 0))
+//            addMessageToTable(result[0]);
+//        else
+//            addMessageToTable(new SearchHit(new Message(new MessageData("nick cool","hey there","hey body", tDate, tDate)), 15));
     }
 
-    public void refreshResultsPanel(SearchHit[] new_Results) {
+    public void refreshResultsPanel() {
         clearTable();
         if ((new_Results == null) || (new_Results.length == 0)) {
             contentDockPanel.remove(_scrollPanelGrid);
             contentDockPanel.add(new Label("There are no results"), DockPanel.CENTER);
         } else {
             contentDockPanel.add(_scrollPanelGrid, DockPanel.CENTER);
-            for (int i = 0; i < new_Results.length; i++) {
-                addMessageToTable(new_Results[i]);
+            if (indexOfPages < numberOfPages) {
+                for (int i = indexOfPages * pageSize; i < indexOfPages * (pageSize + 1); i++) {
+                    addMessageToTable(new_Results[i]);
+                }
+            } else {
+                if ((restOfPages == 0) | (indexOfPages > numberOfPages)) {
+                    contentDockPanel.add(new Label("There are no more results"), DockPanel.CENTER);
+                } else {
+                    for (int i = indexOfPages * pageSize; i < (indexOfPages * pageSize) + restOfPages; i++) {
+                        addMessageToTable(new_Results[i]);
+                    }
+                }
             }
+
         }
     }
 
@@ -209,7 +232,8 @@ public class searchResultsPanel extends PopupPanel {
         Label Authername = new Label(msg.getNickname());
         Label msgSubject = new Label(msg.getSubject());
         Label msgContext = new Label(msg.getBody());
-        Label msgDate = new Label(msg.getWriteDate().toString());
+        Date tWrieDay = msg.getWriteDate();
+        Label msgDate = new Label(tWrieDay.getDay()+"/"+tWrieDay.getMonth()+"/"+tWrieDay.getYear());
         Label msgScore = new Label(Double.toString(search_hit.getScore()));
         _resultsTable.setWidget(row, 1, Authername);
         _resultsTable.setWidget(row, 2, msgSubject);
@@ -245,27 +269,43 @@ public class searchResultsPanel extends PopupPanel {
         testAdd();
         testAdd();
         //clearTable();
-       // refreshResultsPanel(null);
+        // refreshResultsPanel(null);
     }
 
     private void buttonReturnClicked() {
-       searchResultsPanel.super.hide();
+        searchResultsPanel.super.hide();
     }
 
     private void buttonPrevPageClicked() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        indexOfPages--;
+        if (indexOfPages == 0) {
+            _buttonPrevPage.setEnabled(false);
+        }
+        if (indexOfPages == (numberOfPages - 1)) {
+            _buttonNextPage.setEnabled(true);
+        }
+        refreshResultsPanel();
     }
 
     private void buttonLastPageClicked() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        indexOfPages = numberOfPages;
+        refreshResultsPanel();
     }
 
     private void buttonNextPageClicked() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        indexOfPages++;
+        if (indexOfPages == 1) {
+            _buttonPrevPage.setEnabled(true);
+        }
+        if (indexOfPages == numberOfPages) {
+            _buttonNextPage.setEnabled(false);
+        }
+        refreshResultsPanel();
     }
 
     private void buttonFirstPageClicked() {
-        throw new UnsupportedOperationException("Not yet implemented");
+        indexOfPages = 0;
+        refreshResultsPanel();
     }
 
     private void cellClicked(int row, int column) {
