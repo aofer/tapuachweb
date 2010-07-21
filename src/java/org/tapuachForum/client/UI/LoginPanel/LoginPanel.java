@@ -105,7 +105,7 @@ public class LoginPanel extends Composite {
                         _logout.setEnabled(true);
                         if(userName.compareTo("admin") ==0  ){   _buttp.add(_administer);}
                                         LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(2);
+                lp.remove(3);
                 MessageViewer m = new MessageViewer();
                 m.setSize("1024 px", "300 px");
                 ScrollPanel s = new ScrollPanel(m);
@@ -142,7 +142,7 @@ public class LoginPanel extends Composite {
                         _reg.setEnabled(true);
                     userIsOnline = false;
                 LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(2);
+                lp.remove(3);
                 MessageViewer m = new MessageViewer();
                 m.setSize("1024 px", "300 px");
                 ScrollPanel s = new ScrollPanel(m);

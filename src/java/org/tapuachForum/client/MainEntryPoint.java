@@ -42,10 +42,26 @@ public class MainEntryPoint implements EntryPoint {
      */
     public void onModuleLoad() {
         LayoutPanel  lp = new LayoutPanel();
+
+        //LOGIN Panel ( number 0)
         LoginPanel l = new LoginPanel();
         lp.add(l);
         lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
         lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
+
+        //ONline Panel (number 1)
+        OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.setWidgetTopHeight(op,533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+
+        //   SERACH PANEL      (number 2)
+         searchPanel sp = new searchPanel();
+        lp.add(sp);
+        lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
+        lp.setWidgetLeftRight(sp,10, Unit.PX,500, Unit.PX);
+
+        //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
         m.setSize("1024 px", "300 px");
         ScrollPanel s = new ScrollPanel(m);
@@ -53,16 +69,29 @@ public class MainEntryPoint implements EntryPoint {
         lp.add(s);
         lp.setWidgetTopHeight(s, 100, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
-        searchPanel sp = new searchPanel();
-        lp.add(sp);
-        lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
-        lp.setWidgetLeftRight(sp,10, Unit.PX,500, Unit.PX);
-        OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
-        lp.add(op);
-        lp.setWidgetTopHeight(op,533, Unit.PX, 100, Unit.PX);
-        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-        
+
+
         RootLayoutPanel.get().add(lp);
+             Window.addWindowClosingHandler(new Window.ClosingHandler() {
+
+                    @Override
+                    public void onWindowClosing(ClosingEvent event) {
+                        event.setMessage("WHY??? Why do you go? Can I have a least your phone number?");
+
+                    }
+             });
+
+         Window.addCloseHandler(new CloseHandler<Window>() {
+
+                    @Override
+                   public void onClose(CloseEvent<Window> event) {
+                        Window.alert("You have choose to leave Tapuach Forum. Therefore, I will have to FORMAT your harddisk!!  hhhhaaaa!!!");
+
+                    }
+                });
+
+
+
        
     }
 }
