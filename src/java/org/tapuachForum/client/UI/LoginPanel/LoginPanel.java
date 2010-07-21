@@ -112,7 +112,7 @@ public class LoginPanel extends Composite {
                 s.setHeight("430px");
                 m.setStyleName("messageviewer");
                 lp.add(s);
-                lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
+                lp.setWidgetTopHeight(s, 100, Unit.PX, 450, Unit.PX);
 
 
 
@@ -149,7 +149,7 @@ public class LoginPanel extends Composite {
                 s.setHeight("430px");
                 m.setStyleName("messageviewer");
                 lp.add(s);
-                lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
+                lp.setWidgetTopHeight(s, 100, Unit.PX, 450, Unit.PX);
                 }
             }
 

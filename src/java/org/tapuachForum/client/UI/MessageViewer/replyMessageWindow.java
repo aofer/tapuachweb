@@ -89,7 +89,7 @@ public class replyMessageWindow  extends PopupPanel{
                          _Bcancel.setEnabled(true);
                   _Bcancel.setText("Go Back");
        //           lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
-                lResult.setText("There was a problem to add replay. Please REFRESH the forum and try again.");
+                lResult.setText("There was a problem to add the reply. Please REFRESH the forum and try again.");
 
             }
         };
