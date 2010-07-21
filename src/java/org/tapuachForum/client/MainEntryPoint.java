@@ -80,7 +80,7 @@ public class MainEntryPoint implements EntryPoint {
 
                     @Override
                     public void onWindowClosing(ClosingEvent event) {
-                        event.setMessage("WHY??? Why do you go? Can I have a least your phone number?");
+                      //  event.setMessage("WHY??? Why do you go? Can I have a least your phone number?");
 
                     }
              });
@@ -89,7 +89,7 @@ public class MainEntryPoint implements EntryPoint {
 
                     @Override
                    public void onClose(CloseEvent<Window> event) {
-                        Window.alert("You have choose to leave Tapuach Forum. Therefore, I will have to FORMAT your harddisk!!  hhhhaaaa!!!");
+                   //     Window.alert("You have choose to leave Tapuach Forum. Therefore, I will have to FORMAT your harddisk!!  hhhhaaaa!!!");
 
                     }
                 });

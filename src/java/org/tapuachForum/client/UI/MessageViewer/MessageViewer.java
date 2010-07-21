@@ -6,34 +6,24 @@ package org.tapuachForum.client.UI.MessageViewer;
 
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dev.shell.log.SwingLoggerPanel;
-import com.google.gwt.dev.shell.log.SwingLoggerPanel.CloseHandler;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DockLayoutPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.StackPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import java.sql.Ref;
 import java.util.Vector;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
-import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
-import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.client.UI.SearchPanel.searchPanel;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
@@ -66,7 +56,7 @@ public class MessageViewer extends Composite {
             ClientUser.setClient();
        if (ClientUser.getClient().getType() == eMemberType.guest)
            _addMessageButton.setEnabled(false);
-        _refreshButton = new Button("refresh");
+        _refreshButton = new Button("Refresh");
         _refreshUsersButton = new Button("refresh Users");
         _registrationButton = new Button("Registration");
         _MessageTree = new MessageTree();
@@ -141,13 +131,13 @@ public class MessageViewer extends Composite {
         OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
         lp.add(sp);
-        lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
+       lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
         lp.setWidgetLeftRight(sp,10, Unit.PX,500, Unit.PX);
         lp.add(s);
 
-        lp.setWidgetTopHeight(op,565, Unit.PX, 60, Unit.PX);
+         lp.setWidgetTopHeight(op,533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-        lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
+        lp.setWidgetTopHeight(s, 100, Unit.PX, 430, Unit.PX);
             }
         });
         _refreshButton.addClickHandler(new ClickHandler() {
