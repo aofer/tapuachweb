@@ -4,8 +4,11 @@
  */
 package org.tapuachForum.server;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.tapuachForum.server.DomainLayer.Forum;
 import org.tapuachForum.server.DomainLayer.ForumFascade;
+import org.tapuachForum.server.Exceptions.UserNotExistException;
 import org.tapuachForum.shared.BadPasswordException;
 import org.tapuachForum.server.Exceptions.MessageNotFoundException;
 import org.tapuachForum.server.Exceptions.MessageOwnerException;
@@ -15,6 +18,7 @@ import org.tapuachForum.server.Exceptions.UserExistsException;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 //import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.MyService;
@@ -51,15 +55,17 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     public String register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate) {
         String res;
         Forum forum = Forum.getInstance();
-//           return "where is " + firstname;
+        res = "Registeration was successful";
         try {
             forum.register(username, pass, nickname, email, firstname, lastName, tDate);
-            res = "Registeration was successful";
         } catch (UserExistsException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = username + " already exist.";
         } catch (NicknameExistsException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "nicknameTBA" + " already exist.";
         } catch (BadPasswordException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "password does not meet the policy, please choose a different password.";
         }
         return " " + res;
@@ -78,8 +84,10 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         try {
             forum.addReply(parentId, nickname, subject, body);
         } catch (MessageNotFoundException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageNotFoundException";
         }
+
         return res;
     }
 
@@ -89,29 +97,34 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         try {
             forum.editMessage(nickname, messageId, subject, body);
         } catch (MessageNotFoundException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageNotFoundException";
         } catch (MessageOwnerException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageOwnerException";
         }
         return res;
     }
 
     //}
-  public MemberInterface login(String username, String password) {
+    public MemberInterface login(String username, String password) {
         MemberInterface clientUser;
         String res = "good";
         Forum forum = Forum.getInstance();
         try {
             forum.login(username, password);
         } catch (NoSuchUserException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "There is not such user in the system";
             clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
             return clientUser;
         } catch (WrongPasswordException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "The Password is wrong. Please Re-Type it.";
             clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
             return clientUser;
         } catch (UserLoggedException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "user is alreay login. You can't login with this user!";
             clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
             return clientUser;
@@ -121,10 +134,10 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     }
 
     public MemberInterface logout(String username) {
-         MemberInterface clientUser = null;
+        MemberInterface clientUser = null;
         Forum forum = Forum.getInstance();
         forum.logout(username);
-  //      return "cool";
+        //      return "cool";
         return clientUser;
     }
 
@@ -134,6 +147,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         try {
             forum.deleteMessage(messageId);
         } catch (MessageNotFoundException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageNotFoundException";
         }
         return res;
@@ -146,25 +160,41 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     public SearchHit[] searchByAuthor(String searchValue, int from, int to) {
         Forum forum = Forum.getInstance();
         SearchHit[] results = forum.searchByAuthor(searchValue, from, to);
-    //    return new Vector(Arrays.asList(results));
+        //    return new Vector(Arrays.asList(results));
 //                             Date tDate = new Date();
 //        SearchHit[] sh = new SearchHit[2];
 //           sh[0] = new SearchHit(new Message(new MessageData("first impl","hey there","hey body", tDate, tDate)), 18);
 //           sh[1] = new SearchHit(new Message(new MessageData("second impl l","hey there","hey body", tDate, tDate)), 12);
 //      return sh;
-         return results;
+        return results;
 
     }
 
     public SearchHit[] searchByContext(String searchValue, int from, int to) {
-       Forum forum = Forum.getInstance();
+        Forum forum = Forum.getInstance();
         SearchHit[] results = forum.searchByContent(searchValue, from, to);
-     //   return new Vector(Arrays.asList(results));
-         return results;
+        //   return new Vector(Arrays.asList(results));
+        return results;
 
     }
 
-     public Vector<MemberInterface> onLineUsers(){
-         return Forum.getInstance().getOnlineMembers();
+    public Vector<MemberInterface> onLineUsers() {
+        return Forum.getInstance().getOnlineMembers();
+    }
+
+    public String upgradeUser(String username) {
+        String res = "good";
+        try {
+            Forum.getInstance().upgradeUser(username);
+        } catch (UserNotExistException ex) {
+            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            res = "UserNotExistException";
+        }
+        return res;
+    }
+
+     public  List<Member> getMembers(){
+           return  Forum.getInstance().getMembers();
      }
 }
+
