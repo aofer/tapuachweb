@@ -71,7 +71,7 @@ public class MessageTreeItem extends TreeItem {
         _body2.setText(msg.getBody());
         _body.setReadOnly(true);
         _body2.setReadOnly(true);
-        _body2.setSize("750px", "200px");
+        _body2.setSize("450px", "150px");
         if (msg.getModifiedDate().compareTo(msg.getWriteDate()) != 0) {
             Label dateLabel = new Label("The message was modified on " + msg.getModifiedDate().toString());
             addItem(dateLabel);

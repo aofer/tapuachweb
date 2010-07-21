@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
+import org.tapuachForum.client.UI.SearchPanel.searchPanel;
 
 /**
  * Main entry point.
@@ -49,13 +50,18 @@ public class MainEntryPoint implements EntryPoint {
         m.setSize("1024 px", "300 px");
         ScrollPanel s = new ScrollPanel(m);
         s.setHeight("430px");
+        lp.add(s);
+        lp.setWidgetTopHeight(s, 100, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
+        searchPanel sp = new searchPanel();
+        lp.add(sp);
+        lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
+        lp.setWidgetLeftRight(sp,10, Unit.PX,500, Unit.PX);
         OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
-        lp.add(s);
-        lp.setWidgetTopHeight(op,565, Unit.PX, 60, Unit.PX);
+        lp.setWidgetTopHeight(op,533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-        lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
+        
         RootLayoutPanel.get().add(lp);
        
     }
