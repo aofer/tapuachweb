@@ -128,15 +128,22 @@ public class MessageViewer extends Composite {
 
            _refreshUsersButton.addClickHandler(new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
+    public void onClick(ClickEvent event) {
                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-              ScrollPanel s = (ScrollPanel)  lp.getWidget(2);
-              lp.remove(2);
+              ScrollPanel s = (ScrollPanel)  lp.getWidget(3);
+
+               searchPanel sp =(searchPanel)  lp.getWidget(2);
+              lp.remove(3);
+              lp.remove (2);
               lp.remove(1);
         s.setHeight("430px");
         OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
+        lp.add(sp);
+        lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
+        lp.setWidgetLeftRight(sp,10, Unit.PX,500, Unit.PX);
         lp.add(s);
+
         lp.setWidgetTopHeight(op,565, Unit.PX, 60, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
         lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
@@ -180,7 +187,7 @@ public class MessageViewer extends Composite {
                                 //    _mainPanel.setVisible(false);
         //      RootLayoutPanel.get().getWidget(0);
                 LayoutPanel  lp =  (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(2);
+                lp.remove(3);
 //        LoginPanel l = new LoginPanel();
 //        l.setStyleName("loginpanel");
 //        l.setWidth("230px");
