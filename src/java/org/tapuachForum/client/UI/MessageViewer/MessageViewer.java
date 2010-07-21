@@ -199,7 +199,7 @@ public class MessageViewer extends Composite {
 
         lp.add(s);
         //lp.setWidgetLeftRight(s, 0, Unit.PX, , Unit.PX);
-        lp.setWidgetTopHeight(s, 130, Unit.PX, 550, Unit.PX);
+        lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
         //ScrollPanel ms = new ScrollPanel(lp);
      //   RootLayoutPanel.get().add(lp);
 

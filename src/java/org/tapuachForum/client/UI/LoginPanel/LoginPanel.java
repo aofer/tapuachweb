@@ -180,13 +180,13 @@ public class LoginPanel extends Composite {
         });
         _logout.addClickHandler(new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
+           public void onClick(ClickEvent event) {
                 _logout.setEnabled(false);
                 _info.setText("  Please wait while disconnecting...");
                 //         _buttp.add(_info);
                 //          userName;
 
-                getService().logout(userName, callback);
+                getService().logout(ClientUser.getClient().getUserName(), callback);
             }
         });
 

@@ -101,13 +101,22 @@ public class MessageHandler {
             throw new MessageOwnerException();
         }
     }
+
+    public void getMessageForDelete(int messageId) throws MessageNotFoundException {
+        List<Integer> tReplyIds = this._XmlMessage.getRepliesIds(messageId);
+        for (int i = 0; i < tReplyIds.size(); i++) {
+            getMessageForDelete(tReplyIds.get(i).intValue());
+        }
+        this._XmlForum.deleteMessage(messageId);
+    }
+
     /**
      * This method delete a message 
      * @param messageId
      * @throws MessageNotFoundException
      */
     public void deleteMessage(int messageId) throws MessageNotFoundException {
-        this._XmlForum.deleteMessage(messageId);
+        this.getMessageForDelete(messageId);
     }
 
     /**

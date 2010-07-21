@@ -155,14 +155,14 @@ public class RegistrationPanel extends PopupPanel {
         // Set the value in the text box when the user selects a date
         tBirthDay.getDatePicker().addValueChangeHandler(new ValueChangeHandler() {
             public void onValueChange(ValueChangeEvent event) {
-                Date today = new Date();
+             
                 Date date = (Date) event.getValue();
-                if ((date.compareTo(today) > 0) | (date == null)){
-                    lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
-                } else {
-                    lBirthDayError.setText("");
+                //if ((date.compareTo(today) > 0) | (date == null)){
+              //      lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
+             //   } else {
+                //    lBirthDayError.setText("");
                     tBirthDay.setValue(date);
-                }
+             //   }
 
             }
         });
@@ -471,9 +471,9 @@ public class RegistrationPanel extends PopupPanel {
             lpasswordError.setText("password to short");
             ans = false;
         }
-
-       if (tBirthDay == null){
-           lBirthDayError.setText("please enter BirthDay date");
+           Date today = new Date();
+       if((tBirthDay == null) | !(tBirthDay.getValue().compareTo(today)<0)){
+           lBirthDayError.setText("please enter logic BirthDay date.");
                 ans = false;
        }
 
