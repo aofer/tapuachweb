@@ -91,8 +91,9 @@ public class searchPanel extends Composite {
             public void onSuccess(SearchHit[] result) {
                 _tSearchBox.setText("pop up should be open");
                 searchResultsPanel sRP = new searchResultsPanel(result);
-                  sRP.center();
-                    _tSearchBox.setText(result.length + result.toString() + " the pop up has been open");
+    //            sRP.setPopupPosition(90, 15);
+                 sRP.center();
+                    _tSearchBox.setText(result.length + " results.");
                          _bsearchButton.setEnabled(true);
      //           showSearchResult(result);
             }
@@ -120,12 +121,12 @@ public class searchPanel extends Composite {
                 _bsearchButton.setEnabled(false);
                 if (searchBy == true) {
                     _tSearchBox.setText ("author");
-                    _tSearchBox.setText("please wait while seatching for "+searchValue+ " by author");
+                    _tSearchBox.setText("searching by author....");
                     //need to change
                     getService().searchByAuthor(searchValue, 0, 10, callback);
                 } else {
                      _tSearchBox.setText ("context");
-                    _tSearchBox.setText("please wait while seatching for "+searchValue+ " by context");
+                    _tSearchBox.setText("searching by context...");
                     getService().searchByContext(searchValue, 0, 10, callback);
                 }
             }
@@ -151,6 +152,7 @@ class DisclosurePanelHeader extends HorizontalPanel {
                 : images.disclosurePanelClosed().createImage());
         add(new HTML(html));
     }
+    
 }
 
 
