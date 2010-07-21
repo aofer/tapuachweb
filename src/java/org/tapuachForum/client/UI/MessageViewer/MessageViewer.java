@@ -34,6 +34,7 @@ import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.RegistrationPanel;
+import org.tapuachForum.client.UI.SearchPanel.searchPanel;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
