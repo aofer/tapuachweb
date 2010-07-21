@@ -8,7 +8,9 @@ package org.tapuachForum.client;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
+import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.SearchHit;
@@ -43,4 +45,8 @@ public interface MyService extends RemoteService {
     public SearchHit[] searchByAuthor(String searchValue, int from, int to);
 
     public SearchHit[] searchByContext(String searchValue, int from, int to);
+
+       public String upgradeUser(String username);
+
+                public  List<Member> getMembers();
 }

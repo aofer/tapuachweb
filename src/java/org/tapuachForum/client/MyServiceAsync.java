@@ -7,7 +7,9 @@ package org.tapuachForum.client;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
+import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.SearchHit;
@@ -40,6 +42,10 @@ public interface MyServiceAsync {
 
     public void searchByContext(String searchValue, int i, int i0, AsyncCallback<SearchHit[]> callback);
 
-     public void onLineUsers(AsyncCallback<Vector<MemberInterface>> asyncCallback);
+   public void onLineUsers(AsyncCallback<Vector<MemberInterface>> asyncCallback);
+
+    public void  getMembers(AsyncCallback<List<Member>> callback);
+
+    public void upgradeUser(String username, AsyncCallback<String> asyncCallback);
 
       }
