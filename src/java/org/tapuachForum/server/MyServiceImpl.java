@@ -24,6 +24,8 @@ import org.tapuachForum.server.Exceptions.WrongPasswordException;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.shared.MemberInterface;
+import org.tapuachForum.shared.Message;
+import org.tapuachForum.shared.MessageData;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -141,17 +143,24 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         return Forum.getInstance().viewForum();
     }
 
-    public Vector<SearchHit> searchByAuthor(String searchValue, int from, int to) {
+    public SearchHit[] searchByAuthor(String searchValue, int from, int to) {
         Forum forum = Forum.getInstance();
         SearchHit[] results = forum.searchByAuthor(searchValue, from, to);
-        return new Vector(Arrays.asList(results));
+    //    return new Vector(Arrays.asList(results));
+//                             Date tDate = new Date();
+//        SearchHit[] sh = new SearchHit[2];
+//           sh[0] = new SearchHit(new Message(new MessageData("first impl","hey there","hey body", tDate, tDate)), 18);
+//           sh[1] = new SearchHit(new Message(new MessageData("second impl l","hey there","hey body", tDate, tDate)), 12);
+//      return sh;
+         return results;
 
     }
 
-    public Vector<SearchHit> searchByContext(String searchValue, int from, int to) {
+    public SearchHit[] searchByContext(String searchValue, int from, int to) {
        Forum forum = Forum.getInstance();
         SearchHit[] results = forum.searchByContent(searchValue, from, to);
-        return new Vector(Arrays.asList(results));
+     //   return new Vector(Arrays.asList(results));
+         return results;
 
     }
 

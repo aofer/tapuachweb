@@ -20,9 +20,12 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import java.util.Date;
 import java.util.Vector;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.shared.Message;
+import org.tapuachForum.shared.MessageData;
 import org.tapuachForum.shared.SearchHit;
 
 
@@ -41,6 +44,7 @@ public class searchPanel extends Composite {
     private HorizontalPanel _hRadiobuttons;
     private VerticalPanel _mainPanel;
     DisclosurePanel _disPanel;
+    private Label _info;
 
     public searchPanel() {
         _lSearch = new Label("search: ");
@@ -51,13 +55,16 @@ public class searchPanel extends Composite {
         _hSearch = new HorizontalPanel();
         _hRadiobuttons = new HorizontalPanel();
         _mainPanel = new VerticalPanel();
+        _info = new Label ("");
         _hSearch.add(_lSearch);
         _hSearch.add(_tSearchBox);
         _hSearch.add(_bsearchButton);
         _hRadiobuttons.add(_byAuther);
         _hRadiobuttons.add(_byContext);
+        _byAuther.setValue(true);
         _mainPanel.add(_hSearch);
         _mainPanel.add(_hRadiobuttons);
+        _mainPanel.add(_info);
 
 
         _disPanel = new DisclosurePanel("Click Here To search");
@@ -79,18 +86,27 @@ public class searchPanel extends Composite {
 
 
         // Create an asynchronous callback to handle the result.
-        final AsyncCallback<Vector<SearchHit>> callback = new AsyncCallback<Vector<SearchHit>>() {
+        final AsyncCallback<SearchHit[]> callback = new AsyncCallback<SearchHit[]>() {
 
-            public void onSuccess(Vector<SearchHit> result) {
-                showSearchResult(result);
+            public void onSuccess(SearchHit[] result) {
+                _tSearchBox.setText("pop up should be open");
+                searchResultsPanel sRP = new searchResultsPanel(result);
+                  sRP.center();
+                    _tSearchBox.setText(result.length + result.toString() + " the pop up has been open");
+                         _bsearchButton.setEnabled(true);
+     //           showSearchResult(result);
             }
 
             public void onFailure(Throwable caught) {
+                     _bsearchButton.setEnabled(true);
+                _tSearchBox.setText("problem "+ caught.getMessage());
                 throw new UnsupportedOperationException("Not supported yet.");
             }
 
-            private void showSearchResult(Vector<SearchHit> result) {
-                throw new UnsupportedOperationException("Not yet implemented");
+            private void showSearchResult(SearchHit[] result) {
+                searchResultsPanel sRP = new searchResultsPanel(result);
+
+           //     throw new UnsupportedOperationException("Not yet implemented");
             }
         };
 
@@ -101,12 +117,15 @@ public class searchPanel extends Composite {
             public void onClick(ClickEvent event) {
                 String searchValue = _tSearchBox.getText();
                 Boolean searchBy = _byAuther.getValue();
+                _bsearchButton.setEnabled(false);
                 if (searchBy == true) {
-                    _tSearchBox.setText("author");
+                    _tSearchBox.setText ("author");
+                    _tSearchBox.setText("please wait while seatching for "+searchValue+ " by author");
                     //need to change
                     getService().searchByAuthor(searchValue, 0, 10, callback);
                 } else {
-                    _tSearchBox.setText("context");
+                     _tSearchBox.setText ("context");
+                    _tSearchBox.setText("please wait while seatching for "+searchValue+ " by context");
                     getService().searchByContext(searchValue, 0, 10, callback);
                 }
             }

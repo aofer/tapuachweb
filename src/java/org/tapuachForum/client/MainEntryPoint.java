@@ -11,13 +11,16 @@ import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.SearchPanel.searchPanel;
+import org.tapuachForum.shared.MemberInterface;
 
 /**
  * Main entry point.
@@ -25,6 +28,7 @@ import org.tapuachForum.client.UI.SearchPanel.searchPanel;
  * @author Liron Katav
  */
 public class MainEntryPoint implements EntryPoint {
+
     /**
      * Creates a new instance of MainEntryPoint
      */
@@ -45,7 +49,7 @@ public class MainEntryPoint implements EntryPoint {
      * that declares an implementing class as an entry-point
      */
     public void onModuleLoad() {
-        LayoutPanel  lp = new LayoutPanel();
+        LayoutPanel lp = new LayoutPanel();
 
         //LOGIN Panel ( number 0)
         LoginPanel l = new LoginPanel();
@@ -54,16 +58,16 @@ public class MainEntryPoint implements EntryPoint {
         lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
 
         //ONline Panel (number 1)
-        OnlinePanel op =new OnlinePanel("Admin,Arseny,bobspong");
+        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
-        lp.setWidgetTopHeight(op,533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
 
         //   SERACH PANEL      (number 2)
-         searchPanel sp = new searchPanel();
+        searchPanel sp = new searchPanel();
         lp.add(sp);
-        lp.setWidgetTopHeight(sp,530, Unit.PX, 80, Unit.PX);
-        lp.setWidgetLeftRight(sp,10, Unit.PX,500, Unit.PX);
+        lp.setWidgetTopHeight(sp, 530, Unit.PX, 80, Unit.PX);
+        lp.setWidgetLeftRight(sp, 10, Unit.PX, 500, Unit.PX);
 
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
@@ -76,26 +80,54 @@ public class MainEntryPoint implements EntryPoint {
 
 
         RootLayoutPanel.get().add(lp);
-             Window.addWindowClosingHandler(new Window.ClosingHandler() {
 
-                    @Override
-                    public void onWindowClosing(ClosingEvent event) {
-                        event.setMessage("WHY??? Why do you go? Can I have a least your phone number?");
+     Window.addWindowClosingHandler(new Window.ClosingHandler() {
 
-                    }
-             });
+            @Override
+            public void onWindowClosing(final ClosingEvent event) {
+                if (ClientUser.getClient().isLogin()) {
+                    event.setMessage(" " + ClientUser.getClient().getNickName()+", you are still login. Please go back and logout.");
+                               } else {
+                    event.setMessage(" bye bye ");
+                }
+            }
+        });
 
-         Window.addCloseHandler(new CloseHandler<Window>() {
+        //        Window.addWindowClosingHandler(new Window.ClosingHandler() {
+//
+//            @Override
+//            public void onWindowClosing(final ClosingEvent event) {
+//                if (ClientUser.getClient().isLogin()) {
+//                    event.setMessage(" please wait whilte logging out " + ClientUser.getClient().getNickName()+" ...");
+//                    getService().logout(ClientUser.getClient().getUserName(), new AsyncCallback<MemberInterface>() {
+//
+//                        public void onFailure(Throwable caught) {
+//                            event.setMessage("user logout was fail. " + caught.getMessage());
+//                        }
+//
+//                        public void onSuccess(MemberInterface result) {
+//                            event.setMessage("user logout was succes. You can Exit now.");
+//                        }
+//                    });
+//                } else {
+//                    event.setMessage(" bye bye ");
+//                }
+//            }
+//        });
 
-                    @Override
-                   public void onClose(CloseEvent<Window> event) {
-                        Window.alert("You have choose to leave Tapuach Forum. Therefore, I will have to FORMAT your harddisk!!  hhhhaaaa!!!");
 
-                    }
-                });
+//        Window.addCloseHandler(new CloseHandler<Window>() {
+//
+//            @Override
+//            public void onClose(CloseEvent<Window> event) {
+//                //           if (ClientUser.getClient().isLogin()) {
+//                //               getService().logout(ClientUser.getClient().getUserName(), callback);
+//                //             }
+//            }
+//        });
 
 
 
-       
+
     }
 }

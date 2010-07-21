@@ -40,7 +40,7 @@ public interface MyService extends RemoteService {
 
      public Vector<MemberInterface> onLineUsers();
 
-    public Vector<SearchHit> searchByAuthor(String searchValue, int from, int to);
+    public SearchHit[] searchByAuthor(String searchValue, int from, int to);
 
-    public Vector<SearchHit> searchByContext(String searchValue, int from, int to);
+    public SearchHit[] searchByContext(String searchValue, int from, int to);
 }

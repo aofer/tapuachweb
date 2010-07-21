@@ -36,9 +36,9 @@ public interface MyServiceAsync {
 
     public void viewForum(AsyncCallback<Vector<MessageInterface>> asyncCallback);
 
-    public void searchByAuthor(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
+    public void searchByAuthor(String searchValue, int i, int i0, AsyncCallback<SearchHit[]> callback);
 
-    public void searchByContext(String searchValue, int i, int i0, AsyncCallback<Vector<SearchHit>> callback);
+    public void searchByContext(String searchValue, int i, int i0, AsyncCallback<SearchHit[]> callback);
 
      public void onLineUsers(AsyncCallback<Vector<MemberInterface>> asyncCallback);
 

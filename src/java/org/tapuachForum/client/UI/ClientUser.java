@@ -98,11 +98,11 @@ public class ClientUser   {
 
     
 
-    public static boolean isLogin(){
+    public boolean isLogin(){
        if (Client == null)
             return false;
         else
-            return true;
+            return Client.isLogin;
     }
  }
 

@@ -32,6 +32,7 @@ import org.tapuachForum.server.DomainLayer.SearchEngine.SearchEngineInterface;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.tapuachForum.shared.MessageData;
 
 /**
  *this class is the main logics of our forum
@@ -253,6 +254,11 @@ public class Forum implements ForumInterface {
      * @return SearchHit[]
      */
     public synchronized SearchHit[] searchByAuthor(String username, int from, int to) {
+//                        Date tDate = new Date();
+//        SearchHit[] sh = new SearchHit[2];
+//           sh[0] = new SearchHit(new Message(new MessageData("first forum","hey there","hey body", tDate, tDate)), 18);
+//           sh[1] = new SearchHit(new Message(new MessageData("second l","hey there","hey body", tDate, tDate)), 12);
+//      return sh;
         return _searchHandler.searchByAuthor(username, from, to);
     }
 

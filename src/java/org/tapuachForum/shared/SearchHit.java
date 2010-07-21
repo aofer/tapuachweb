@@ -1,5 +1,6 @@
 package org.tapuachForum.shared;
 
+import java.io.Serializable;
 import org.tapuachForum.shared.MessageInterface;
 
 /**
@@ -7,10 +8,13 @@ import org.tapuachForum.shared.MessageInterface;
  * 
  * @author Tomer Heber
  */
-public class SearchHit implements Comparable<SearchHit>{
+public class SearchHit implements Comparable<SearchHit>,Serializable{
 	
 	private MessageInterface m_message;
 	private double m_score;
+
+        	public SearchHit() {
+	}
 
 	public SearchHit(MessageInterface message, double score) {
 		m_message = message;

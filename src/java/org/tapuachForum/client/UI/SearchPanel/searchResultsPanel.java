@@ -14,10 +14,15 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
+import java.util.Date;
+import java.util.Vector;
+import org.tapuachForum.shared.Message;
+import org.tapuachForum.shared.MessageData;
 import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.MessageInterface;
 
@@ -25,7 +30,7 @@ import org.tapuachForum.shared.MessageInterface;
  *
  * @author Liron Katav
  */
-public class searchResultsPanel extends Composite {
+public class searchResultsPanel extends PopupPanel {
 
     private static final int pageSize = 10;
     private ScrollPanel _scrollPanelGrid;
@@ -40,7 +45,9 @@ public class searchResultsPanel extends Composite {
     private Button _buttonReturn;
     private int _selectedRowIndex = -1;
 
-    public searchResultsPanel() {
+    public searchResultsPanel(SearchHit[] result) {
+        super(false, true);
+
 
         contentDockPanel = new DockPanel();
         _scrollPanelGrid = new ScrollPanel();
@@ -58,7 +65,10 @@ public class searchResultsPanel extends Composite {
         _buttonNextPage = new Button(">");
         _buttonLastPage = new Button(">>");
 
-        initWidget(contentDockPanel);
+        this.setGlassEnabled(true);
+        this.setWidget(contentDockPanel);
+
+ //       initWidget(contentDockPanel);*************************************************************************************************
         this.setSize("450px", "300px");
 
         _lTitle.setStyleName("titleStyle");
@@ -70,7 +80,7 @@ public class searchResultsPanel extends Composite {
         _resultsTable.getColumnFormatter().setWidth(3, "120px");
         _resultsTable.getColumnFormatter().setWidth(4, "120px");
         _resultsTable.getColumnFormatter().setWidth(5, "70px");
-
+        _resultsTable.setStyleName("blueBack");
         lAuther.setWidth("80px");
         lSubject.setWidth("100px");
         lContext.setWidth("120px");
@@ -83,6 +93,8 @@ public class searchResultsPanel extends Composite {
         _resultsTable.setWidget(0, 4, lDate);
         _resultsTable.setWidget(0, 5, lScore);
         _scrollPanelGrid.add(_resultsTable);
+        _scrollPanelGrid.setStyleName("blueBack");
+           this.setGlassEnabled(true);
         this._resultsTable.addTableListener(new TableListener() {
             public void onCellClicked(SourcesTableEvents sender, int row, int column) {
                 searchResultsPanel.this.cellClicked(row, column);
@@ -161,9 +173,17 @@ public class searchResultsPanel extends Composite {
         contentDockPanel.setCellHeight(_navigationPanel, "26px");
         contentDockPanel.setCellWidth(_navigationPanel, "100%");
         contentDockPanel.setCellVerticalAlignment(_navigationPanel, HasVerticalAlignment.ALIGN_BOTTOM);
+        contentDockPanel.setStyleName("blueBack");
 
-        testing();
-
+    //        SearchHit[] shArray = new SearchHit[result.size()];
+    ///    for  (int i = 0; i <result.size();  i++)
+    //        shArray[i] = result.get(i);
+   //   refreshResultsPanel ( result);
+        Date tDate = new Date();
+        if ((result != null) && (result.length > 0))
+            addMessageToTable(result[0]);
+        else
+            addMessageToTable(new SearchHit(new Message(new MessageData("nick cool","hey there","hey body", tDate, tDate)), 15));
     }
 
     public void refreshResultsPanel(SearchHit[] new_Results) {
@@ -229,7 +249,7 @@ public class searchResultsPanel extends Composite {
     }
 
     private void buttonReturnClicked() {
-        throw new UnsupportedOperationException("Not yet implemented");
+       searchResultsPanel.super.hide();
     }
 
     private void buttonPrevPageClicked() {
