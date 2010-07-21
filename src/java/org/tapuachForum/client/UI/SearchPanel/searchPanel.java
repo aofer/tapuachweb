@@ -46,7 +46,7 @@ public class searchPanel extends Composite {
         _lSearch = new Label("search: ");
         _tSearchBox = new TextBox();
         _bsearchButton = new Button("Go");
-        _byAuther = new RadioButton("RadioButtonGroup", "By Auther");
+        _byAuther = new RadioButton("RadioButtonGroup", "By Author");
         _byContext = new RadioButton("RadioButtonGroup", "By Context");
         _hSearch = new HorizontalPanel();
         _hRadiobuttons = new HorizontalPanel();
@@ -72,8 +72,8 @@ public class searchPanel extends Composite {
             }
         });
         _disPanel.add(_mainPanel);
-        _disPanel.setWidth("250px");
-        _disPanel.setHeight("200px");
+        _disPanel.setWidth("200px");
+        _disPanel.setHeight("100px");
         initWidget(_disPanel);
 
 
@@ -102,7 +102,7 @@ public class searchPanel extends Composite {
                 String searchValue = _tSearchBox.getText();
                 Boolean searchBy = _byAuther.getValue();
                 if (searchBy == true) {
-                    _tSearchBox.setText("auther");
+                    _tSearchBox.setText("author");
                     //need to change
                     getService().searchByAuthor(searchValue, 0, 10, callback);
                 } else {
