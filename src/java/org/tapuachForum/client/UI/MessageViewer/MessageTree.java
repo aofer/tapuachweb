@@ -26,7 +26,38 @@ import org.tapuachForum.shared.MessageInterface;
 public class MessageTree extends Composite {
     private ScrollPanel _mainPanel;
     private Tree _messageTree;
+    private  final int numFromSearch;
+    public MessageTree( int numFromSearchInit){
+        numFromSearch = numFromSearchInit;
+        this._mainPanel = new ScrollPanel();
+        this._mainPanel.setSize("800px", "600px");
+        this._messageTree = new Tree();
+        this._mainPanel.add(this._messageTree);
+        initWidget(this._mainPanel);
+
+        /*
+         * HandlerRegistration registration = supplierReady.addOpenHandler(new
+OpenHandler<SupplierWithDetailsModel>() {
+	public void onOpen(OpenEvent<SupplierWithDetailsModel> event) {
+		registration.removeHandler();
+
+		// do something
+	}
+});
+
+         */
+/*                categoryTree.addTreeListener(new TreeListener() {
+        public void onTreeItemSelected(TreeItem item) {
+        selectedCategory = ((CategoryTreeItem)item).getCategory();
+        updateTasksList();
+        }
+        public void onTreeItemStateChanged(TreeItem item) {
+        }
+        });*/
+        testInit();
+    }
     public MessageTree(){
+        numFromSearch = -18;
         this._mainPanel = new ScrollPanel();
         this._mainPanel.setSize("800px", "600px");
         this._messageTree = new Tree();
@@ -69,11 +100,16 @@ OpenHandler<SupplierWithDetailsModel>() {
         item1.addItem(item2);
         item2.addItem(item3);
     }
-/**
- * used for refreshing the message tree
- * @param messages - the forum messages
- */
-    public void refreshTree(Vector<MessageInterface> messages){
+    public void refreshTreeForSearch(Vector<MessageInterface> messages){
+        for (MessageInterface m : messages){
+            MessageTreeItem tItem = new MessageTreeItem(m);
+            this._messageTree.addItem(tItem);
+            ArrayList<Message> tReplies = m.getReplies();
+            addRepliesForSearch(tReplies, tItem,numFromSearch );
+        }
+    }
+    
+        public void refreshTree(Vector<MessageInterface> messages){
         for (MessageInterface m : messages){
             MessageTreeItem tItem = new MessageTreeItem(m);
             this._messageTree.addItem(tItem);
@@ -81,6 +117,8 @@ OpenHandler<SupplierWithDetailsModel>() {
             addReplies(tReplies, tItem);
         }
     }
+
+
     /**
      * used for adding replies for each message in the tree
      * used by refreshTree
@@ -93,5 +131,20 @@ OpenHandler<SupplierWithDetailsModel>() {
             parent.addItem(tItem);
             addReplies(m.getReplies(),tItem);
         }
+    }
+
+        private boolean addRepliesForSearch(ArrayList<Message> replies, MessageTreeItem parent, int msgNumber) {
+        boolean ans = false;
+        for (MessageInterface m : replies) {
+            MessageTreeItem tItem = new MessageTreeItem(m);
+                  parent.addItem(tItem);
+            if ( addRepliesForSearch(m.getReplies(), tItem, msgNumber))
+                ans = true;
+        }
+                  if ((parent.getMessage().getIndex() == msgNumber) | ans){
+                  ans = true;
+                  parent.setState(true);
+          }
+        return ans;
     }
 }
