@@ -45,7 +45,7 @@ public class MessageTreeItem extends TreeItem {
         _body2 = new TextArea();
         _info = new Label ("");
         this._ReplyButton = new Button("Add reply");
-        this._ReplyButton.setSize("100", "25");
+       // this._ReplyButton.setSize("100", "25");
         this._ModifyButton = new Button("Modify message");
         this._ModifyButton.setEnabled(true);
         this._DeleteButton = new Button("Delete message");
@@ -91,7 +91,7 @@ public class MessageTreeItem extends TreeItem {
                 //      _buttonHPanel.setVisible(false);
 
            //     RootLayoutPanel.get().getWidget(0).setVisible(false);
-             editMessageWindow hr = new editMessageWindow(num, subject, nickName, body);
+             addMessageWindow hr = new addMessageWindow(num, subject,  body);
                 //    RootLayoutPanel.get().add(new editMessageWindow(num, subject, nickName, body));
 
             }
@@ -104,7 +104,7 @@ public class MessageTreeItem extends TreeItem {
                 int num = msg.getIndex();
          //       RootLayoutPanel.get().getWidget(0).setVisible(false);
               //  RootLayoutPanel.get().add(new replayMessageWindow(num));
-              replyMessageWindow aw =new replyMessageWindow(num,msg.getSubject());
+              addMessageWindow aw =new addMessageWindow(num);
             }
         });
 
@@ -115,7 +115,7 @@ public class MessageTreeItem extends TreeItem {
                 LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
                 lp.remove(3);
                 MessageViewer m = new MessageViewer();
-                m.setSize("1024 px", "300 px");
+                m.setSize("1024 px", "270 px");
                 ScrollPanel s = new ScrollPanel(m);
                 s.setHeight("430px");
                 m.setStyleName("messageviewer");
