@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import org.tapuachForum.shared.MessageData;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
@@ -23,13 +24,19 @@ public class MessageTree extends Composite {
     private HorizontalPanel _mainPanel;
     private Tree _messageTree;
     private final int numFromSearch;
+    private ScrollPanel scP;
+
 
     public MessageTree(int numFromSearchInit) {
+
         numFromSearch = numFromSearchInit;
         this._mainPanel = new HorizontalPanel();
-        this._mainPanel.setSize("1024px", "300px");
+        this.setHeight("270px");
+        this._mainPanel.setSize("1000px", "270px");
         this._messageTree = new Tree();
-        this._mainPanel.add(this._messageTree);
+        this.scP = new ScrollPanel(this._messageTree);
+        this.scP.setHeight( "270px");
+        this._mainPanel.add(this.scP);
         initWidget(this._mainPanel);
 
         /*
@@ -57,7 +64,7 @@ public class MessageTree extends Composite {
     public MessageTree() {
         numFromSearch = -18;
         this._mainPanel = new HorizontalPanel();
-        this._mainPanel.setSize("800px", "600px");
+        this._mainPanel.setSize("980x", "270px");
         this._messageTree = new Tree();
         this._mainPanel.add(this._messageTree);
         initWidget(this._mainPanel);

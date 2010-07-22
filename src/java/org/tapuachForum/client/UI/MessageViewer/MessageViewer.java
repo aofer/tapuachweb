@@ -34,9 +34,10 @@ import org.tapuachForum.shared.eMemberType;
 public class MessageViewer extends Composite {
     //fields
 
-    final private int pageSize = 4;
+    final private int pageSize = 3;
     private VerticalPanel _mainPanel;
     private HorizontalPanel _toolbar;
+        private HorizontalPanel _treebar;
     private Button _addMessageButton;
     private Button _refreshButton;
     private Button _NextButton;
@@ -57,6 +58,7 @@ public class MessageViewer extends Composite {
         msgVector = null;
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
+        _treebar   = new HorizontalPanel();
         _addMessageButton = new Button("Add message");
         if (ClientUser.getClient() == null) {
             ClientUser.setClient();
@@ -69,13 +71,18 @@ public class MessageViewer extends Composite {
 //        _registrationButton = new Button("Registration");
         _NextButton = new Button("Next");
         _PrevButton = new Button("Prev");
+        _refreshButton.setEnabled(false);
+         _NextButton.setEnabled(false);
+          _PrevButton .setEnabled(false);
           _indexInfo = new Label ("");
         _MessageTree = new MessageTree();
         _info = new Label("");
-        _mainPanel.add(_info);
         _mainPanel.add(_toolbar);
+        _mainPanel.add(_info);
     //    _toolbar.setVisible(false);
         scrollPan = new ScrollPanel(_MessageTree);
+    //    _treebar.add(scrollPan);
+        scrollPan.setSize("980 px", "270 px");
         _mainPanel.add(scrollPan);
 
 
@@ -103,15 +110,17 @@ public class MessageViewer extends Composite {
                 indexOfPages = 0;
                 numberOfPages = (result.size() / pageSize);
                 restOfPages = result.size() % pageSize;
+                _refreshButton.setEnabled(false);
                 _PrevButton.setEnabled(false);
                 if (indexOfPages < numberOfPages) {
                     _NextButton.setEnabled(true);
                 } else {
                     _NextButton.setEnabled(false);
                 }
-//                if (restOfPages == 0) {
-  //                  numberOfPages++;
- //               }
+                if (restOfPages == 0) {
+                    numberOfPages--;
+                    restOfPages= pageSize;
+                }
                 if (numberOfPages >= 1) {
                     getMessageTree().refreshTreeByIndex(result, 0, pageSize);
                 } else {
@@ -119,8 +128,8 @@ public class MessageViewer extends Composite {
                 }
                 _info.setText("");
                 _toolbar.setVisible(true);
-                    _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
- 
+                //    _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
+                     _indexInfo.setText(" "+(indexOfPages+1)+"/"+(numberOfPages+1));
 
             }
 
@@ -219,7 +228,8 @@ public class MessageViewer extends Composite {
             getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages * pageSize) + restOfPages);
         }
     //  getMessageTree().setVisible(true);
-      _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
+    //  _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
+        _indexInfo.setText(" "+(indexOfPages+1)+"/"+(numberOfPages+1));
      }
 
 

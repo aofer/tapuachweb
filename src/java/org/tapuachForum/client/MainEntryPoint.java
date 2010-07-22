@@ -71,9 +71,9 @@ public class MainEntryPoint implements EntryPoint {
 
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
-        m.setSize("1024 px", "300 px");
+        m.setSize("980 px", "270 px");
  //       ScrollPanel s = new ScrollPanel(m);
-        m.setHeight("425px");
+        m.setHeight("270px");
        lp.add(m);
         lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
@@ -90,7 +90,7 @@ public class MainEntryPoint implements EntryPoint {
                 if (ClientUser.getClient().isLogin()) {
                     event.setMessage(" " + ClientUser.getClient().getNickName()+", you are still login. Please go back and logout.");
                                } else {
-                    event.setMessage(" bye bye ");
+      //              event.setMessage(" bye bye ");
                 }
             }
         });

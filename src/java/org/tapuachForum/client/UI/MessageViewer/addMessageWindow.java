@@ -93,11 +93,12 @@ public class addMessageWindow extends PopupPanel {
 
     public addMessageWindow(int messageId, String subject, String body) {
         super(false, true);
+        initComponents();
         _parentId = 0;
         _messageId = messageId;
         this._TBSubject.setText(subject);
         this._TABody.setText(body);
-        initComponents();
+        
         this._BSave.addClickHandler(editHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
