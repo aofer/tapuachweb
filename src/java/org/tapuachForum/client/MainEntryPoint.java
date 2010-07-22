@@ -72,10 +72,10 @@ public class MainEntryPoint implements EntryPoint {
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
         m.setSize("1024 px", "300 px");
-        ScrollPanel s = new ScrollPanel(m);
-        s.setHeight("430px");
-        lp.add(s);
-        lp.setWidgetTopHeight(s, 100, Unit.PX, 430, Unit.PX);
+ //       ScrollPanel s = new ScrollPanel(m);
+        m.setHeight("425px");
+       lp.add(m);
+        lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
 
 
