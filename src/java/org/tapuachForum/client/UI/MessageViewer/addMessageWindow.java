@@ -5,7 +5,6 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.BorderStyle;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -14,6 +13,7 @@ import com.google.gwt.user.client.ui.*;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
+import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 
 /**
  *
@@ -40,7 +40,6 @@ public class addMessageWindow extends PopupPanel {
         _mainPanel.setAction("/myFormHandler");
         _mainPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
         _mainPanel.setMethod(FormPanel.METHOD_POST);
-
         _holder = new VerticalPanel();
         _holder.setStyleName("blueBack");
         _mainPanel.setWidget(_holder);
@@ -53,7 +52,6 @@ public class addMessageWindow extends PopupPanel {
         _TABody = new TextArea();
         _TABody.setWidth("500px");
         _TABody.setHeight("200px");
-
         lResult = new Label("Please enter the messege details or press cancel to go back to the Forum");
         _BSave = new Button("Save");
         _Bcancel = new Button("cancel");
@@ -63,7 +61,6 @@ public class addMessageWindow extends PopupPanel {
         _holder.add(_TBSubject);
         _holder.add(_LBody);
         _holder.add(_TABody);
-
         _buttonsPanel.add(_BSave);
         _buttonsPanel.add(_Bcancel);
         _holder.add(_buttonsPanel);
@@ -88,7 +85,6 @@ public class addMessageWindow extends PopupPanel {
         _messageId = 0;
         this._BSave.addClickHandler(replyHandler);
         _Bcancel.addClickHandler(cancelHandler);
-
     }
 
     public addMessageWindow(int messageId, String subject, String body) {
@@ -98,16 +94,12 @@ public class addMessageWindow extends PopupPanel {
         _messageId = messageId;
         this._TBSubject.setText(subject);
         this._TABody.setText(body);
-        
         this._BSave.addClickHandler(editHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
     private ClickHandler cancelHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
-            //     _holder.setVisible(false);
-            //RootLayoutPanel.get().remove(1);
-            //RootLayoutPanel.get().getWidget(0).setVisible(true);
             addMessageWindow.super.hide();
         }
     };
@@ -120,7 +112,6 @@ public class addMessageWindow extends PopupPanel {
             String body = _TABody.getText();
             lResult.setStyleName("panel");
             lResult.setText("please wait while the server updating  the message.");
-
             getService().editMessage(ClientUser.getClient().getNickName(), _messageId, subject, body, editCallback);
             addMessageWindow.super.hide();
         }
@@ -135,11 +126,7 @@ public class addMessageWindow extends PopupPanel {
             String _nickName = ClientUser.getClient().getNickName();
             lResult.setStyleName("panel");
             lResult.setText("please wait while the server adding your message.");
-            //getService().myMethod("test", callback);
             getService().addMessage(_nickName, subject, body, callback);
-            //        addMessageWindow.super.hide();
-
-
         }
     };
     private ClickHandler replyHandler = new ClickHandler() {
@@ -152,10 +139,7 @@ public class addMessageWindow extends PopupPanel {
             String nickName = ClientUser.getClient().getNickName();
             lResult.setStyleName("panel");
             lResult.setText("please wait while the server adding your message");
-            //getService().myMethod("test", callback);
             getService().addReply(_parentId, nickName, subject, body, replyCallback);
-            //    replyMessageWindow.super.hide();
-
         }
     };
 
@@ -167,25 +151,26 @@ public class addMessageWindow extends PopupPanel {
         public void onSuccess(Integer result) {
             addMessageWindow.super.hide();
             LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+            lp.remove(2);
             lp.remove(3);
+            //ONline Panel (number 2)
+            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+            lp.add(op);
+            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+            //  MESSAGES panerl  (number 3)
             MessageViewer m = new MessageViewer();
-            m.setSize("1024 px", "300 px");
-            ScrollPanel s = new ScrollPanel(m);
-            s.setHeight("430px");
+            m.setSize("980 px", "320 px");
+            m.setHeight("320px");
+            lp.add(m);
+            lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
             m.setStyleName("messageviewer");
-            lp.add(s);
-            lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
         }
 
         public void onFailure(Throwable caught) {
             _Bcancel.setEnabled(true);
             _Bcancel.setText("Go Back");
-            //           lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
             lResult.setText("There was a problem to add the message. Please REFRESH the forum and try again.");
-
-            //         RootLayoutPanel.get().remove(1);
-            //          RootLayoutPanel.get().getWidget(0).setVisible(true);
-
         }
     };
     final AsyncCallback<String> replyCallback = new AsyncCallback<String>() {
@@ -193,14 +178,20 @@ public class addMessageWindow extends PopupPanel {
         public void onSuccess(String result) {
             addMessageWindow.super.hide();
             LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+            lp.remove(2);
             lp.remove(3);
+            //ONline Panel (number 2)
+            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+            lp.add(op);
+            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+            //  MESSAGES panerl  (number 3)
             MessageViewer m = new MessageViewer();
-            m.setSize("1024 px", "300 px");
-            ScrollPanel s = new ScrollPanel(m);
-            s.setHeight("430px");
+            m.setSize("980 px", "320 px");
+            m.setHeight("320px");
+            lp.add(m);
+            lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
             m.setStyleName("messageviewer");
-            lp.add(s);
-            lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
         }
 
         public void onFailure(Throwable caught) {
@@ -216,20 +207,25 @@ public class addMessageWindow extends PopupPanel {
         public void onSuccess(String result) {
             addMessageWindow.super.hide();
             LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+            lp.remove(2);
             lp.remove(3);
+            //ONline Panel (number 2)
+            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+            lp.add(op);
+            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+            //  MESSAGES panerl  (number 3)
             MessageViewer m = new MessageViewer();
-            m.setSize("1024 px", "300 px");
-            ScrollPanel s = new ScrollPanel(m);
-            s.setHeight("430px");
+            m.setSize("980 px", "320 px");
+            m.setHeight("320px");
+            lp.add(m);
+            lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
             m.setStyleName("messageviewer");
-            lp.add(s);
-            lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
         }
 
         public void onFailure(Throwable caught) {
             _Bcancel.setEnabled(true);
             _Bcancel.setText("Go Back");
-            //           lResult.setText("PROBLEM!! the problem is" +  caught.getMessage());
             lResult.setText("There was a problem to edit the message. Please REFRESH the forum and try again.");
 
         }

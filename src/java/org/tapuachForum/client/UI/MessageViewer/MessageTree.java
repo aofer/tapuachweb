@@ -24,71 +24,26 @@ public class MessageTree extends Composite {
     private HorizontalPanel _mainPanel;
     private Tree _messageTree;
     private final int numFromSearch;
-    private ScrollPanel scP;
-
 
     public MessageTree(int numFromSearchInit) {
 
         numFromSearch = numFromSearchInit;
-        this._mainPanel = new HorizontalPanel();
-        this.setHeight("270px");
-        this._mainPanel.setSize("1000px", "270px");
+              this._mainPanel = new HorizontalPanel();
+        this._mainPanel.setSize("980x", "320px");
         this._messageTree = new Tree();
-        this.scP = new ScrollPanel(this._messageTree);
-        this.scP.setHeight( "270px");
-        this._mainPanel.add(this.scP);
+        this._mainPanel.add(this._messageTree);
         initWidget(this._mainPanel);
-
-        /*
-         * HandlerRegistration registration = supplierReady.addOpenHandler(new
-        OpenHandler<SupplierWithDetailsModel>() {
-        public void onOpen(OpenEvent<SupplierWithDetailsModel> event) {
-        registration.removeHandler();
-
-        // do something
-        }
-        });
-
-         */
-        /*                categoryTree.addTreeListener(new TreeListener() {
-        public void onTreeItemSelected(TreeItem item) {
-        selectedCategory = ((CategoryTreeItem)item).getCategory();
-        updateTasksList();
-        }
-        public void onTreeItemStateChanged(TreeItem item) {
-        }
-        });*/
-        testInit();
+//        testInit();
     }
 
     public MessageTree() {
         numFromSearch = -18;
         this._mainPanel = new HorizontalPanel();
-        this._mainPanel.setSize("980x", "270px");
+        this._mainPanel.setSize("980x", "320px");
         this._messageTree = new Tree();
         this._mainPanel.add(this._messageTree);
         initWidget(this._mainPanel);
-
-        /*
-         * HandlerRegistration registration = supplierReady.addOpenHandler(new
-        OpenHandler<SupplierWithDetailsModel>() {
-        public void onOpen(OpenEvent<SupplierWithDetailsModel> event) {
-        registration.removeHandler();
-
-        // do something
-        }
-        });
-
-         */
-        /*                categoryTree.addTreeListener(new TreeListener() {
-        public void onTreeItemSelected(TreeItem item) {
-        selectedCategory = ((CategoryTreeItem)item).getCategory();
-        updateTasksList();
-        }
-        public void onTreeItemStateChanged(TreeItem item) {
-        }
-        });*/
-        testInit();
+ //       testInit();
     }
 
     public void testInit() {
@@ -163,4 +118,38 @@ public class MessageTree extends Composite {
             addReplies(tReplies, tItem);
         }
     }
+
+        void refreshTreeByIndexAfterSearch(Vector<MessageInterface> result, int start, int stop,int indexToOpen) {
+        _messageTree.removeItems();
+        for (int i = start; i < stop; i++) {
+            MessageTreeItem tItem = new MessageTreeItem(result.get(i));
+            this._messageTree.addItem(tItem);
+            ArrayList<Message> tReplies = result.get(i).getReplies();
+            addRepliesForSearch(tReplies, tItem,indexToOpen);
+          //   addReplies(tReplies, tItem);
+        }
+    }
+
+        private boolean getIndexOfSuperIndex(ArrayList<Message> replies,  int msgIndex) {
+        for (MessageInterface m : replies) {
+             if (m.getIndex() == msgIndex)
+                return true;
+             if (getIndexOfSuperIndex(m.getReplies(),  msgIndex))
+                return true;
+        }
+        return false;
+        }
+
+        public int findIndex(Vector<MessageInterface> messages, int indexTofind) {
+        for (int i = 0; i < messages.size(); i++){
+            if (messages.get(i).getIndex() == indexTofind)
+                return i;
+            ArrayList<Message> tReplies = messages.get(i).getReplies();
+            if (getIndexOfSuperIndex(tReplies,indexTofind))
+                return i;
+        }
+        return 2;
+        }
+
+
 }
