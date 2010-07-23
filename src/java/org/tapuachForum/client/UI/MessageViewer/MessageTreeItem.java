@@ -14,13 +14,13 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
+import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -43,9 +43,9 @@ public class MessageTreeItem extends TreeItem {
         _buttonHPanel = new HorizontalPanel();
         _body = new TextBox();
         _body2 = new TextArea();
-        _info = new Label ("");
+        _info = new Label("");
         this._ReplyButton = new Button("Add reply");
-       // this._ReplyButton.setSize("100", "25");
+        // this._ReplyButton.setSize("100", "25");
         this._ModifyButton = new Button("Modify message");
         this._ModifyButton.setEnabled(true);
         this._DeleteButton = new Button("Delete message");
@@ -76,7 +76,6 @@ public class MessageTreeItem extends TreeItem {
             Label dateLabel = new Label("The message was modified on " + msg.getModifiedDate().toString());
             addItem(dateLabel);
         }
-//        addItem(_body);
         addItem(_body2);
         addItem(_buttonHPanel);
 
@@ -87,67 +86,52 @@ public class MessageTreeItem extends TreeItem {
                 String subject = msg.getSubject();
                 String nickName = msg.getNickname();
                 String body = msg.getBody();
-                //      _body2.setVisible(false);
-                //      _buttonHPanel.setVisible(false);
-
-           //     RootLayoutPanel.get().getWidget(0).setVisible(false);
-             addMessageWindow hr = new addMessageWindow(num, subject,  body);
-                //    RootLayoutPanel.get().add(new editMessageWindow(num, subject, nickName, body));
-
+                addMessageWindow hr = new addMessageWindow(num, subject, body);
             }
         });
-
-
         _ReplyButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 int num = msg.getIndex();
-         //       RootLayoutPanel.get().getWidget(0).setVisible(false);
-              //  RootLayoutPanel.get().add(new replayMessageWindow(num));
-              addMessageWindow aw =new addMessageWindow(num);
+                addMessageWindow aw = new addMessageWindow(num);
             }
         });
-
         final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
             public void onSuccess(String result) {
                 if (result.equals("good")) {
-                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(3);
-                MessageViewer m = new MessageViewer();
-                m.setSize("1024 px", "270 px");
-                ScrollPanel s = new ScrollPanel(m);
-                s.setHeight("430px");
-                m.setStyleName("messageviewer");
-                lp.add(s);
-                lp.setWidgetTopHeight(s, 130, Unit.PX, 450, Unit.PX);
-            }
-
+                    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                    lp.remove(2);
+                    lp.remove(3);
+                    //ONline Panel (number 2)
+                    OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+                    lp.add(op);
+                    lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+                    lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+                    //  MESSAGES panerl  (number 3)
+                    MessageViewer m = new MessageViewer();
+                    m.setSize("980 px", "320 px");
+                    m.setHeight("320px");
+                    lp.add(m);
+                    lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
+                    m.setStyleName("messageviewer");
+                }
             }
 
             public void onFailure(Throwable caught) {
                 _info.setText("There was a problem to delete a message. Please REFRESH the forum and try again.");
-
-                // lResult.setText("Communication failed");
-                //       lResult.setStyleName("redResutl") ;
-
-
             }
         };
-
         _DeleteButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
-           _info.setText("Please wait while the message is been delete....");
+                _info.setText("Please wait while the message is been delete....");
                 _DeleteButton.setEnabled(false);
                 _ReplyButton.setEnabled(false);
                 _ModifyButton.setEnabled(false);
                 getService().deleteMessage(msg.getIndex(), callback);
-
             }
         });
-
-
     }
 
     public MessageInterface getMessage() {
@@ -155,10 +139,6 @@ public class MessageTreeItem extends TreeItem {
     }
 
     public static MyServiceAsync getService() {
-        // Create the client proxy. Note that although you are creating the
-        // service interface proper, you cast the result to the asynchronous
-        // version of the interface. The cast is always safe because the
-        // generated proxy implements the asynchronous interface automatically.
         return GWT.create(MyService.class);
     }
 }
