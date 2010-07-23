@@ -20,14 +20,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import java.util.Date;
-import java.util.Vector;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
-import org.tapuachForum.shared.Message;
-import org.tapuachForum.shared.MessageData;
 import org.tapuachForum.shared.SearchHit;
-
 
 /**
  *
@@ -36,7 +31,11 @@ import org.tapuachForum.shared.SearchHit;
 public class searchPanel extends Composite {
 
     private Label _lSearch;
+    private Label _lFrom;
+    private Label _lTo;
     private TextBox _tSearchBox;
+    private TextBox _tFrom;
+    private TextBox _tTo;
     private Button _bsearchButton;
     private RadioButton _byAuther;
     private RadioButton _byContext;
@@ -49,15 +48,25 @@ public class searchPanel extends Composite {
     public searchPanel() {
         _lSearch = new Label("search: ");
         _tSearchBox = new TextBox();
+        _lFrom = new Label("from ");
+        _lTo = new Label("to ");
+        _tFrom = new TextBox();
+        _tTo = new TextBox();
+        _tFrom.setWidth("20px");
+        _tTo.setWidth("20px");
         _bsearchButton = new Button("Go");
         _byAuther = new RadioButton("RadioButtonGroup", "By Author");
         _byContext = new RadioButton("RadioButtonGroup", "By Context");
         _hSearch = new HorizontalPanel();
         _hRadiobuttons = new HorizontalPanel();
         _mainPanel = new VerticalPanel();
-        _info = new Label ("");
+        _info = new Label("");
         _hSearch.add(_lSearch);
         _hSearch.add(_tSearchBox);
+        _hSearch.add(_lFrom);
+        _hSearch.add(_tFrom);
+        _hSearch.add(_lTo);
+        _hSearch.add(_tTo);
         _hSearch.add(_bsearchButton);
         _hRadiobuttons.add(_byAuther);
         _hRadiobuttons.add(_byContext);
@@ -65,8 +74,6 @@ public class searchPanel extends Composite {
         _mainPanel.add(_hSearch);
         _mainPanel.add(_hRadiobuttons);
         _mainPanel.add(_info);
-
-
         _disPanel = new DisclosurePanel("Click Here To search");
         _disPanel.addEventHandler(new DisclosureHandler() {
 
@@ -79,66 +86,64 @@ public class searchPanel extends Composite {
             }
         });
         _disPanel.add(_mainPanel);
-        _disPanel.setWidth("200px");
+        _disPanel.setWidth("350px");
         _disPanel.setHeight("100px");
         initWidget(_disPanel);
-
-
-
-        // Create an asynchronous callback to handle the result.
         final AsyncCallback<SearchHit[]> callback = new AsyncCallback<SearchHit[]>() {
 
             public void onSuccess(SearchHit[] result) {
                 _tSearchBox.setText("pop up should be open");
-                searchResultsPanel sRP = new searchResultsPanel(result);
-    //            sRP.setPopupPosition(90, 15);
-                 sRP.center();
-                    _tSearchBox.setText(result.length + " results.");
-                         _bsearchButton.setEnabled(true);
-     //           showSearchResult(result);
+                if (result.length != 0) {
+                    searchResultsPanel sRP = new searchResultsPanel(result);
+                    sRP.center();
+                }
+                _tSearchBox.setText(result.length + " results.");
+                _bsearchButton.setEnabled(true);
             }
 
             public void onFailure(Throwable caught) {
-                     _bsearchButton.setEnabled(true);
-                _tSearchBox.setText("problem "+ caught.getMessage());
-                throw new UnsupportedOperationException("Not supported yet.");
+                _bsearchButton.setEnabled(true);
+                 _tSearchBox.setText("please try again");
+                //_tSearchBox.setText("problem " + caught.getMessage());
             }
 
             private void showSearchResult(SearchHit[] result) {
                 searchResultsPanel sRP = new searchResultsPanel(result);
-
-           //     throw new UnsupportedOperationException("Not yet implemented");
             }
         };
-
         _bsearchButton.addClickHandler(new ClickHandler() {
-            // Make remote call. Control flow will continue immediately and later
-            // 'callback' will be invoked when the RPC completes.
 
             public void onClick(ClickEvent event) {
                 String searchValue = _tSearchBox.getText();
                 Boolean searchBy = _byAuther.getValue();
+                int from;
+                int to;
+                if (_tFrom.getText().compareTo("") == 0) {
+            from = 0;
+        } else {
+            from = Integer.parseInt(_tFrom.getText());
+        }
+                          if (_tTo.getText().compareTo("") == 0) {
+            to = 0;
+        } else {
+            to = Integer.parseInt(_tTo.getText());
+        }
                 _bsearchButton.setEnabled(false);
                 if (searchBy == true) {
-                    _tSearchBox.setText ("author");
+                    _tSearchBox.setText("author");
                     _tSearchBox.setText("searching by author....");
                     //need to change
-                    getService().searchByAuthor(searchValue, 0, 10, callback);
+                    getService().searchByAuthor(searchValue, from, to, callback);
                 } else {
-                     _tSearchBox.setText ("context");
+                    _tSearchBox.setText("context");
                     _tSearchBox.setText("searching by context...");
-                    getService().searchByContext(searchValue, 0, 10, callback);
+                    getService().searchByContext(searchValue, from, to, callback);
                 }
             }
         });
-
     }
 
     public static MyServiceAsync getService() {
-        // Create the client proxy. Note that although you are creating the
-        // service interface proper, you cast the result to the asynchronous
-        // version of the interface. The cast is always safe because the
-        // generated proxy implements the asynchronous interface automatically.
         return GWT.create(MyService.class);
     }
 }
@@ -152,7 +157,6 @@ class DisclosurePanelHeader extends HorizontalPanel {
                 : images.disclosurePanelClosed().createImage());
         add(new HTML(html));
     }
-    
 }
 
 

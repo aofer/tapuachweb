@@ -25,6 +25,7 @@ import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.AdminPanel;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
+import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberData;
@@ -36,6 +37,7 @@ import org.tapuachForum.shared.eMemberType;
  * @author Arseny
  */
 public class LoginPanel extends Composite {
+
     private VerticalPanel _mainPanel;
     private HorizontalPanel _userp;
     private HorizontalPanel _passp;
@@ -51,6 +53,7 @@ public class LoginPanel extends Composite {
     private Button _administer;
     private boolean userIsOnline;
     private String userName;
+
     public LoginPanel() {
         userIsOnline = false;
         _mainPanel = new VerticalPanel();
@@ -103,19 +106,24 @@ public class LoginPanel extends Composite {
                         _buttp.add(_logout);
                         //_buttp.add(_administer);
                         _logout.setEnabled(true);
-                        if(userName.compareTo("admin") ==0  ){   _buttp.add(_administer);}
-                                        LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(3);
-                MessageViewer m = new MessageViewer();
-                m.setSize("1024 px", "300 px");
-                ScrollPanel s = new ScrollPanel(m);
-                s.setHeight("430px");
-                m.setStyleName("messageviewer");
-                lp.add(s);
-                lp.setWidgetTopHeight(s, 100, Unit.PX, 450, Unit.PX);
-
-
-
+                        if (userName.compareTo("admin") == 0) {
+                            _buttp.add(_administer);
+                        }
+                        LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                        lp.remove(3);
+                        lp.remove(2);
+                        //ONline Panel (number 2)
+                        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+                        lp.add(op);
+                        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+                        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+                        //  MESSAGES panerl  (number 3)
+                        MessageViewer m = new MessageViewer();
+                        m.setSize("980 px", "320 px");
+                        m.setHeight("320px");
+                        lp.add(m);
+                        lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
+                        m.setStyleName("messageviewer");
                     } else {
                         //      _buttp.remove(_info);
                         userName = "bob";
@@ -136,20 +144,26 @@ public class LoginPanel extends Composite {
                     _passp.add(_pass);
                     _buttp.add(_login);
                     _buttp.add(_reg);
-                    _info.setText(userName+ " is logged out.");
+                    _info.setText(userName + " is logged out.");
                     _buttp.add(_info);
-                                            _login.setEnabled(true);
-                        _reg.setEnabled(true);
+                    _login.setEnabled(true);
+                    _reg.setEnabled(true);
                     userIsOnline = false;
-                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(3);
-                MessageViewer m = new MessageViewer();
-                m.setSize("1024 px", "300 px");
-                ScrollPanel s = new ScrollPanel(m);
-                s.setHeight("430px");
-                m.setStyleName("messageviewer");
-                lp.add(s);
-                lp.setWidgetTopHeight(s, 100, Unit.PX, 450, Unit.PX);
+                    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+                    lp.remove(2);
+                    lp.remove(3);
+                    //ONline Panel (number 2)
+                    OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+                    lp.add(op);
+                    lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+                    lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+                    //  MESSAGES panerl  (number 3)
+                    MessageViewer m = new MessageViewer();
+                    m.setSize("980 px", "320 px");
+                    m.setHeight("320px");
+                    lp.add(m);
+                    lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
+                    m.setStyleName("messageviewer");
                 }
             }
 
@@ -157,7 +171,7 @@ public class LoginPanel extends Composite {
                 if (!userIsOnline) {
                     _login.setEnabled(true);
                     _reg.setEnabled(true);
-                     _info.setText(" Problem with login. Please try again.");
+                    _info.setText(" Problem with login. Please try again.");
                 } else {
                     _logout.setEnabled(true);
                     _info.setText(" Problem with logout. Please try again.");
@@ -185,7 +199,7 @@ public class LoginPanel extends Composite {
         });
         _logout.addClickHandler(new ClickHandler() {
 
-           public void onClick(ClickEvent event) {
+            public void onClick(ClickEvent event) {
                 _logout.setEnabled(false);
                 _info.setText("  Please wait while disconnecting...");
                 //         _buttp.add(_info);
@@ -208,12 +222,12 @@ public class LoginPanel extends Composite {
         });
 
         _administer.addClickHandler(new ClickHandler() {
-                   public void onClick(ClickEvent event) {
-                        AdminPanel ap = new AdminPanel((""));
-                        ap.center();
-                   }
 
-   });
+            public void onClick(ClickEvent event) {
+                AdminPanel ap = new AdminPanel((""));
+                ap.center();
+            }
+        });
         // Listen for the button clicks
         this.setStyleName("loginpanel");
         this.setWidth("230px");
