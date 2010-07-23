@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
+import org.tapuachForum.client.UI.MessageViewer.AfterSearch;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.SearchPanel.searchPanel;
@@ -36,11 +37,6 @@ public class MainEntryPoint implements EntryPoint {
     }
 
     public static MyServiceAsync getService() {
-        // Create the client proxy. Note that although you are creating the
-        // service interface proper, you cast the result to the asynchronous
-        // version of the interface. The cast is always safe because the
-        // generated proxy implements the asynchronous interface automatically.
-
         return GWT.create(MyService.class);
     }
 
@@ -57,23 +53,24 @@ public class MainEntryPoint implements EntryPoint {
         lp.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
         lp.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
 
-        //ONline Panel (number 1)
+
+        //   SERACH PANEL      (number 1)
+        searchPanel sp = new searchPanel();
+        lp.add(sp);
+        lp.setWidgetTopHeight(sp, 533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetLeftRight(sp, 10, Unit.PX, 500, Unit.PX);
+
+        //ONline Panel (number 2)
         OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
         lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
 
-        //   SERACH PANEL      (number 2)
-        searchPanel sp = new searchPanel();
-        lp.add(sp);
-        lp.setWidgetTopHeight(sp, 530, Unit.PX, 80, Unit.PX);
-        lp.setWidgetLeftRight(sp, 10, Unit.PX, 500, Unit.PX);
-
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
-        m.setSize("980 px", "270 px");
+        m.setSize("980 px", "320 px");
  //       ScrollPanel s = new ScrollPanel(m);
-        m.setHeight("270px");
+        m.setHeight("320px");
        lp.add(m);
         lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
