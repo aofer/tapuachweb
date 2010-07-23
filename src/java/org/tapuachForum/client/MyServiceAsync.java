@@ -20,7 +20,6 @@ import org.tapuachForum.shared.SearchHit;
  */
 public interface MyServiceAsync {
 
-    public void myMethod(String s, AsyncCallback<String> callback);
 
     public void register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate, AsyncCallback<String> callback);
 

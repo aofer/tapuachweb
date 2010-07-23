@@ -22,7 +22,6 @@ import org.tapuachForum.shared.SearchHit;
 @RemoteServiceRelativePath("myservice")
 public interface MyService extends RemoteService {
 
-    public String myMethod(String s);
 
     public String  register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate);
 

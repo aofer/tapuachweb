@@ -11,15 +11,17 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.Vector;
+import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.shared.MemberInterface;
 
 /**
  *
  * @author Arseny
  */
-public class OnlinePanel extends Composite {
+public class OnlinePanel extends Pane {
 
     private VerticalPanel _mainPanel;
     private Label _l;
@@ -46,6 +48,7 @@ public class OnlinePanel extends Composite {
     public void refreshUsers() {
         getService().onLineUsers(new AsyncCallback<Vector<MemberInterface>>() {
             public void onSuccess(Vector<MemberInterface> result) {
+                _l.setText("");
                 String tUsers = "Online users:";
                 for (MemberInterface m : result) {
                     tUsers  = tUsers + m.getNickName() + " , ";
@@ -54,6 +57,7 @@ public class OnlinePanel extends Composite {
                    tUsers = tUsers.substring(0, tUsers.length() - 3);
                 }
                 _l.setText(tUsers);
+                OnlinePanel.this._listeners.fireEvent(new ChangeStatusEvent(OnlinePanel.this, "done"));
             }
 
             public void onFailure(Throwable caught) {
