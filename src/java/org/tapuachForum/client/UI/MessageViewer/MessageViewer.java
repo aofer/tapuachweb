@@ -5,7 +5,6 @@
 package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,19 +12,14 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.Vector;
-import org.tapuachForum.client.Events.ApplicationEventListener;
-import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
-import org.tapuachForum.client.Events.ApplicationEventSource;
-import org.tapuachForum.client.Events.RefreshEvent;
+import org.tapuachForum.client.Events.*;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
-import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
+import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -33,7 +27,7 @@ import org.tapuachForum.shared.eMemberType;
  *
  * @author amit ofer
  */
-public class MessageViewer extends Composite implements ApplicationEventSource {
+public class MessageViewer extends Pane {
     //fields
 
     final private int pageSize = 3;
@@ -51,11 +45,10 @@ public class MessageViewer extends Composite implements ApplicationEventSource {
     public int numberOfPages;
     private int restOfPages;
     private Vector<MessageInterface> msgVector;
-    private ApplicationEventListenerCollection _listeners;
 
     public MessageViewer() {
+        super();
         msgVector = null;
-        _listeners = new ApplicationEventListenerCollection();
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
         _treebar = new HorizontalPanel();
@@ -179,6 +172,7 @@ public class MessageViewer extends Composite implements ApplicationEventSource {
     ClickHandler refreshHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
+            MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this,"refreshing"));
             MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
             refreshTree();
         }
@@ -223,17 +217,6 @@ public class MessageViewer extends Composite implements ApplicationEventSource {
         });
     }
 
-    public void addListener(ApplicationEventListener listener) {
-        this._listeners.add(listener);
-    }
-
-    public void removeListener(ApplicationEventListener listener) {
-        this._listeners.remove(listener);
-    }
-
-    public void clearListeners() {
-        this._listeners.clear();
-    }
 }
 
 

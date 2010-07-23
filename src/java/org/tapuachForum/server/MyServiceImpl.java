@@ -28,8 +28,6 @@ import org.tapuachForum.server.Exceptions.WrongPasswordException;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.shared.MemberInterface;
-import org.tapuachForum.shared.Message;
-import org.tapuachForum.shared.MessageData;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -38,19 +36,13 @@ import org.tapuachForum.shared.eMemberType;
  * @author Liron Katav
  */
 public class MyServiceImpl extends RemoteServiceServlet implements MyService {
-//    ForumFascade forum = new ForumFascade();
 
-    private ForumFascade _forum;
 
     public MyServiceImpl() {
         super();
-        _forum = new ForumFascade();
+
     }
 
-    public String myMethod(String s) {
-        // Do something interesting with 's' here on the server.
-        return "Server sayssh: " + s;
-    }
 
     public String register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate) {
         String res;

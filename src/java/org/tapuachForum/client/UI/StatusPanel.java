@@ -29,6 +29,6 @@ public class StatusPanel extends Composite {
         return this._status.getText();
     }
     public void SetStatus(String newSatatus){
-        this._mainPanel.setTitle(newSatatus);
+        this._status.setText(newSatatus);
     }
 }

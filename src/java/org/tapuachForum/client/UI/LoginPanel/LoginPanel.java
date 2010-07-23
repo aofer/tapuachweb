@@ -20,12 +20,14 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.tapuachForum.client.Events.LoginEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.AdminPanel;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
+import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberData;
@@ -36,7 +38,7 @@ import org.tapuachForum.shared.eMemberType;
  *
  * @author Arseny
  */
-public class LoginPanel extends Composite {
+public class LoginPanel extends Pane{
 
     private VerticalPanel _mainPanel;
     private HorizontalPanel _userp;
@@ -110,15 +112,15 @@ public class LoginPanel extends Composite {
                             _buttp.add(_administer);
                         }
                         LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-         if (lp.remove(3)){
-            lp.remove(2);
+                        if (lp.remove(3)) {
+                            lp.remove(2);
 
-         //ONline Panel (number 2)
-        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-        lp.add(op);
-        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-         }
+                            //ONline Panel (number 2)
+                            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+                            lp.add(op);
+                            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+                            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+                        }
                         //  MESSAGES panerl  (number 3)
                         MessageViewer m = new MessageViewer();
                         m.setSize("980 px", "320 px");
@@ -152,15 +154,15 @@ public class LoginPanel extends Composite {
                     _reg.setEnabled(true);
                     userIsOnline = false;
                     LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-         if (lp.remove(3)){
-            lp.remove(2);
+                    if (lp.remove(3)) {
+                        lp.remove(2);
 
-         //ONline Panel (number 2)
-        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-        lp.add(op);
-        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-         }
+                        //ONline Panel (number 2)
+                        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+                        lp.add(op);
+                        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+                        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+                    }
                     //  MESSAGES panerl  (number 3)
                     MessageViewer m = new MessageViewer();
                     m.setSize("980 px", "320 px");
@@ -187,20 +189,22 @@ public class LoginPanel extends Composite {
 
 
         // Listen for the button clicks
+        _login.addClickHandler(loginHandler);
+        /*
         _login.addClickHandler(new ClickHandler() {
 
-            public void onClick(ClickEvent event) {
-                _login.setEnabled(false);
-                _reg.setEnabled(false);
-                //         _buttp.remove(_info);
-                _info.setText("   Please wait while connecting to server...");
-                //  _buttp.add(_info);
-                String username = _user.getText();
-                userName = username;
-                String password = _pass.getText();
-                getService().login(username, password, callback);
-            }
-        });
+        public void onClick(ClickEvent event) {
+        _login.setEnabled(false);
+        _reg.setEnabled(false);
+        //         _buttp.remove(_info);
+        _info.setText("   Please wait while connecting to server...");
+        //  _buttp.add(_info);
+        String username = _user.getText();
+        userName = username;
+        String password = _pass.getText();
+        getService().login(username, password, callback);
+        }
+        });*/
         _logout.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
@@ -249,4 +253,37 @@ public class LoginPanel extends Composite {
     public Button getReg() {
         return _reg;
     }
+    ClickHandler loginHandler = new ClickHandler() {
+
+        public void onClick(ClickEvent event) {
+            _login.setEnabled(false);
+            _reg.setEnabled(false);
+            // change status
+            String username = _user.getText();
+            String password = _pass.getText();
+            getService().login(username, password, loginCallback);
+        }
+    };
+    final AsyncCallback<MemberInterface> loginCallback = new AsyncCallback<MemberInterface>() {
+
+        public void onFailure(Throwable caught) {
+            _login.setEnabled(true);
+            _reg.setEnabled(true);
+            _info.setText(" Problem with login. Please try again.");
+        }
+
+        public void onSuccess(MemberInterface result) {
+            LoginPanel.this._listeners.fireEvent(new LoginEvent(LoginPanel.this,result));
+        }
+    };
+        final AsyncCallback<MemberInterface> logoutCallback = new AsyncCallback<MemberInterface>() {
+
+        public void onFailure(Throwable caught) {
+
+        }
+
+        public void onSuccess(MemberInterface result) {
+
+        }
+    };
 }
