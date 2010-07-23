@@ -64,6 +64,7 @@ public class MessageViewer extends Composite {
         _refreshButton = new Button("Refresh");
         _NextButton = new Button("Next");
         _PrevButton = new Button("Prev");
+       _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
         _toolbar.add(_PrevButton);
         _toolbar.add(_NextButton);
@@ -125,13 +126,15 @@ public class MessageViewer extends Composite {
 
             public void onClick(ClickEvent event) {
                 LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-    lp.remove(3);
+         if (lp.remove(3)){
             lp.remove(2);
+
          //ONline Panel (number 2)
         OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
         lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+         }
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
         m.setSize("980 px", "320 px");

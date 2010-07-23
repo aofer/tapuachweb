@@ -35,12 +35,10 @@ public class AfterSearch extends Composite {
     final private int pageSize = 3;
     private VerticalPanel _mainPanel;
     private HorizontalPanel _toolbar;
-    private HorizontalPanel _treebar;
     private Button _addMessageButton;
     private Button _refreshButton;
     private Button _NextButton;
     private Button _PrevButton;
-    private Label _indexInfo;
     private MessageTree _MessageTree;
     private Label _info;
     private ScrollPanel scrollPan;
@@ -56,7 +54,6 @@ public class AfterSearch extends Composite {
         msgVector = null;
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
-        _treebar = new HorizontalPanel();
         _addMessageButton = new Button("Add message");
         if (ClientUser.getClient() == null) {
             ClientUser.setClient();
@@ -67,14 +64,14 @@ public class AfterSearch extends Composite {
         _refreshButton = new Button("Refresh");
         _NextButton = new Button("Next");
         _PrevButton = new Button("Prev");
+        _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
         _toolbar.add(_PrevButton);
         _toolbar.add(_NextButton);
         _refreshButton.setEnabled(false);
         _NextButton.setEnabled(false);
         _PrevButton.setEnabled(false);
-        _indexInfo = new Label("");
-        _MessageTree = new MessageTree(numToSearchInit);
+        _MessageTree = new MessageTree();
         _info = new Label("");
         _mainPanel.add(_toolbar);
         _mainPanel.add(_info);
@@ -88,6 +85,7 @@ public class AfterSearch extends Composite {
         getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
 
             public void onSuccess(Vector<MessageInterface> result) {
+                _info.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
                 msgVector = result;
                 indexOfPages = 0;
                 numberOfPages = (result.size() / pageSize);
@@ -99,8 +97,8 @@ public class AfterSearch extends Composite {
                     numberOfPages--;
                     restOfPages = pageSize;
                 }
-       
-                int indexOfTree = getMessageTree().findIndex(result, numToSearsh);
+           //     numToSearsh =7;
+                int indexOfTree =  getMessageTree().findIndex(result, numToSearsh);
                 indexOfPages = indexOfTree / pageSize;
                 _PrevButton.setEnabled(true);
                 _NextButton.setEnabled(true);
@@ -111,12 +109,12 @@ public class AfterSearch extends Composite {
                     _NextButton.setEnabled(false);
                 }
                 if (indexOfPages < numberOfPages) {
-                    getMessageTree().refreshTreeByIndexAfterSearch(result, indexOfPages * pageSize, indexOfPages * pageSize + pageSize, numToSearsh);
+                   getMessageTree().refreshTreeByIndexAfterSearch(result, indexOfPages * pageSize, (indexOfPages * pageSize )+ pageSize, numToSearsh);
                 } else {
 
-                    getMessageTree().refreshTreeByIndexAfterSearch(result, indexOfPages * pageSize, indexOfPages * pageSize + restOfPages, numToSearsh);
+                    getMessageTree().refreshTreeByIndexAfterSearch(result, indexOfPages * pageSize,( indexOfPages * pageSize )+ restOfPages, numToSearsh);
                 }
-                   _indexInfo.setText(" "+(indexOfPages+1)+"/"+(numberOfPages+1));
+                   _info.setText(" "+(indexOfPages+1)+"/"+(numberOfPages+1));
             }
 
             public void onFailure(Throwable caught) {
@@ -134,13 +132,15 @@ public class AfterSearch extends Composite {
 
             public void onClick(ClickEvent event) {
                 LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-                lp.remove(3);
-                lp.remove(2);
-                //ONline Panel (number 2)
-                OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-                lp.add(op);
-                lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-                lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+         if (lp.remove(3)){
+            lp.remove(2);
+
+         //ONline Panel (number 2)
+        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+         }
                 //  MESSAGES panerl  (number 3)
                 MessageViewer m = new MessageViewer();
                 m.setSize("980 px", "320 px");
@@ -148,6 +148,18 @@ public class AfterSearch extends Composite {
                 lp.add(m);
                 lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
                 m.setStyleName("messageviewer");
+            }
+        });
+         _NextButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                AfterSearch.this.buttonNextPageClicked();
+            }
+        });
+        _PrevButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                  AfterSearch.this.buttonPrevPageClicked();
             }
         });
     }
@@ -188,11 +200,11 @@ public class AfterSearch extends Composite {
     private void refreshTheMessages() {
         //       _indexInfo.setText("Pressetinog page number " + (indexOfPages + 1) + " of total " + (numberOfPages + 1) + " pages.");
         if (indexOfPages < numberOfPages) {
-            getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages + 1) * pageSize);
+           getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages + 1) * pageSize);
         } else {
             getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages * pageSize) + restOfPages);
         }
-        _indexInfo.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
+        _info.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
     }
 }
 
