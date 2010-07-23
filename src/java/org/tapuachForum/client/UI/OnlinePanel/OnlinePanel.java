@@ -39,7 +39,7 @@ public class OnlinePanel extends Composite {
             }
             }
             public void onFailure(Throwable caught) {
-               _l.setText("problem : " + caught.getMessage());
+               _l.setText("Please refresh.");///problem : " + caught.getMessage());
             }
         });
 

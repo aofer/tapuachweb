@@ -151,13 +151,15 @@ public class addMessageWindow extends PopupPanel {
         public void onSuccess(Integer result) {
             addMessageWindow.super.hide();
             LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+         if (lp.remove(3)){
             lp.remove(2);
-            lp.remove(3);
-            //ONline Panel (number 2)
-            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-            lp.add(op);
-            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+
+         //ONline Panel (number 2)
+        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+         }
             //  MESSAGES panerl  (number 3)
             MessageViewer m = new MessageViewer();
             m.setSize("980 px", "320 px");
@@ -178,13 +180,15 @@ public class addMessageWindow extends PopupPanel {
         public void onSuccess(String result) {
             addMessageWindow.super.hide();
             LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+         if (lp.remove(3)){
             lp.remove(2);
-            lp.remove(3);
-            //ONline Panel (number 2)
-            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-            lp.add(op);
-            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+
+         //ONline Panel (number 2)
+        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+         }
             //  MESSAGES panerl  (number 3)
             MessageViewer m = new MessageViewer();
             m.setSize("980 px", "320 px");
@@ -207,13 +211,15 @@ public class addMessageWindow extends PopupPanel {
         public void onSuccess(String result) {
             addMessageWindow.super.hide();
             LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+         if (lp.remove(3)){
             lp.remove(2);
-            lp.remove(3);
-            //ONline Panel (number 2)
-            OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-            lp.add(op);
-            lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-            lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+
+         //ONline Panel (number 2)
+        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+        lp.add(op);
+        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
+        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
+         }
             //  MESSAGES panerl  (number 3)
             MessageViewer m = new MessageViewer();
             m.setSize("980 px", "320 px");

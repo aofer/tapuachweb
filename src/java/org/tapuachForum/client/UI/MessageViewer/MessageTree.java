@@ -25,16 +25,16 @@ public class MessageTree extends Composite {
     private Tree _messageTree;
     private final int numFromSearch;
 
-    public MessageTree(int numFromSearchInit) {
-
-        numFromSearch = numFromSearchInit;
-              this._mainPanel = new HorizontalPanel();
-        this._mainPanel.setSize("980x", "320px");
-        this._messageTree = new Tree();
-        this._mainPanel.add(this._messageTree);
-        initWidget(this._mainPanel);
-//        testInit();
-    }
+//    public MessageTree(int numFromSearchInit) {
+//
+//        numFromSearch = numFromSearchInit;
+//              this._mainPanel = new HorizontalPanel();
+//        this._mainPanel.setSize("980x", "320px");
+//        this._messageTree = new Tree();
+//        this._mainPanel.add(this._messageTree);
+//        initWidget(this._mainPanel);
+////        testInit();
+//    }
 
     public MessageTree() {
         numFromSearch = -18;
@@ -126,7 +126,7 @@ public class MessageTree extends Composite {
             this._messageTree.addItem(tItem);
             ArrayList<Message> tReplies = result.get(i).getReplies();
             addRepliesForSearch(tReplies, tItem,indexToOpen);
-          //   addReplies(tReplies, tItem);
+           //     addReplies(tReplies, tItem);
         }
     }
 
