@@ -18,6 +18,10 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.Vector;
+import org.tapuachForum.client.Events.ApplicationEventListener;
+import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
+import org.tapuachForum.client.Events.ApplicationEventSource;
+import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
@@ -29,7 +33,7 @@ import org.tapuachForum.shared.eMemberType;
  *
  * @author amit ofer
  */
-public class MessageViewer extends Composite {
+public class MessageViewer extends Composite implements ApplicationEventSource {
     //fields
 
     final private int pageSize = 3;
@@ -40,7 +44,6 @@ public class MessageViewer extends Composite {
     private Button _refreshButton;
     private Button _NextButton;
     private Button _PrevButton;
-    private Label _indexInfo;
     private MessageTree _MessageTree;
     private Label _info;
     private ScrollPanel scrollPan;
@@ -48,9 +51,11 @@ public class MessageViewer extends Composite {
     public int numberOfPages;
     private int restOfPages;
     private Vector<MessageInterface> msgVector;
+    private ApplicationEventListenerCollection _listeners;
 
     public MessageViewer() {
         msgVector = null;
+        _listeners = new ApplicationEventListenerCollection();
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
         _treebar = new HorizontalPanel();
@@ -64,14 +69,14 @@ public class MessageViewer extends Composite {
         _refreshButton = new Button("Refresh");
         _NextButton = new Button("Next");
         _PrevButton = new Button("Prev");
-       _toolbar.add(_addMessageButton);
+        _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
         _toolbar.add(_PrevButton);
         _toolbar.add(_NextButton);
         _refreshButton.setEnabled(false);
         _NextButton.setEnabled(false);
         _PrevButton.setEnabled(false);
-        _indexInfo = new Label("");
+         _info = new Label("");
         _MessageTree = new MessageTree();
         _info = new Label("");
         _mainPanel.add(_info);
@@ -83,67 +88,38 @@ public class MessageViewer extends Composite {
         initWidget(_mainPanel);
         _info.setText("Please wait while downloading mesagses from the server....");
         _info.setStyleName("infoText");
-        getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
-
-            public void onSuccess(Vector<MessageInterface> result) {
-                msgVector = result;
-                indexOfPages = 0;
-                numberOfPages = (result.size() / pageSize);
-                restOfPages = result.size() % pageSize;
-                _refreshButton.setEnabled(true);
-                _PrevButton.setEnabled(false);
-                if (indexOfPages < numberOfPages) {
-                    _NextButton.setEnabled(true);
-                } else {
-                    _NextButton.setEnabled(false);
-                }
-                if (restOfPages == 0) {
-                    numberOfPages--;
-                    restOfPages = pageSize;
-                }
-                if (numberOfPages >= 1) {
-                    getMessageTree().refreshTreeByIndex(result, 0, pageSize);
-                } else {
-                    getMessageTree().refreshTreeByIndex(result, 0, restOfPages);
-                }
-                _info.setText("");
-                _toolbar.setVisible(true);
-                //    _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
-                _indexInfo.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
-            }
-
-            public void onFailure(Throwable caught) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        });
+        refreshTree();
         _addMessageButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
                 addMessageWindow aw = new addMessageWindow();
             }
         });
+        _refreshButton.addClickHandler(refreshHandler);
+        /*
         _refreshButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-         if (lp.remove(3)){
-            lp.remove(2);
-
-         //ONline Panel (number 2)
+        public void onClick(ClickEvent event) {
+        LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+        if (lp.remove(3)) {
+        lp.remove(2);
+        //ONline Panel (number 2)
         OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
         lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-         }
+
+        }
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
         m.setSize("980 px", "320 px");
         m.setHeight("320px");
-       lp.add(m);
+        lp.add(m);
         lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
-            }
+        }
         });
+         */
+
         _NextButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
@@ -192,13 +168,71 @@ public class MessageViewer extends Composite {
     }
 
     private void refreshTheMessages() {
-   //     _indexInfo.setText("Pressetinog page number " + (indexOfPages + 1) + " of total " + (numberOfPages + 1) + " pages.");
+        //     _indexInfo.setText("Pressetinog page number " + (indexOfPages + 1) + " of total " + (numberOfPages + 1) + " pages.");
         if (indexOfPages < numberOfPages) {
             getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages + 1) * pageSize);
         } else {
             getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages * pageSize) + restOfPages);
         }
-        _indexInfo.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
+        _info.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
+    }
+    ClickHandler refreshHandler = new ClickHandler() {
+
+        public void onClick(ClickEvent event) {
+            MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
+            refreshTree();
+        }
+    };
+
+    /**
+     * reloads the messages in the message tree
+     */
+    public void refreshTree() {
+        getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
+
+            public void onSuccess(Vector<MessageInterface> result) {
+                msgVector = result;
+                indexOfPages = 0;
+                numberOfPages = (result.size() / pageSize);
+                restOfPages = result.size() % pageSize;
+                _refreshButton.setEnabled(true);
+                _PrevButton.setEnabled(false);
+                if (indexOfPages < numberOfPages) {
+                    _NextButton.setEnabled(true);
+                } else {
+                    _NextButton.setEnabled(false);
+                }
+                if (restOfPages == 0) {
+                    numberOfPages--;
+                    restOfPages = pageSize;
+                }
+                if (numberOfPages >= 1) {
+                    getMessageTree().refreshTreeByIndex(result, 0, pageSize);
+                } else {
+                    getMessageTree().refreshTreeByIndex(result, 0, restOfPages);
+                }
+                _info.setText("");
+                _toolbar.setVisible(true);
+                //    _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
+                _info.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
+            }
+
+            public void onFailure(Throwable caught) {
+                throw new UnsupportedOperationException("Not supported yet.");
+            }
+        });
+    }
+
+    public void addListener(ApplicationEventListener listener) {
+        this._listeners.add(listener);
+    }
+
+    public void removeListener(ApplicationEventListener listener) {
+        this._listeners.remove(listener);
+    }
+
+    public void clearListeners() {
+        this._listeners.clear();
     }
 }
 

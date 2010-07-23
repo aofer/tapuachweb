@@ -71,6 +71,9 @@ public class MessageTree extends Composite {
     }
 
     public void refreshTree(Vector<MessageInterface> messages) {
+        //first clean the tree
+        this._messageTree.clear();
+        //add the messages from the vector of messages
         for (MessageInterface m : messages) {
             MessageTreeItem tItem = new MessageTreeItem(m);
             this._messageTree.addItem(tItem);
