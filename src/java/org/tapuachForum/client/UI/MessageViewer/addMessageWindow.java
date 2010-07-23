@@ -17,11 +17,12 @@ import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 
 /**
  *
- * @author amit
+ * @author amit ofer
+ * this class is used for adding new messages,editing messages and adding replies
  */
+
 public class addMessageWindow extends PopupPanel {
 
-    // final PopupPanel _pp = new PopupPanel(false);
     private FormPanel _mainPanel = new FormPanel();
     private VerticalPanel _holder;
     private Label _header;
@@ -36,6 +37,9 @@ public class addMessageWindow extends PopupPanel {
     private int _parentId;
     private int _messageId;
 
+    /**
+     * initialize the graphic components
+     */
     private void initComponents() {
         _mainPanel.setAction("/myFormHandler");
         _mainPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
@@ -68,7 +72,9 @@ public class addMessageWindow extends PopupPanel {
         this.setGlassEnabled(true);
         this.center();
     }
-
+    /**
+     * constructor for the Add new message window
+     */
     public addMessageWindow() {
         super(false, true);
         _parentId = 0;
@@ -77,7 +83,10 @@ public class addMessageWindow extends PopupPanel {
         _BSave.addClickHandler(addMessageHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
-
+    /**
+     * constructor for the addreply window
+     * @param parentId - the id of the parent we want to add reply to
+     */
     public addMessageWindow(int parentId) {
         super(false, true);
         initComponents();
@@ -86,7 +95,12 @@ public class addMessageWindow extends PopupPanel {
         this._BSave.addClickHandler(replyHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
-
+    /**
+     * the constructor for the edit message window
+     * @param messageId -  the id of the message we edit
+     * @param subject - the subject of the message
+     * @param body - the body of the message
+     */
     public addMessageWindow(int messageId, String subject, String body) {
         super(false, true);
         initComponents();
@@ -97,12 +111,18 @@ public class addMessageWindow extends PopupPanel {
         this._BSave.addClickHandler(editHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
+    /**
+     * click handler for the cancel button
+     */
     private ClickHandler cancelHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
             addMessageWindow.super.hide();
         }
     };
+    /**
+     * click handler for the edit window save button
+     */
     private ClickHandler editHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -116,6 +136,9 @@ public class addMessageWindow extends PopupPanel {
             addMessageWindow.super.hide();
         }
     };
+    /**
+     * click handler for the add message save button
+     */
     private ClickHandler addMessageHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -129,6 +152,9 @@ public class addMessageWindow extends PopupPanel {
             getService().addMessage(_nickName, subject, body, callback);
         }
     };
+    /**
+     * click handler for the reply save button
+     */
     private ClickHandler replyHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -142,10 +168,16 @@ public class addMessageWindow extends PopupPanel {
             getService().addReply(_parentId, nickName, subject, body, replyCallback);
         }
     };
-
+    /**
+     * getter for the service
+     * @return the service
+     */
     public static MyServiceAsync getService() {
         return GWT.create(MyService.class);
     }
+    /**
+     * callback for the add new message
+     */
     final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 
         public void onSuccess(Integer result) {
@@ -175,6 +207,9 @@ public class addMessageWindow extends PopupPanel {
             lResult.setText("There was a problem to add the message. Please REFRESH the forum and try again.");
         }
     };
+    /**
+     * call back for reply to message
+     */
     final AsyncCallback<String> replyCallback = new AsyncCallback<String>() {
 
         public void onSuccess(String result) {
@@ -206,6 +241,9 @@ public class addMessageWindow extends PopupPanel {
 
         }
     };
+    /**
+     * callback for editing a message
+     */
     final AsyncCallback<String> editCallback = new AsyncCallback<String>() {
 
         public void onSuccess(String result) {
