@@ -15,12 +15,15 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import org.tapuachForum.client.Events.ApplicationEvent;
+import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
 import org.tapuachForum.client.UI.MessageViewer.AfterSearch;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.SearchPanel.searchPanel;
+import org.tapuachForum.client.UI.StatusPanel;
 import org.tapuachForum.shared.MemberInterface;
 
 /**
@@ -46,6 +49,11 @@ public class MainEntryPoint implements EntryPoint {
      */
     public void onModuleLoad() {
         LayoutPanel lp = new LayoutPanel();
+        //status panel
+        StatusPanel status = new StatusPanel();
+        lp.add(status);
+        lp.setWidgetTopHeight(status, 85, Unit.PX, 20, Unit.PX);
+        lp.setWidgetLeftRight(status, 10, Unit.PX, 100, Unit.PX);
 
         //LOGIN Panel ( number 0)
         LoginPanel l = new LoginPanel();
@@ -61,7 +69,7 @@ public class MainEntryPoint implements EntryPoint {
         lp.setWidgetLeftRight(sp, 10, Unit.PX, 500, Unit.PX);
 
         //ONline Panel (number 2)
-        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
+        final OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
         lp.add(op);
         lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
         lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
@@ -69,25 +77,29 @@ public class MainEntryPoint implements EntryPoint {
         //  MESSAGES panerl  (number 3)
         MessageViewer m = new MessageViewer();
         m.setSize("980 px", "320 px");
- //       ScrollPanel s = new ScrollPanel(m);
+        //       ScrollPanel s = new ScrollPanel(m);
         m.setHeight("320px");
-       lp.add(m);
+        lp.add(m);
         lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
         m.setStyleName("messageviewer");
+        m.addListener(new ApplicationEventListener() {
 
+            public void handle(ApplicationEvent event) {
+                op.refreshUsers();
+            }
+        });
 
         RootLayoutPanel.get().add(lp);
 
 
-     Window.addWindowClosingHandler(new Window.ClosingHandler() {
-
+        Window.addWindowClosingHandler(new Window.ClosingHandler() {
 
             @Override
             public void onWindowClosing(final ClosingEvent event) {
                 if (ClientUser.getClient().isLogin()) {
-                    event.setMessage(" " + ClientUser.getClient().getNickName()+", you are still login. Please go back and logout.");
-                               } else {
-      //              event.setMessage(" bye bye ");
+                    event.setMessage(" " + ClientUser.getClient().getNickName() + ", you are still login. Please go back and logout.");
+                } else {
+                    //              event.setMessage(" bye bye ");
                 }
             }
         });

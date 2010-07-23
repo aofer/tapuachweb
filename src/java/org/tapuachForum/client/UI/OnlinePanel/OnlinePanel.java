@@ -2,7 +2,6 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package org.tapuachForum.client.UI.OnlinePanel;
 
 import com.google.gwt.core.client.GWT;
@@ -21,39 +20,45 @@ import org.tapuachForum.shared.MemberInterface;
  * @author Arseny
  */
 public class OnlinePanel extends Composite {
-    
+
     private VerticalPanel _mainPanel;
     private Label _l;
 
     public OnlinePanel(String users) {
-        _mainPanel = new VerticalPanel();   
-        _l = new Label("Online users: \n (please wait while updating...)" );
+        _mainPanel = new VerticalPanel();
+        _l = new Label("Online users: \n (please wait while updating...)");
         _l.setSize("430px", "50px");
-            getService().onLineUsers(new AsyncCallback<Vector<MemberInterface>>() {
-
-            public void onSuccess(Vector<MemberInterface> result) {
-                      _l.setText("Online users: \n" );
-                  for (MemberInterface m : result) {
-                     _l.setText(_l.getText() +m.getNickName()+ " ");
-
-            }
-            }
-            public void onFailure(Throwable caught) {
-               _l.setText("Please refresh.");///problem : " + caught.getMessage());
-            }
-        });
-
         _mainPanel.setBorderWidth(1);
         _mainPanel.add(_l);
         RootPanel.get().add(_mainPanel);
         initWidget(_mainPanel);
+        refreshUsers();
     }
-    
-        public static MyServiceAsync getService() {
+
+    public static MyServiceAsync getService() {
 
         return GWT.create(MyService.class);
     }
-    
 
+    /**
+     * used for refreshing the online users list
+     */
+    public void refreshUsers() {
+        getService().onLineUsers(new AsyncCallback<Vector<MemberInterface>>() {
+            public void onSuccess(Vector<MemberInterface> result) {
+                String tUsers = "Online users:";
+                for (MemberInterface m : result) {
+                    tUsers  = tUsers + m.getNickName() + " , ";
+                }
+                if ( !result.isEmpty()){
+                   tUsers = tUsers.substring(0, tUsers.length() - 3);
+                }
+                _l.setText(tUsers);
+            }
 
+            public void onFailure(Throwable caught) {
+                _l.setText("Please refresh.");///problem : " + caught.getMessage());
+            }
+        });
+    }
 }
