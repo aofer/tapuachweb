@@ -14,8 +14,10 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
+import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.shared.Message;
 import org.tapuachForum.shared.MessageInterface;
 
@@ -23,7 +25,7 @@ import org.tapuachForum.shared.MessageInterface;
  *
  * @author amit
  */
-public class MessageTree extends Composite {
+public class MessageTree extends Pane {
 
     private HorizontalPanel _mainPanel;
     private Tree _messageTree;
@@ -32,6 +34,7 @@ public class MessageTree extends Composite {
     private int _currentPage;
 
     public MessageTree() {
+        super();
         this._messages = new Vector<MessageInterface>();
         this._currentPage = 1;
         this._mainPanel = new HorizontalPanel();
@@ -130,7 +133,7 @@ public class MessageTree extends Composite {
 
             public void onFailure(Throwable caught) {
                 // set status
-                //TODO
+                MessageTree.this.fireEvent(new ChangeStatusEvent(MessageTree.this, "Error with loading messages from server"));
             }
 
             public void onSuccess(Vector<MessageInterface> result) {

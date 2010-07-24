@@ -80,7 +80,7 @@ public class addMessageWindow extends PopupPanel {
         _parentId = 0;
         _messageId = 0;
         initComponents();
-        _BSave.addClickHandler(addMessageHandler);
+   //     _BSave.addClickHandler(addMessageHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
     /**
@@ -92,7 +92,7 @@ public class addMessageWindow extends PopupPanel {
         initComponents();
         _parentId = parentId;
         _messageId = 0;
-        this._BSave.addClickHandler(replyHandler);
+   //     this._BSave.addClickHandler(replyHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
     /**
@@ -101,6 +101,7 @@ public class addMessageWindow extends PopupPanel {
      * @param subject - the subject of the message
      * @param body - the body of the message
      */
+
     public addMessageWindow(int messageId, String subject, String body) {
         super(false, true);
         initComponents();
@@ -108,7 +109,7 @@ public class addMessageWindow extends PopupPanel {
         _messageId = messageId;
         this._TBSubject.setText(subject);
         this._TABody.setText(body);
-        this._BSave.addClickHandler(editHandler);
+   //     this._BSave.addClickHandler(editHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
     /**
@@ -123,6 +124,7 @@ public class addMessageWindow extends PopupPanel {
     /**
      * click handler for the edit window save button
      */
+    /*
     private ClickHandler editHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -139,6 +141,7 @@ public class addMessageWindow extends PopupPanel {
     /**
      * click handler for the add message save button
      */
+    /*
     private ClickHandler addMessageHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -155,6 +158,7 @@ public class addMessageWindow extends PopupPanel {
     /**
      * click handler for the reply save button
      */
+    /*
     private ClickHandler replyHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -168,6 +172,8 @@ public class addMessageWindow extends PopupPanel {
             getService().addReply(_parentId, nickName, subject, body, replyCallback);
         }
     };
+     *
+     */
     /**
      * getter for the service
      * @return the service
@@ -178,6 +184,7 @@ public class addMessageWindow extends PopupPanel {
     /**
      * callback for the add new message
      */
+    /*
     final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 
         public void onSuccess(Integer result) {
@@ -210,6 +217,7 @@ public class addMessageWindow extends PopupPanel {
     /**
      * call back for reply to message
      */
+    /*
     final AsyncCallback<String> replyCallback = new AsyncCallback<String>() {
 
         public void onSuccess(String result) {
@@ -244,6 +252,7 @@ public class addMessageWindow extends PopupPanel {
     /**
      * callback for editing a message
      */
+    /*
     final AsyncCallback<String> editCallback = new AsyncCallback<String>() {
 
         public void onSuccess(String result) {
@@ -274,5 +283,7 @@ public class addMessageWindow extends PopupPanel {
 
         }
     };
+     * 
+     */
 }
 
