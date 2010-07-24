@@ -62,10 +62,11 @@ public class MessageViewer extends Pane {
         _toolbar.add(_PrevButton);
         _toolbar.add(_NextButton);
 //        _refreshButton.setEnabled(false);
-        //     _NextButton.setEnabled(false);
-            _PrevButton.setEnabled(false);
+        _NextButton.setEnabled(false);
+        _PrevButton.setEnabled(false);
         //      _info = new Label("");
         _MessageTree = new MessageTree();
+        _MessageTree.addListener(new MessageTreeListener());
         _info = new Label("");
         _mainPanel.add(_info);
         _mainPanel.add(_toolbar);
@@ -74,8 +75,8 @@ public class MessageViewer extends Pane {
         scrollPan.setSize("980 px", "320 px");
         _mainPanel.add(scrollPan);
         initWidget(_mainPanel);
-        //      _info.setText("Please wait while downloading mesagses from the server....");
-        //     _info.setStyleName("infoText");
+              _info.setText("Please wait while downloading mesagses from the server....");
+             _info.setStyleName("infoText");
         refreshTree();
         checkPrivileges();
         _NextButton.addClickHandler(nextPageHandler);
@@ -144,6 +145,16 @@ public class MessageViewer extends Pane {
 
     public void refreshTree() {
         this._MessageTree.refreshTree();
+        if (_MessageTree.getMaxPage() > 1){
+            _NextButton.setEnabled(true);
+        }
+    }
+    protected class MessageTreeListener implements  ApplicationEventListener{
+
+        public void handle(ApplicationEvent event) {
+            MessageViewer.this.fireEvent(event);
+        }
+
     }
 }
 

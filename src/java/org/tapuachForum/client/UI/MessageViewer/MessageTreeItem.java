@@ -96,44 +96,8 @@ public class MessageTreeItem extends TreeItem {
                 addMessageWindow aw = new addMessageWindow(num);
             }
         });
-        final AsyncCallback<String> callback = new AsyncCallback<String>() {
 
-            public void onSuccess(String result) {
-                if (result.equals("good")) {
-                    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-         if (lp.remove(3)){
-            lp.remove(2);
 
-         //ONline Panel (number 2)
-        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-        lp.add(op);
-        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-         }
-                    //  MESSAGES panerl  (number 3)
-                    MessageViewer m = new MessageViewer();
-                    m.setSize("980 px", "320 px");
-                    m.setHeight("320px");
-                    lp.add(m);
-                    lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
-                    m.setStyleName("messageviewer");
-                }
-            }
-
-            public void onFailure(Throwable caught) {
-                _info.setText("There was a problem to delete a message. Please REFRESH the forum and try again.");
-            }
-        };
-        _DeleteButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                _info.setText("Please wait while the message is been delete....");
-                _DeleteButton.setEnabled(false);
-                _ReplyButton.setEnabled(false);
-                _ModifyButton.setEnabled(false);
-                getService().deleteMessage(msg.getIndex(), callback);
-            }
-        });
     }
 
     public MessageInterface getMessage() {

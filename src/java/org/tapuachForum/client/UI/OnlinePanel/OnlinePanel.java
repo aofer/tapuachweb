@@ -26,7 +26,7 @@ public class OnlinePanel extends Pane {
     private VerticalPanel _mainPanel;
     private Label _l;
 
-    public OnlinePanel(String users) {
+    public OnlinePanel() {
         _mainPanel = new VerticalPanel();
         _l = new Label("Online users: \n (please wait while updating...)");
         _l.setSize("430px", "50px");
@@ -61,7 +61,7 @@ public class OnlinePanel extends Pane {
             }
 
             public void onFailure(Throwable caught) {
-                _l.setText("Please refresh.");///problem : " + caught.getMessage());
+                _l.setText("Error, can't load online users.");///problem : " + caught.getMessage());
             }
         });
     }

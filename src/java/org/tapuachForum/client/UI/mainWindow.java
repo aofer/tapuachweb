@@ -48,6 +48,14 @@ public class mainWindow extends Composite {
         _mainPanel.setWidgetTopHeight(_statusPanel, 85, Unit.PX, 20, Unit.PX);
         _mainPanel.setWidgetLeftRight(_statusPanel, 10, Unit.PX, 100, Unit.PX);
 
+        //logout panel
+        _logoutPanel = new LogoutPanel();
+        _mainPanel.add(_logoutPanel);
+        _mainPanel.setWidgetLeftRight(_logoutPanel, 700, Unit.PX, 20, Unit.PX);
+        _mainPanel.setWidgetTopHeight(_logoutPanel, 5, Unit.PX, 125, Unit.PX);
+        _logoutPanel.setVisible(false);
+        _logoutPanel.addListener(new LogoutPanelListener());
+
         //LOGIN Panel ( number 0)
         _loginPanel = new LoginPanel();
         _mainPanel.add(_loginPanel);
@@ -55,12 +63,7 @@ public class mainWindow extends Composite {
         _mainPanel.setWidgetTopHeight(_loginPanel, 5, Unit.PX, 125, Unit.PX);
         _loginPanel.addListener(new LoginPanelListener());
 
-        _logoutPanel = new LogoutPanel();
-        _mainPanel.add(_logoutPanel);
-        _mainPanel.setWidgetLeftRight(_logoutPanel, 700, Unit.PX, 20, Unit.PX);
-        _mainPanel.setWidgetTopHeight(_logoutPanel, 5, Unit.PX, 125, Unit.PX);
-        _logoutPanel.setVisible(false);
-        _logoutPanel.addListener(new LogoutPanelListener());
+
 
         //   SERACH PANEL      (number 1)
         _searchPanel = new searchPanel();
@@ -69,7 +72,7 @@ public class mainWindow extends Composite {
         _mainPanel.setWidgetLeftRight(_searchPanel, 10, Unit.PX, 500, Unit.PX);
 
         //ONline Panel (number 2)
-        _onlinePanel = new OnlinePanel("Admin,Arseny,bobspong");
+        _onlinePanel = new OnlinePanel();
         _mainPanel.add(_onlinePanel);
         _mainPanel.setWidgetTopHeight(_onlinePanel, 533, Unit.PX, 100, Unit.PX);
         _mainPanel.setWidgetLeftRight(_onlinePanel, 550, Unit.PX, 40, Unit.PX);
@@ -110,7 +113,7 @@ public class mainWindow extends Composite {
         public void handle(ApplicationEvent event) {
             if (event instanceof LoginEvent) {
                 _loginPanel.setVisible(false);
-               _logoutPanel.setVisible(true);
+                _logoutPanel.setVisible(true);
                 LoginEvent tEvent = (LoginEvent) event;
                 LoginManager.getInstance().setAuthentication(tEvent.getUser());
                 refresh();
@@ -118,15 +121,14 @@ public class mainWindow extends Composite {
             }
 
         }
-
     }
 
-      protected class LogoutPanelListener implements ApplicationEventListener {
+    protected class LogoutPanelListener implements ApplicationEventListener {
 
         public void handle(ApplicationEvent event) {
             if (event instanceof LogoutEvent) {
                 _loginPanel.setVisible(true);
-               _logoutPanel.setVisible(false);
+                _logoutPanel.setVisible(false);
                 //LogoutEvent tEvent = (LogoutEvent) event;
                 //LogoutEvent.getInstance().setAuthentication(tEvent.getUser());
                 refresh();
@@ -134,7 +136,6 @@ public class mainWindow extends Composite {
             }
 
         }
-
     }
 
     protected class OnlinePanelListener implements ApplicationEventListener {
@@ -158,7 +159,8 @@ public class mainWindow extends Composite {
             }
         }
     }
-    private void refresh(){
+
+    private void refresh() {
         this._messageViewer.refreshTree();
         this._onlinePanel.refreshUsers();
         this._messageViewer.checkPrivileges();
