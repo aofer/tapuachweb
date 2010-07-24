@@ -21,7 +21,6 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import java.util.Date;
-import org.tapuachForum.client.UI.MessageViewer.AfterSearch;
 import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.MessageInterface;
 
@@ -97,13 +96,14 @@ public class searchResultsPanel extends PopupPanel {
         _scrollPanelGrid.add(_resultsTable);
         _scrollPanelGrid.setStyleName("blueBack");
         this.setGlassEnabled(true);
+        /*
         this._resultsTable.addTableListener(new TableListener() {
 
             public void onCellClicked(SourcesTableEvents sender, int row, int column) {
                 searchResultsPanel.this.cellClicked(row, column);
             }
         });
-
+*/
         _navigationPanel.setSize("100%", "26px");
         _navigationPanel.add(_buttonReturn);
         _navigationPanel.add(_buttonFirstPage);
@@ -292,25 +292,24 @@ public class searchResultsPanel extends PopupPanel {
         _buttonPrevPage.setEnabled(false);
         refreshResultsPanel();
     }
-
+    /*
     private void cellClicked(int row, int column) {
-        _lTitle.setText("row is " + row + ". coumn is " + column);
-        if ((row > 0) & (row <= pageSize)) {
-            int getMeIndex = indexesInt[(indexOfPages * pageSize) + row - 1];
-            searchResultsPanel.super.hide();
-            LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-     //       _lTitle.setText("row is " + row + ". coumn is " + column + ". index is " + getMeIndex + "1");
-            lp.remove(3);
-            AfterSearch m = new AfterSearch(getMeIndex);
-            m.setSize("980 px", "320 px");
-            m.setHeight("320px");
-            lp.add(m);
-            lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
-            m.setStyleName("messageviewer");
-        }
-
-
-
+    _lTitle.setText("row is " + row + ". coumn is " + column);
+    if ((row > 0) & (row <= pageSize)) {
+    int getMeIndex = indexesInt[(indexOfPages * pageSize) + row - 1];
+    searchResultsPanel.super.hide();
+    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
+    //       _lTitle.setText("row is " + row + ". coumn is " + column + ". index is " + getMeIndex + "1");
+    lp.remove(3);
+    //     AfterSearch m = new AfterSearch(getMeIndex);
+    m.setSize("980 px", "320 px");
+    m.setHeight("320px");
+    lp.add(m);
+    lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
+    m.setStyleName("messageviewer");
     }
+
+     */
 }
+
 

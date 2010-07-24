@@ -14,13 +14,19 @@ import org.tapuachForum.shared.eMemberType;
  * @author amit
  */
 public class LoginManager {
-
+    private static LoginManager loginManager;
     private Authentication authentication;
 
-    public LoginManager() {
+    private LoginManager() {
         authentication = new Authentication();
     }
 
+    public static LoginManager getInstance(){
+        if (loginManager == null){
+            loginManager = new LoginManager();
+        }
+        return loginManager;
+    }
     /**
      * @return the authentication
      */

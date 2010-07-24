@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
+import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
@@ -31,73 +32,51 @@ import org.tapuachForum.client.manager.LoginManager;
 public class mainWindow extends Composite {
 
     private LayoutPanel _mainPanel;
+    private LoginPanel _loginPanel;
+    private OnlinePanel _onlinePanel;
+    private MessageViewer _messageViewer;
+    private StatusPanel _statusPanel;
+    private searchPanel _searchPanel;
 
     public mainWindow() {
         _mainPanel = new LayoutPanel();
         initWidget(_mainPanel);
-        final LoginManager loginManager = new LoginManager();
-        //status panel
-        final StatusPanel status = new StatusPanel();
-        _mainPanel.add(status);
-        _mainPanel.setWidgetTopHeight(status, 85, Unit.PX, 20, Unit.PX);
-        _mainPanel.setWidgetLeftRight(status, 10, Unit.PX, 100, Unit.PX);
+        //_statusPanel panel
+        _statusPanel = new StatusPanel();
+        _mainPanel.add(_statusPanel);
+        _mainPanel.setWidgetTopHeight(_statusPanel, 85, Unit.PX, 20, Unit.PX);
+        _mainPanel.setWidgetLeftRight(_statusPanel, 10, Unit.PX, 100, Unit.PX);
 
         //LOGIN Panel ( number 0)
-        final LoginPanel l = new LoginPanel();
-        _mainPanel.add(l);
-        _mainPanel.setWidgetLeftRight(l, 700, Unit.PX, 20, Unit.PX);
-        _mainPanel.setWidgetTopHeight(l, 5, Unit.PX, 125, Unit.PX);
-        l.addListener(new ApplicationEventListener() {
-
-            public void handle(ApplicationEvent event) {
-                if (event instanceof LoginEvent) {
-                    _mainPanel.remove(l);
-                    LoginEvent tEvent = (LoginEvent) event;
-                    loginManager.setAuthentication(tEvent.getUser());
-                    
-
-                }
-
-            }
-        });
+        _loginPanel = new LoginPanel();
+        _mainPanel.add(_loginPanel);
+        _mainPanel.setWidgetLeftRight(_loginPanel, 700, Unit.PX, 20, Unit.PX);
+        _mainPanel.setWidgetTopHeight(_loginPanel, 5, Unit.PX, 125, Unit.PX);
+        _loginPanel.addListener(new LoginPanelListener());
         //   SERACH PANEL      (number 1)
-        searchPanel sp = new searchPanel();
-        _mainPanel.add(sp);
-        _mainPanel.setWidgetTopHeight(sp, 533, Unit.PX, 100, Unit.PX);
-        _mainPanel.setWidgetLeftRight(sp, 10, Unit.PX, 500, Unit.PX);
+        _searchPanel = new searchPanel();
+        _mainPanel.add(_searchPanel);
+        _mainPanel.setWidgetTopHeight(_searchPanel, 533, Unit.PX, 100, Unit.PX);
+        _mainPanel.setWidgetLeftRight(_searchPanel, 10, Unit.PX, 500, Unit.PX);
 
         //ONline Panel (number 2)
-        final OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-        _mainPanel.add(op);
-        _mainPanel.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-        _mainPanel.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-        op.addListener(new ApplicationEventListener() {
-
-            public void handle(ApplicationEvent event) {
-                status.SetStatus(event.getDescription());
-            }
-        });
+        _onlinePanel = new OnlinePanel("Admin,Arseny,bobspong");
+        _mainPanel.add(_onlinePanel);
+        _mainPanel.setWidgetTopHeight(_onlinePanel, 533, Unit.PX, 100, Unit.PX);
+        _mainPanel.setWidgetLeftRight(_onlinePanel, 550, Unit.PX, 40, Unit.PX);
+        _onlinePanel.addListener(new OnlinePanelListener());
 
         //  MESSAGES panerl  (number 3)
-        MessageViewer m = new MessageViewer();
-        m.setSize("980 px", "320 px");
-        //       Scrol_mainPanelanel s = new Scrol_mainPanelanel(m);
-        m.setHeight("320px");
-        _mainPanel.add(m);
-        _mainPanel.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
-        m.setStyleName("messageviewer");
-        m.addListener(new ApplicationEventListener() {
+        _messageViewer = new MessageViewer();
+        _messageViewer.setSize("980 px", "320 px");
+        //       Scrol_mainPanelanel s = new Scrol_mainPanelanel(_messageViewer);
+        _messageViewer.setHeight("320px");
+        _mainPanel.add(_messageViewer);
+        _mainPanel.setWidgetTopHeight(_messageViewer, 104, Unit.PX, 430, Unit.PX);
+        _messageViewer.setStyleName("messageviewer");
+        _messageViewer.addListener(new MessageViewerListener());
 
-            public void handle(ApplicationEvent event) {
-                if (event instanceof RefreshEvent) {
-                    op.refreshUsers();
-                } else if (event instanceof ChangeStatusEvent) {
-                    status.SetStatus(event.getDescription());
-                }
-            }
-        });
-
- //       RootLayoutPanel.get().add(_mainPanel);
+        //       RootLayoutPanel.get().add(_mainPanel);
 
 
         Window.addWindowClosingHandler(new Window.ClosingHandler() {
@@ -116,4 +95,49 @@ public class mainWindow extends Composite {
     public static MyServiceAsync getService() {
         return GWT.create(MyService.class);
     }
+
+    protected class LoginPanelListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof LoginEvent) {
+                _loginPanel.setVisible(false);
+                // put logout panel here (make it visible)
+                LoginEvent tEvent = (LoginEvent) event;
+                LoginManager.getInstance().setAuthentication(tEvent.getUser());
+                refresh();
+
+            }
+
+        }
+
+    }
+
+    protected class OnlinePanelListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof RefreshEvent) {
+                _onlinePanel.refreshUsers();
+            } else if (event instanceof ChangeStatusEvent) {
+                _statusPanel.SetStatus(event.getDescription());
+            }
+        }
+    }
+
+    protected class MessageViewerListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof RefreshEvent) {
+                _onlinePanel.refreshUsers();
+            } else if (event instanceof ChangeStatusEvent) {
+                _statusPanel.SetStatus(event.getDescription());
+            }
+        }
+    }
+    private void refresh(){
+        this._messageViewer.refreshTree();
+        this._onlinePanel.refreshUsers();
+        this._messageViewer.checkPrivileges();
+    }
 }
+
+
