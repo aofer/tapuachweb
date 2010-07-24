@@ -65,6 +65,7 @@ public class MessageViewer extends Pane {
 //        _refreshButton.setEnabled(false);
         _NextButton.setEnabled(false);
         _PrevButton.setEnabled(false);
+        _refreshButton.setEnabled(false);
         //      _info = new Label("");
         _MessageTree = new MessageTree();
         _MessageTree.addListener(new MessageTreeListener());
@@ -142,7 +143,7 @@ public class MessageViewer extends Pane {
     public void checkPrivileges() {
         if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest) {
             _addMessageButton.setEnabled(true);
-        } else {
+        } else if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.guest){
             _addMessageButton.setEnabled(false);
         }
     }

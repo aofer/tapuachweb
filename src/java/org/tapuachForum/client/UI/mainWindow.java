@@ -10,12 +10,14 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.LayoutPanel;
+import com.google.gwt.user.client.ui.ResetButton;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
 import org.tapuachForum.client.Events.LogoutEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
+import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
@@ -133,11 +135,14 @@ public class mainWindow extends Composite {
                 _mainPanel.add(_loginPanel);
                 _mainPanel.setWidgetLeftRight(_loginPanel, 700, Unit.PX, 20, Unit.PX);
                 _mainPanel.setWidgetTopHeight(_loginPanel, 5, Unit.PX, 125, Unit.PX);
+                LoginManager.getInstance().resetAuthentication();
                 _loginPanel.setButtons();
                 refresh();
 
             } else if (event instanceof ChangeStatusEvent) {
                 _statusPanel.SetStatus(event.getDescription());
+            } else if (event instanceof resetButtonsEvent) {
+                _messageViewer.checkPrivileges();
             }
 
         }

@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import org.tapuachForum.shared.WrongPasswordException;
 import java.io.Serializable;
 import org.tapuachForum.shared.User;
 import org.tapuachForum.shared.NoSuchUserException;

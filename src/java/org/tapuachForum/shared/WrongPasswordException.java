@@ -9,8 +9,8 @@ import java.io.Serializable;
 
 /**
  *
- * @author Kipi
+ * @author Amit Ofer
  */
-public class UserLoggedException extends Exception implements Serializable {
+public class WrongPasswordException extends Exception implements Serializable  {
 
 }

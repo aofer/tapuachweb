@@ -11,10 +11,8 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import org.tapuachForum.shared.Member;
-import org.tapuachForum.shared.MemberInterface;
-import org.tapuachForum.shared.MessageInterface;
-import org.tapuachForum.shared.SearchHit;
+import org.tapuachForum.shared.*;
+
 
 /**
  *
@@ -25,15 +23,15 @@ public interface MyService extends RemoteService {
 
     public String register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate);
 
-    public Integer addMessage(String _nickName, String subject, String body);
+    public void addMessage(String _nickName, String subject, String body);
 
     public String addReply(int parentId, String nickname, String subject, String body);
 
     public String editMessage(String nickname, int messageId, String subject, String body);
 
-    public MemberInterface login(String username, String password);
+    public MemberInterface login(String username, String password) throws NoSuchUserException, WrongPasswordException, UserLoggedException ;
 
-    public MemberInterface logout(String username);
+    public void logout(String username);
 
     public String deleteMessage(int messageId);
 

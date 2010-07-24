@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
 import org.tapuachForum.client.Events.LogoutEvent;
+import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
@@ -59,25 +60,27 @@ public class LogoutPanel extends Pane {
             getService().logout(LoginManager.getInstance().getAuthentication().getUsername(), logoutCallback);
         }
     };
-    final AsyncCallback<MemberInterface> logoutCallback = new AsyncCallback<MemberInterface>() {
+    final AsyncCallback logoutCallback = new AsyncCallback() {
 
-        public void onSuccess(MemberInterface result) {
+        public void onSuccess(Object result) {
             LogoutPanel.this.fireEvent(new LogoutEvent(LogoutPanel.this));
-            LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "logout successfully."));
-            LoginManager.getInstance().setAuthentication();
+            LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "logged out successfully."));
 
+            //      LogoutPanel.this.fireEvent(new resetButtonsEvent(LogoutPanel.this));
 
         }
 
         public void onFailure(Throwable caught) {
             LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "logout failed."));
+            setButtons();
         }
     };
 
     public static MyServiceAsync getService() {
         return Locator.getInstance();
     }
-    public void setButtons(){
+
+    public void setButtons() {
         _logout.setEnabled(true);
     }
 }

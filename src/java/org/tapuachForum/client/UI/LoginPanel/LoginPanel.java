@@ -29,6 +29,9 @@ import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.client.UI.RegistrationPanel;
 import org.tapuachForum.shared.MemberInterface;
+import org.tapuachForum.shared.NoSuchUserException;
+import org.tapuachForum.shared.UserLoggedException;
+import org.tapuachForum.shared.WrongPasswordException;
 import org.tapuachForum.shared.eMemberType;
 
 /**
@@ -119,7 +122,18 @@ public class LoginPanel extends Pane{
             LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Please wait while the server is trying to login..."));
             String username = _user.getText();
             String password = _pass.getText();
-            getService().login(username, password, loginCallback);
+            try {
+                getService().login(username, password, loginCallback);
+            } catch (NoSuchUserException ex) {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "No such user, Please try again."));
+                setButtons();
+            } catch (WrongPasswordException ex) {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Wrong password, Please try again."));
+                setButtons();
+            } catch (UserLoggedException ex) {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "User is already logged in."));
+                setButtons();
+            }
         }
     };
     
@@ -134,19 +148,10 @@ public class LoginPanel extends Pane{
 
         public void onSuccess(MemberInterface result) {
             LoginPanel.this._listeners.fireEvent(new LoginEvent(LoginPanel.this,result));
-            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Login successfull."));
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Login successful."));
         }
     };
-        final AsyncCallback<MemberInterface> logoutCallback = new AsyncCallback<MemberInterface>() {
 
-        public void onFailure(Throwable caught) {
-
-        }
-
-        public void onSuccess(MemberInterface result) {
-
-        }
-    };
 
     public void setButtons() {
         _login.setEnabled(true);

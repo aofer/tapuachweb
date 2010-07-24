@@ -24,7 +24,7 @@ import java.util.Vector;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.UserLoggedException;
-import org.tapuachForum.server.Exceptions.WrongPasswordException;
+import org.tapuachForum.shared.WrongPasswordException;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.shared.MemberInterface;
@@ -37,12 +37,10 @@ import org.tapuachForum.shared.eMemberType;
  */
 public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 
-
     public MyServiceImpl() {
         super();
 
     }
-
 
     public String register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate) {
         String res;
@@ -62,10 +60,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         return " " + res;
     }
 
-    public Integer addMessage(String nickName, String subject, String body) {
-        int messageNum = Forum.getInstance().addMessage(nickName, subject , body);
-        Integer res = new Integer(messageNum);
-        return res;
+    public void addMessage(String nickName, String subject, String body) {
+        int message = Forum.getInstance().addMessage(nickName, subject, body);
     }
 
     public String addReply(int parentId, String nickname, String subject, String body) {
@@ -95,36 +91,14 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     }
 
     //}
-    public MemberInterface login(String username, String password) {
-        MemberInterface clientUser;
-        String res = "good";
-        try {
-            Forum.getInstance().login(username, password);
-        } catch (NoSuchUserException ex) {
-            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            res = "There is not such user in the system";
-            clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
-            return clientUser;
-        } catch (WrongPasswordException ex) {
-            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            res = "The Password is wrong. Please Re-Type it.";
-            clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
-            return clientUser;
-        } catch (UserLoggedException ex) {
-            Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
-            res = "user is alreay login. You can't login with this user!";
-            clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
-            return clientUser;
-        }
-        clientUser = Forum.getInstance().getMember(username);
-        return clientUser;
+    public MemberInterface login(String username, String password) throws NoSuchUserException, WrongPasswordException, UserLoggedException {
+        Forum.getInstance().login(username, password);
+        return Forum.getInstance().getMember(username);
+
     }
 
-    public MemberInterface logout(String username) {
-        MemberInterface clientUser = null;
+    public void logout(String username) {
         Forum.getInstance().logout(username);
-        //      return "cool";
-        return clientUser;
     }
 
     public String deleteMessage(int messageId) {
@@ -176,8 +150,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         return res;
     }
 
-     public  List<Member> getMembers(){
-           return  Forum.getInstance().getMembers();
-     }
+    public List<Member> getMembers() {
+        return Forum.getInstance().getMembers();
+    }
 }
 
