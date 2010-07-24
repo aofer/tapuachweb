@@ -20,6 +20,7 @@ import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.Pane;
+import org.tapuachForum.client.manager.LoginManager;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -82,6 +83,7 @@ public class MessageViewer extends Pane {
         _info.setText("Please wait while downloading mesagses from the server....");
         _info.setStyleName("infoText");
         refreshTree();
+        checkPrivileges();
         _addMessageButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
@@ -217,6 +219,14 @@ public class MessageViewer extends Pane {
         });
     }
 
+    public void checkPrivileges(){
+        if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest){
+            _addMessageButton.setEnabled(true);
+        }
+        else{
+            _addMessageButton.setEnabled(false);
+        }
+    }
 }
 
 
