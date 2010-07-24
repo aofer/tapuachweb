@@ -17,8 +17,10 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.AdminPanel;
 import org.tapuachForum.client.UI.ClientUser;
@@ -98,7 +100,7 @@ public class LoginPanel extends Pane{
     }
 
     public static MyServiceAsync getService() {
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 
     public Button getLogin() {
@@ -111,9 +113,10 @@ public class LoginPanel extends Pane{
     ClickHandler loginHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
-            //_login.setEnabled(false);
-            //_reg.setEnabled(false);
+            _login.setEnabled(false);
+            _reg.setEnabled(false);
             // change status
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Please wait while the server is trying to login..."));
             String username = _user.getText();
             String password = _pass.getText();
             getService().login(username, password, loginCallback);
@@ -125,12 +128,13 @@ public class LoginPanel extends Pane{
         public void onFailure(Throwable caught) {
             _login.setEnabled(true);
             _reg.setEnabled(true);
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Failed to login, please try again."));
           //  _info.setText(" Problem with login. Please try again.");
-            //TODO set status
         }
 
         public void onSuccess(MemberInterface result) {
             LoginPanel.this._listeners.fireEvent(new LoginEvent(LoginPanel.this,result));
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Login successfull."));
         }
     };
         final AsyncCallback<MemberInterface> logoutCallback = new AsyncCallback<MemberInterface>() {
@@ -143,4 +147,9 @@ public class LoginPanel extends Pane{
 
         }
     };
+
+    public void setButtons() {
+        _login.setEnabled(true);
+        _reg.setEnabled(true);
+    }
 }

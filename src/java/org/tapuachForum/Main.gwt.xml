@@ -12,4 +12,5 @@
   <!-- Do not define servlets here, use web.xml -->
   <source path="client"/>
   <source path="shared"/>
+
 </module>

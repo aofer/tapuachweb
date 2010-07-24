@@ -46,10 +46,9 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 
     public String register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate) {
         String res;
-        Forum forum = Forum.getInstance();
         res = "Registeration was successful";
         try {
-            forum.register(username, pass, nickname, email, firstname, lastName, tDate);
+            Forum.getInstance().register(username, pass, nickname, email, firstname, lastName, tDate);
         } catch (UserExistsException ex) {
             Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = username + " already exist.";
@@ -63,18 +62,16 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
         return " " + res;
     }
 
-    public Integer addMessage(String _nickName, String subject, String body) {
-        Forum forum = Forum.getInstance();
-        int messageNum = forum.addMessage(_nickName, subject + " cool", body);
+    public Integer addMessage(String nickName, String subject, String body) {
+        int messageNum = Forum.getInstance().addMessage(nickName, subject , body);
         Integer res = new Integer(messageNum);
         return res;
     }
 
     public String addReply(int parentId, String nickname, String subject, String body) {
-        Forum forum = Forum.getInstance();
         String res = "good";
         try {
-            forum.addReply(parentId, nickname, subject, body);
+            Forum.getInstance().addReply(parentId, nickname, subject, body);
         } catch (MessageNotFoundException ex) {
             Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageNotFoundException";
@@ -85,9 +82,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
 
     public String editMessage(String nickname, int messageId, String subject, String body) {
         String res = "good";
-        Forum forum = Forum.getInstance();
         try {
-            forum.editMessage(nickname, messageId, subject, body);
+            Forum.getInstance().editMessage(nickname, messageId, subject, body);
         } catch (MessageNotFoundException ex) {
             Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageNotFoundException";
@@ -102,9 +98,8 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     public MemberInterface login(String username, String password) {
         MemberInterface clientUser;
         String res = "good";
-        Forum forum = Forum.getInstance();
         try {
-            forum.login(username, password);
+            Forum.getInstance().login(username, password);
         } catch (NoSuchUserException ex) {
             Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "There is not such user in the system";
@@ -121,23 +116,21 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
             clientUser = new Member(new MemberData(res, "exseption", "exseption"), eMemberType.guest);
             return clientUser;
         }
-        clientUser = forum.getMember(username);
+        clientUser = Forum.getInstance().getMember(username);
         return clientUser;
     }
 
     public MemberInterface logout(String username) {
         MemberInterface clientUser = null;
-        Forum forum = Forum.getInstance();
-        forum.logout(username);
+        Forum.getInstance().logout(username);
         //      return "cool";
         return clientUser;
     }
 
     public String deleteMessage(int messageId) {
         String res = "good";
-        Forum forum = Forum.getInstance();
         try {
-            forum.deleteMessage(messageId);
+            Forum.getInstance().deleteMessage(messageId);
         } catch (MessageNotFoundException ex) {
             Logger.getLogger(MyServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             res = "MessageNotFoundException";
@@ -150,8 +143,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     }
 
     public SearchHit[] searchByAuthor(String searchValue, int from, int to) {
-        Forum forum = Forum.getInstance();
-        SearchHit[] results = forum.searchByAuthor(searchValue, from, to);
+        SearchHit[] results = Forum.getInstance().searchByAuthor(searchValue, from, to);
         //    return new Vector(Arrays.asList(results));
 //                             Date tDate = new Date();
 //        SearchHit[] sh = new SearchHit[2];
@@ -163,8 +155,7 @@ public class MyServiceImpl extends RemoteServiceServlet implements MyService {
     }
 
     public SearchHit[] searchByContext(String searchValue, int from, int to) {
-        Forum forum = Forum.getInstance();
-        SearchHit[] results = forum.searchByContent(searchValue, from, to);
+        SearchHit[] results = Forum.getInstance().searchByContent(searchValue, from, to);
         //   return new Vector(Arrays.asList(results));
         return results;
 

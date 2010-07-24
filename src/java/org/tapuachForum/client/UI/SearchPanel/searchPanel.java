@@ -21,6 +21,7 @@ import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.SearchHit;
 
@@ -144,7 +145,7 @@ public class searchPanel extends Composite {
     }
 
     public static MyServiceAsync getService() {
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 }
 

@@ -7,6 +7,7 @@ package org.tapuachForum.client;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.UI.mainWindow;
 
 
@@ -24,7 +25,7 @@ public class MainEntryPoint implements EntryPoint {
     }
 
     public static MyServiceAsync getService() {
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 
     public void onModuleLoad() {

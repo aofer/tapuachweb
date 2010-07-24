@@ -13,6 +13,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.Vector;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.shared.MemberInterface;
@@ -39,7 +40,7 @@ public class OnlinePanel extends Pane {
 
     public static MyServiceAsync getService() {
 
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 
     /**
@@ -57,7 +58,7 @@ public class OnlinePanel extends Pane {
                    tUsers = tUsers.substring(0, tUsers.length() - 3);
                 }
                 _l.setText(tUsers);
-                OnlinePanel.this._listeners.fireEvent(new ChangeStatusEvent(OnlinePanel.this, "done"));
+          //      OnlinePanel.this._listeners.fireEvent(new ChangeStatusEvent(OnlinePanel.this, "done"));
             }
 
             public void onFailure(Throwable caught) {

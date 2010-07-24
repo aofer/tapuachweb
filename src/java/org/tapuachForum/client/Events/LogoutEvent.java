@@ -18,21 +18,19 @@ public class LogoutEvent  extends ApplicationEvent{
  */
 
 
-     private MemberInterface _user;
 
-       public LogoutEvent(ApplicationEventSource source,MemberInterface user){
+
+       public LogoutEvent(ApplicationEventSource source){
         super(source);
-        this._user = user;
+
     }
 
     @Override
     public String getDescription() {
-         return "user " + _user.getNickName() + " logged out";
+         return "user " + " logged out successfully.";
     }
 
-     public MemberInterface getUser(){
-        return this._user;
-    }
+
 }
 
 

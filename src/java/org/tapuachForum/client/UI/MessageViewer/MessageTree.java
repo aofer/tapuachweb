@@ -15,7 +15,9 @@ import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
+import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.shared.Message;
@@ -88,8 +90,8 @@ public class MessageTree extends Pane {
         //first clean the tree
         this._messageTree.clear();
         //add the messages from the vector of messages
-        int firstMessageIndex = (this.getCurrentPage() - 1) * PAGESIZE + 1;
-        int lastMessageIndex = Math.min(this.getCurrentPage() * PAGESIZE, this._messages.size() - 1);
+        int firstMessageIndex = (this.getCurrentPage() - 1) * PAGESIZE;
+        int lastMessageIndex = Math.min(this.getCurrentPage() * PAGESIZE - 1, this._messages.size() - 1);
         for (int i = firstMessageIndex; i <= lastMessageIndex; i++) {
             MessageInterface m = _messages.get(i);
             MessageTreeItem tItem = new MessageTreeItem(m);
@@ -125,7 +127,7 @@ public class MessageTree extends Pane {
     }
 
     public static MyServiceAsync getService() {
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 
     public void getMessagesFromServer() {
@@ -134,11 +136,13 @@ public class MessageTree extends Pane {
             public void onFailure(Throwable caught) {
                 // set status
                 MessageTree.this.fireEvent(new ChangeStatusEvent(MessageTree.this, "Error loading messages from server"));
+                MessageTree.this.fireEvent(new resetButtonsEvent(MessageTree.this));
             }
 
             public void onSuccess(Vector<MessageInterface> result) {
                 MessageTree.this._messages = result;
                 viewMessages();
+                MessageTree.this.fireEvent(new resetButtonsEvent(MessageTree.this));
             }
         });
     }
@@ -146,7 +150,6 @@ public class MessageTree extends Pane {
     public void refreshTree() {
         getMessagesFromServer();
         //remove next line later
-        this._currentPage = 1;
         //TODO check the current page if its still valid
 
     }
@@ -162,8 +165,7 @@ public class MessageTree extends Pane {
         int maxPage;
         if (this._messages.size() % PAGESIZE == 0) {
             maxPage = this._messages.size() / PAGESIZE;
-        }
-        else {
+        } else {
             maxPage = this._messages.size() / PAGESIZE + 1;
         }
         return maxPage;

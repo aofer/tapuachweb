@@ -44,4 +44,8 @@ public class LoginManager {
     public void setAuthentication(MemberInterface user) {
         authentication = new Authentication(user.getUserName(), user.getNickName(), user.getType());
     }
+
+    public void setAuthentication() {
+        setAuthentication(new Authentication());
+    }
 }
