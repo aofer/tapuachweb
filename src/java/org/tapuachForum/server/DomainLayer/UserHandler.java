@@ -12,7 +12,7 @@ import org.tapuachForum.server.Exceptions.NicknameExistsException;
 import org.tapuachForum.shared.NoSuchUserException;
 import org.tapuachForum.server.Exceptions.UserExistsException;
 import org.tapuachForum.server.Exceptions.UserNotExistException;
-import org.tapuachForum.server.Exceptions.WrongPasswordException;
+import org.tapuachForum.shared.WrongPasswordException;
 import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.server.PersistentLayer.Interfaces.ForumHandlerInterface;
 import org.tapuachForum.server.PersistentLayer.Interfaces.XMLMemberInterface;

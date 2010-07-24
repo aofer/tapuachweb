@@ -9,10 +9,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.Date;
 import java.util.List;
 import java.util.Vector;
-import org.tapuachForum.shared.Member;
-import org.tapuachForum.shared.MemberInterface;
-import org.tapuachForum.shared.MessageInterface;
-import org.tapuachForum.shared.SearchHit;
+import org.tapuachForum.shared.*;
 
 /**
  *
@@ -23,15 +20,15 @@ public interface MyServiceAsync {
 
     public void register(String firstname, String lastName, String email, String nickname, String username, String pass, Date tDate, AsyncCallback<String> callback);
 
-     public void addMessage (String _nickName, String subject, String body, AsyncCallback<Integer> callback);
+     public void addMessage (String _nickName, String subject, String body, AsyncCallback callback);
 
     public void addReply(int parentId, String nickname, String subject, String body, AsyncCallback<String> callback);
 
     public void editMessage(String nickname, int messageId, String subject, String body, AsyncCallback<String> callback) ;
 
-    public void login(String username, String password, AsyncCallback<MemberInterface> callback) ;
+    public void login(String username, String password, AsyncCallback<MemberInterface> callback)  throws NoSuchUserException, WrongPasswordException, UserLoggedException;
 
-    public void logout (String username, AsyncCallback<MemberInterface> callback);
+    public void logout (String username, AsyncCallback callback);
 
     public void  deleteMessage(int messageId, AsyncCallback<String> callback);
 

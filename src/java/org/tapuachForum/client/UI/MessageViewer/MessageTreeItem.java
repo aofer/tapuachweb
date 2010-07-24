@@ -22,6 +22,7 @@ import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
+import org.tapuachForum.client.manager.LoginManager;
 import org.tapuachForum.shared.MessageInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -97,7 +98,7 @@ public class MessageTreeItem extends TreeItem {
                 addMessageWindow aw = new addMessageWindow(num);
             }
         });
-
+        setButtons();
 
     }
 
@@ -107,5 +108,19 @@ public class MessageTreeItem extends TreeItem {
 
     public static MyServiceAsync getService() {
         return Locator.getInstance();
+    }
+    public void setButtons(){
+        if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.Admin ||
+                LoginManager.getInstance().getAuthentication().getType()== eMemberType.Moderator ){
+            _DeleteButton.setEnabled(true);
+            _ModifyButton.setEnabled(true);
+            _ReplyButton.setEnabled(true);
+        }
+        else if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.member){
+            _ReplyButton.setEnabled(true);
+            if (getMessage().getNickname().equals(LoginManager.getInstance().getAuthentication().getNickname())){
+                _ModifyButton.setEnabled(true);
+            }
+        }
     }
 }

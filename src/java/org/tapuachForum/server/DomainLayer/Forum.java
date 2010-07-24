@@ -4,6 +4,7 @@
  */
 package org.tapuachForum.server.DomainLayer;
 
+import org.tapuachForum.shared.WrongPasswordException;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.NoSuchUserException;
 import org.tapuachForum.shared.UserLoggedException;
@@ -157,7 +158,7 @@ public class Forum implements ForumInterface {
      * @param Subject
      * @param body
      */
-    public synchronized int addMessage(String nickname, String Subject, String body) { //might needs to throw NoSuchUserException in case there is no user with that nickname
+    public synchronized int addMessage(String nickname, String Subject, String body) { 
         TapuachLogger.getInstance().info("nickname: " + nickname + " added new message");
         int id = this._messageHandler.addMessage(nickname, Subject, body);
         try {

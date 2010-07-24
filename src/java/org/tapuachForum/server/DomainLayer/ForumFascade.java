@@ -6,6 +6,7 @@
 package org.tapuachForum.server.DomainLayer;
 
 
+import org.tapuachForum.shared.WrongPasswordException;
 import org.tapuachForum.shared.User;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.NoSuchUserException;

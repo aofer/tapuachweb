@@ -1,5 +1,10 @@
 package org.tapuachForum.shared;
-public abstract class ForumException extends Exception{
+
+import java.io.Serializable;
+
+
+
+public abstract class ForumException extends Exception implements Serializable{
     private  String message;
     public ForumException(String message) {
         super();

@@ -137,21 +137,25 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
     public static MyServiceAsync getService() {
         return Locator.getInstance();
     }
-    final AsyncCallback<Integer> addMessageCallback = new AsyncCallback<Integer>() {
 
-        public void onSuccess(Integer result) {
-            addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
-            addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
-        }
+    /*
+    final AsyncCallback addMessageCallback = new AsyncCallback() {
 
-        public void onFailure(Throwable caught) {
-            _Bcancel.setEnabled(true);
-            _BSave.setEnabled(true);
-            _BSave.setText("try again");
-            lResult.setText("There was a problem to add the message. Please REFRESH the forum and try again.");
-        }
+    public void onSuccess(Object result) {
+    addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
+    addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
+    //close the window
+    addMessageWindow.super.hide();
+    }
+
+    public void onFailure(Throwable caught) {
+    _Bcancel.setEnabled(true);
+    _BSave.setEnabled(true);
+    _BSave.setText("try again");
+    lResult.setText("There was a problem to add the message AGAIN. Please REFRESH the forum and try again.");
+    }
     };
-
+     */
     public void addListener(ApplicationEventListener listener) {
         this._listeners.add(listener);
     }
@@ -200,22 +204,38 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
     /**
      * click handler for the add message save button
      */
-    private ClickHandler addMessageHandler = new ClickHandler() {
+    ClickHandler addMessageHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
             _BSave.setEnabled(false);
             _Bcancel.setEnabled(false);
-            String subject = _TBSubject.getText();
+            String tSubject = _TBSubject.getText();
             String body = _TABody.getText();
-            String _nickName = LoginManager.getInstance().getAuthentication().getNickname();
             lResult.setStyleName("panel");
-            lResult.setText("please wait while the server adding your message.");
-            getService().addMessage(_nickName, subject, body, addMessageCallback);
+            lResult.setText("please wait while the server adding your message");
+            getService().addMessage(LoginManager.getInstance().getAuthentication().getNickname(), tSubject, body, addMessageCallback);
         }
     };
-    /**
-     * click handler for the reply save button
-     */
+    final AsyncCallback addMessageCallback = new AsyncCallback() {
+
+        public void onFailure(Throwable caught) {
+            _BSave.setEnabled(true);
+            _BSave.setText("Try again");
+            _Bcancel.setEnabled(true);
+            lResult.setStyleName("panel");
+            lResult.setText("could not post message, please try again.");
+
+        }
+
+        public void onSuccess(Object result) {
+            addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
+            addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
+            addMessageWindow.super.hide();
+        }
+    };
+            /**
+             * click handler for the reply save button
+             */
     private ClickHandler replyHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -244,46 +264,6 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
 
         }
     };
-    /**
-     * callback for the add new message
-     */
-    /*
-    final AsyncCallback<Integer> callback = new AsyncCallback<Integer>() {
 
-    public void onSuccess(Integer result) {
-    addMessageWindow.super.hide();
-    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-    if (lp.remove(3)){
-    lp.remove(2);
-
-    //ONline Panel (number 2)
-    OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-    lp.add(op);
-    lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-    lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
-    }
-    //  MESSAGES panerl  (number 3)
-    MessageViewer m = new MessageViewer();
-    m.setSize("980 px", "320 px");
-    m.setHeight("320px");
-    lp.add(m);
-    lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
-    m.setStyleName("messageviewer");
-    }
-
-    public void onFailure(Throwable caught) {
-    _Bcancel.setEnabled(true);
-    _Bcancel.setText("Go Back");
-    lResult.setText("There was a problem to add the message. Please REFRESH the forum and try again.");
-    }
-    };
-    /**
-     * call back for reply to message
-     */
-    /*
-
-    /**
-     * callback for editing a message
-     */
 }
 
