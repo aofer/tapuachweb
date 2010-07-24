@@ -100,7 +100,7 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
         initComponents();
         _parentId = parentId;
         _messageId = 0;
-        //this._BSave.addClickHandler(replyHandler);
+        this._BSave.addClickHandler(replyHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
 
@@ -117,7 +117,7 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
         _messageId = messageId;
         this._TBSubject.setText(subject);
         this._TABody.setText(body);
-        //     this._BSave.addClickHandler(editHandler);
+        this._BSave.addClickHandler(editHandler);
         _Bcancel.addClickHandler(cancelHandler);
     }
     /**
@@ -138,24 +138,6 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
         return Locator.getInstance();
     }
 
-    /*
-    final AsyncCallback addMessageCallback = new AsyncCallback() {
-
-    public void onSuccess(Object result) {
-    addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
-    addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
-    //close the window
-    addMessageWindow.super.hide();
-    }
-
-    public void onFailure(Throwable caught) {
-    _Bcancel.setEnabled(true);
-    _BSave.setEnabled(true);
-    _BSave.setText("try again");
-    lResult.setText("There was a problem to add the message AGAIN. Please REFRESH the forum and try again.");
-    }
-    };
-     */
     public void addListener(ApplicationEventListener listener) {
         this._listeners.add(listener);
     }
@@ -233,9 +215,9 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
             addMessageWindow.super.hide();
         }
     };
-            /**
-             * click handler for the reply save button
-             */
+    /**
+     * click handler for the reply save button
+     */
     private ClickHandler replyHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
@@ -264,6 +246,5 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
 
         }
     };
-
 }
 
