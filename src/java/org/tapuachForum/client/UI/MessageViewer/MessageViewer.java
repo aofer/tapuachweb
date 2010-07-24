@@ -75,8 +75,6 @@ public class MessageViewer extends Pane {
         scrollPan.setSize("980 px", "320 px");
         _mainPanel.add(scrollPan);
         initWidget(_mainPanel);
-              _info.setText("Please wait while downloading mesagses from the server....");
-             _info.setStyleName("infoText");
         refreshTree();
         checkPrivileges();
         _NextButton.addClickHandler(nextPageHandler);

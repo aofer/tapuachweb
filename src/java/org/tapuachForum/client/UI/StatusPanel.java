@@ -19,7 +19,7 @@ public class StatusPanel extends Composite {
     private Label _status;
     
     public StatusPanel(){
-        _status = new Label("Welcome to Tapuach forum");
+        _status = new Label("Please wait while the forum is loading...");
         _mainPanel = new SimplePanel();
         _mainPanel.add(_status);
         initWidget(_mainPanel);

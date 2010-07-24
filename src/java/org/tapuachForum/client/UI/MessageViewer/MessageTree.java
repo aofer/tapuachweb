@@ -133,7 +133,7 @@ public class MessageTree extends Pane {
 
             public void onFailure(Throwable caught) {
                 // set status
-                MessageTree.this.fireEvent(new ChangeStatusEvent(MessageTree.this, "Error with loading messages from server"));
+                MessageTree.this.fireEvent(new ChangeStatusEvent(MessageTree.this, "Error loading messages from server"));
             }
 
             public void onSuccess(Vector<MessageInterface> result) {
