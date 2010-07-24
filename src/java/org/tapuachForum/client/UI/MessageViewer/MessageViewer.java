@@ -31,7 +31,6 @@ import org.tapuachForum.shared.eMemberType;
 public class MessageViewer extends Pane {
     //fields
 
-    final private int pageSize = 3;
     private VerticalPanel _mainPanel;
     private HorizontalPanel _toolbar;
     private HorizontalPanel _treebar;
@@ -42,14 +41,9 @@ public class MessageViewer extends Pane {
     private MessageTree _MessageTree;
     private Label _info;
     private ScrollPanel scrollPan;
-    public int indexOfPages;
-    public int numberOfPages;
-    private int restOfPages;
-    private Vector<MessageInterface> msgVector;
 
     public MessageViewer() {
         super();
-        msgVector = null;
         _mainPanel = new VerticalPanel();
         _toolbar = new HorizontalPanel();
         _treebar = new HorizontalPanel();
@@ -67,10 +61,10 @@ public class MessageViewer extends Pane {
         _toolbar.add(_refreshButton);
         _toolbar.add(_PrevButton);
         _toolbar.add(_NextButton);
-        _refreshButton.setEnabled(false);
-        _NextButton.setEnabled(false);
-        _PrevButton.setEnabled(false);
-         _info = new Label("");
+//        _refreshButton.setEnabled(false);
+        //     _NextButton.setEnabled(false);
+            _PrevButton.setEnabled(false);
+        //      _info = new Label("");
         _MessageTree = new MessageTree();
         _info = new Label("");
         _mainPanel.add(_info);
@@ -80,10 +74,12 @@ public class MessageViewer extends Pane {
         scrollPan.setSize("980 px", "320 px");
         _mainPanel.add(scrollPan);
         initWidget(_mainPanel);
-        _info.setText("Please wait while downloading mesagses from the server....");
-        _info.setStyleName("infoText");
+        //      _info.setText("Please wait while downloading mesagses from the server....");
+        //     _info.setStyleName("infoText");
         refreshTree();
         checkPrivileges();
+        _NextButton.addClickHandler(nextPageHandler);
+        _PrevButton.addClickHandler(previousPageHandler);
         _addMessageButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
@@ -91,42 +87,8 @@ public class MessageViewer extends Pane {
             }
         });
         _refreshButton.addClickHandler(refreshHandler);
-        /*
-        _refreshButton.addClickHandler(new ClickHandler() {
-        public void onClick(ClickEvent event) {
-        LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-        if (lp.remove(3)) {
-        lp.remove(2);
-        //ONline Panel (number 2)
-        OnlinePanel op = new OnlinePanel("Admin,Arseny,bobspong");
-        lp.add(op);
-        lp.setWidgetTopHeight(op, 533, Unit.PX, 100, Unit.PX);
-        lp.setWidgetLeftRight(op, 550, Unit.PX, 40, Unit.PX);
 
-        }
-        //  MESSAGES panerl  (number 3)
-        MessageViewer m = new MessageViewer();
-        m.setSize("980 px", "320 px");
-        m.setHeight("320px");
-        lp.add(m);
-        lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
-        m.setStyleName("messageviewer");
-        }
-        });
-         */
 
-        _NextButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                MessageViewer.this.buttonNextPageClicked();
-            }
-        });
-        _PrevButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                MessageViewer.this.buttonPrevPageClicked();
-            }
-        });
     }
 
     public static MyServiceAsync getService() {
@@ -139,93 +101,49 @@ public class MessageViewer extends Pane {
     public MessageTree getMessageTree() {
         return _MessageTree;
     }
-
-    private void buttonNextPageClicked() {
-        indexOfPages++;
-        if (indexOfPages == 1) {
-            _PrevButton.setEnabled(true);
-        }
-        if (indexOfPages == numberOfPages) {
-            _NextButton.setEnabled(false);
-        }
-        refreshTheMessages();
-    }
-
-    private void buttonPrevPageClicked() {
-        indexOfPages--;
-        if (indexOfPages == 0) {
-            _PrevButton.setEnabled(false);
-        }
-        if (indexOfPages < numberOfPages) {
-            _NextButton.setEnabled(true);
-        }
-        refreshTheMessages();
-    }
-
-    private void refreshTheMessages() {
-        //     _indexInfo.setText("Pressetinog page number " + (indexOfPages + 1) + " of total " + (numberOfPages + 1) + " pages.");
-        if (indexOfPages < numberOfPages) {
-            getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages + 1) * pageSize);
-        } else {
-            getMessageTree().refreshTreeByIndex(msgVector, indexOfPages * pageSize, (indexOfPages * pageSize) + restOfPages);
-        }
-        _info.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
-    }
     ClickHandler refreshHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
-            MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this,"refreshing"));
+            MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this, "refreshing"));
             MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
-            refreshTree();
+            MessageViewer.this._MessageTree.refreshTree();
+        }
+    };
+    ClickHandler nextPageHandler = new ClickHandler() {
+
+        public void onClick(ClickEvent event) {
+            MessageViewer.this._MessageTree.nextPage();
+            if (_MessageTree.getCurrentPage() == _MessageTree.getMaxPage()) {
+                _NextButton.setEnabled(false);
+            }
+            if (_MessageTree.getCurrentPage() == 2) {
+                _PrevButton.setEnabled(true);
+            }
+        }
+    };
+    ClickHandler previousPageHandler = new ClickHandler() {
+
+        public void onClick(ClickEvent event) {
+            MessageViewer.this._MessageTree.previousPage();
+            if (_MessageTree.getCurrentPage() == (_MessageTree.getMaxPage() - 1)) {
+                _NextButton.setEnabled(true);
+            }
+            if (_MessageTree.getCurrentPage() == 1) {
+                _PrevButton.setEnabled(false);
+            }
         }
     };
 
-    /**
-     * reloads the messages in the message tree
-     */
-    public void refreshTree() {
-        getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
-
-            public void onSuccess(Vector<MessageInterface> result) {
-                msgVector = result;
-                indexOfPages = 0;
-                numberOfPages = (result.size() / pageSize);
-                restOfPages = result.size() % pageSize;
-                _refreshButton.setEnabled(true);
-                _PrevButton.setEnabled(false);
-                if (indexOfPages < numberOfPages) {
-                    _NextButton.setEnabled(true);
-                } else {
-                    _NextButton.setEnabled(false);
-                }
-                if (restOfPages == 0) {
-                    numberOfPages--;
-                    restOfPages = pageSize;
-                }
-                if (numberOfPages >= 1) {
-                    getMessageTree().refreshTreeByIndex(result, 0, pageSize);
-                } else {
-                    getMessageTree().refreshTreeByIndex(result, 0, restOfPages);
-                }
-                _info.setText("");
-                _toolbar.setVisible(true);
-                //    _indexInfo.setText("Presseting page number "+(indexOfPages+1)+" of total "+(numberOfPages+1)+" pages.");
-                _info.setText(" " + (indexOfPages + 1) + "/" + (numberOfPages + 1));
-            }
-
-            public void onFailure(Throwable caught) {
-                throw new UnsupportedOperationException("Not supported yet.");
-            }
-        });
-    }
-
-    public void checkPrivileges(){
-        if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest){
+    public void checkPrivileges() {
+        if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest) {
             _addMessageButton.setEnabled(true);
-        }
-        else{
+        } else {
             _addMessageButton.setEnabled(false);
         }
+    }
+
+    public void refreshTree() {
+        this._MessageTree.refreshTree();
     }
 }
 
