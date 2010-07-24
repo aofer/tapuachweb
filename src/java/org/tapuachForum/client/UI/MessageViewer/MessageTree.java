@@ -4,6 +4,8 @@
  */
 package org.tapuachForum.client.UI.MessageViewer;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import org.tapuachForum.shared.MessageData;
 import com.google.gwt.user.client.ui.Composite;
@@ -12,6 +14,8 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
+import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.Message;
 import org.tapuachForum.shared.MessageInterface;
 
@@ -23,27 +27,20 @@ public class MessageTree extends Composite {
 
     private HorizontalPanel _mainPanel;
     private Tree _messageTree;
-    private final int numFromSearch;
-
-    public MessageTree(int numFromSearchInit) {
-
-        numFromSearch = numFromSearchInit;
-              this._mainPanel = new HorizontalPanel();
-        this._mainPanel.setSize("980x", "320px");
-        this._messageTree = new Tree();
-        this._mainPanel.add(this._messageTree);
-        initWidget(this._mainPanel);
-        testInit();
-    }
+    private final int PAGESIZE = 3;
+    private Vector<MessageInterface> _messages;
+    private int _currentPage;
 
     public MessageTree() {
-        numFromSearch = -18;
+        this._messages = new Vector<MessageInterface>();
+        this._currentPage = 1;
         this._mainPanel = new HorizontalPanel();
         this._mainPanel.setSize("980x", "320px");
         this._messageTree = new Tree();
         this._mainPanel.add(this._messageTree);
         initWidget(this._mainPanel);
- //       testInit();
+        refreshTree();
+        //       testInit();
     }
 
     public void testInit() {
@@ -61,20 +58,48 @@ public class MessageTree extends Composite {
         item2.addItem(item3);
     }
 
-    public void refreshTreeForSearch(Vector<MessageInterface> messages) {
-        for (MessageInterface m : messages) {
-            MessageTreeItem tItem = new MessageTreeItem(m);
-            this._messageTree.addItem(tItem);
-            ArrayList<Message> tReplies = m.getReplies();
-            addRepliesForSearch(tReplies, tItem, numFromSearch);
+    public void nextPage() {
+
+        if (this.getCurrentPage() < getMaxPage()) {
+            this._currentPage++;
+            viewMessages();
+        } else {
+            //TODO
         }
     }
 
-    public void refreshTree(Vector<MessageInterface> messages) {
+    public void previousPage() {
+        if (this.getCurrentPage() > 0) {
+            this._currentPage--;
+            viewMessages();
+        } else {
+            //TODO
+        }
+    }
+
+    public void gotoMessage(int index) {
+        //TODO
+    }
+
+    public void viewMessages() {
         //first clean the tree
         this._messageTree.clear();
         //add the messages from the vector of messages
-        for (MessageInterface m : messages) {
+        int firstMessageIndex = (this.getCurrentPage() - 1) * PAGESIZE + 1;
+        int lastMessageIndex = Math.min(this.getCurrentPage() * PAGESIZE, this._messages.size() - 1);
+        for (int i = firstMessageIndex; i <= lastMessageIndex; i++) {
+            MessageInterface m = _messages.get(i);
+            MessageTreeItem tItem = new MessageTreeItem(m);
+            this._messageTree.addItem(tItem);
+            ArrayList<Message> tReplies = m.getReplies();
+            addReplies(tReplies, tItem);
+        }
+    }
+
+    public void viewMessages2() {
+        this._messageTree.clear();
+        //add the messages from the vector of messages
+        for (MessageInterface m : _messages) {
             MessageTreeItem tItem = new MessageTreeItem(m);
             this._messageTree.addItem(tItem);
             ArrayList<Message> tReplies = m.getReplies();
@@ -84,7 +109,7 @@ public class MessageTree extends Composite {
 
     /**
      * used for adding replies for each message in the tree
-     * used by refreshTree
+     * used by viewMessages
      * @param replies
      * @param parent
      */
@@ -96,63 +121,48 @@ public class MessageTree extends Composite {
         }
     }
 
-    private boolean addRepliesForSearch(ArrayList<Message> replies, MessageTreeItem parent, int msgNumber) {
-        boolean ans = false;
-        for (MessageInterface m : replies) {
-            MessageTreeItem tItem = new MessageTreeItem(m);
-            parent.addItem(tItem);
-            if (addRepliesForSearch(m.getReplies(), tItem, msgNumber)) {
-                ans = true;
+    public static MyServiceAsync getService() {
+        return GWT.create(MyService.class);
+    }
+
+    public void getMessagesFromServer() {
+        getService().viewForum(new AsyncCallback<Vector<MessageInterface>>() {
+
+            public void onFailure(Throwable caught) {
+                // set status
+                //TODO
             }
-        }
-        if ((parent.getMessage().getIndex() == msgNumber) | ans) {
-            ans = true;
-            parent.setState(true);
-        }
-        return ans;
+
+            public void onSuccess(Vector<MessageInterface> result) {
+                MessageTree.this._messages = result;
+                viewMessages();
+            }
+        });
     }
 
-    void refreshTreeByIndex(Vector<MessageInterface> result, int start, int stop) {
-        _messageTree.removeItems();
-        for (int i = start; i < stop; i++) {
-            MessageTreeItem tItem = new MessageTreeItem(result.get(i));
-            this._messageTree.addItem(tItem);
-            ArrayList<Message> tReplies = result.get(i).getReplies();
-            addReplies(tReplies, tItem);
-        }
+    public void refreshTree() {
+        getMessagesFromServer();
+        //remove next line later
+        this._currentPage = 1;
+        //TODO check the current page if its still valid
+
     }
 
-        void refreshTreeByIndexAfterSearch(Vector<MessageInterface> result, int start, int stop,int indexToOpen) {
-        _messageTree.removeItems();
-        for (int i = start; i < stop; i++) {
-            MessageTreeItem tItem = new MessageTreeItem(result.get(i));
-            this._messageTree.addItem(tItem);
-            ArrayList<Message> tReplies = result.get(i).getReplies();
-            addRepliesForSearch(tReplies, tItem,indexToOpen);
-           //     addReplies(tReplies, tItem);
-        }
+    /**
+     * @return the _currentPage
+     */
+    public int getCurrentPage() {
+        return _currentPage;
     }
 
-        private boolean getIndexOfSuperIndex(ArrayList<Message> replies,  int msgIndex) {
-        for (MessageInterface m : replies) {
-             if (m.getIndex() == msgIndex)
-                return true;
-             if (getIndexOfSuperIndex(m.getReplies(),  msgIndex))
-                return true;
+    public int getMaxPage() {
+        int maxPage;
+        if (this._messages.size() % PAGESIZE == 0) {
+            maxPage = this._messages.size() / PAGESIZE;
         }
-        return false;
+        else {
+            maxPage = this._messages.size() / PAGESIZE + 1;
         }
-
-        public int findIndex(Vector<MessageInterface> messages, int indexTofind) {
-        for (int i = 0; i < messages.size(); i++){
-            if (messages.get(i).getIndex() == indexTofind)
-                return i;
-            ArrayList<Message> tReplies = messages.get(i).getReplies();
-            if (getIndexOfSuperIndex(tReplies,indexTofind))
-                return i;
-        }
-        return 2;
-        }
-
-
+        return maxPage;
+    }
 }
