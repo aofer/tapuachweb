@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.Vector;
 import org.tapuachForum.client.Events.*;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.ClientUser;
 import org.tapuachForum.client.UI.Pane;
@@ -91,7 +92,7 @@ public class MessageViewer extends Pane {
     }
 
     public static MyServiceAsync getService() {
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 
     /**
@@ -105,6 +106,11 @@ public class MessageViewer extends Pane {
         public void onClick(ClickEvent event) {
             MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this, "refreshing"));
             MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
+            //set all the buttons to be disabled while refreshing
+            _PrevButton.setEnabled(false);
+            _NextButton.setEnabled(false);
+            _refreshButton.setEnabled(false);
+            _addMessageButton.setEnabled(false);
             MessageViewer.this._MessageTree.refreshTree();
         }
     };
@@ -143,16 +149,32 @@ public class MessageViewer extends Pane {
 
     public void refreshTree() {
         this._MessageTree.refreshTree();
-        if (_MessageTree.getMaxPage() > 1){
-            _NextButton.setEnabled(true);
-        }
+
     }
-    protected class MessageTreeListener implements  ApplicationEventListener{
+
+    protected class MessageTreeListener implements ApplicationEventListener {
 
         public void handle(ApplicationEvent event) {
-            MessageViewer.this.fireEvent(event);
+            if (event instanceof ChangeStatusEvent) {
+                MessageViewer.this.fireEvent(event);
+            } else if (event instanceof resetButtonsEvent) {
+                resetButtons();
+                MessageViewer.this.fireEvent(new ChangeStatusEvent(MessageViewer.this,"done."));
+            }
         }
+    }
 
+    public void resetButtons() {
+        if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest) {
+            _addMessageButton.setEnabled(true);
+        }
+        if (_MessageTree.getCurrentPage() > 1) {
+            _PrevButton.setEnabled(true);
+        }
+        if (_MessageTree.getCurrentPage() < _MessageTree.getMaxPage()) {
+            _NextButton.setEnabled(true);
+        }
+        _refreshButton.setEnabled(true);
     }
 }
 

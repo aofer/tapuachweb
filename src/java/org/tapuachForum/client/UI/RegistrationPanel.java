@@ -17,7 +17,9 @@ import com.google.gwt.user.client.ui.*;
 import com.google.gwt.user.datepicker.client.DateBox;
 import java.util.Date;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
+import org.xml.sax.ext.Locator2;
 
 /**
  *
@@ -395,7 +397,7 @@ public class RegistrationPanel extends PopupPanel {
         // service interface proper, you cast the result to the asynchronous
         // version of the interface. The cast is always safe because the
         // generated proxy implements the asynchronous interface automatically.
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 
     private void clearFileds() {

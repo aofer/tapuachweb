@@ -12,10 +12,14 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
+import org.tapuachForum.client.Events.LogoutEvent;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.Pane;
+import org.tapuachForum.client.manager.LoginManager;
 import org.tapuachForum.shared.MemberInterface;
 
 /**
@@ -27,21 +31,15 @@ public class LogoutPanel extends Pane {
     private VerticalPanel _mainPanel;
     private HorizontalPanel _infop;
     private HorizontalPanel _buttp;
-    private Label _info;
     private Button _logout;
     private Button _administer;
-    private boolean userIsOnline;
-    private String userName;
 
     public LogoutPanel() {
-        userIsOnline = false;
         _mainPanel = new VerticalPanel();
-        _info = new Label("");
         _logout = new Button("Logout");
         _administer = new Button("Administer");
         _infop = new HorizontalPanel();
         _buttp = new HorizontalPanel();
-        _infop.add(_info);
         _buttp.add(_logout);
         _buttp.add(_administer);
         _administer.setVisible(false);
@@ -49,41 +47,37 @@ public class LogoutPanel extends Pane {
         _mainPanel.add(_buttp);
         initWidget(_mainPanel);
 
-        _logout.addClickHandler(new ClickHandler() {
+        _logout.addClickHandler(logoutHandler);
 
-            public void onClick(ClickEvent event) {
+    }
+    ClickHandler logoutHandler = new ClickHandler() {
+
+        public void onClick(ClickEvent event) {
             _logout.setEnabled(false);
             _administer.setEnabled(false);
-             getService().logout(userName,logoutCallback);
-            }
-        });
-      
-    }
+            LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "Please wait while logging out..."));
+            getService().logout(LoginManager.getInstance().getAuthentication().getUsername(), logoutCallback);
+        }
+    };
+    final AsyncCallback<MemberInterface> logoutCallback = new AsyncCallback<MemberInterface>() {
+
+        public void onSuccess(MemberInterface result) {
+            LogoutPanel.this.fireEvent(new LogoutEvent(LogoutPanel.this));
+            LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "logout successfully."));
+            LoginManager.getInstance().setAuthentication();
 
 
-        final AsyncCallback<MemberInterface> logoutCallback = new AsyncCallback<MemberInterface>() {
+        }
 
-            public void onSuccess(MemberInterface result) {
-                
-
-
-                }
-
-
-            public void onFailure(Throwable caught) {
-                if (userIsOnline) {
-
-
-                    _logout.setEnabled(true);
-                    _info.setText(" Problem with logout. Please try again.");
-                }
-
-
-            }
-        };
+        public void onFailure(Throwable caught) {
+            LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "logout failed."));
+        }
+    };
 
     public static MyServiceAsync getService() {
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
-
+    public void setButtons(){
+        _logout.setEnabled(true);
+    }
 }

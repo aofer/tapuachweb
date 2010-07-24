@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import java.util.List;
 import org.tapuachForum.client.MyService;
+import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.Member;
 import org.tapuachForum.shared.eMemberType;
@@ -116,6 +117,6 @@ public class AdminPanel extends PopupPanel {
 
     public static MyServiceAsync getService() {
 
-        return GWT.create(MyService.class);
+        return Locator.getInstance();
     }
 }
