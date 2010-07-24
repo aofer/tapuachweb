@@ -10,14 +10,11 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.RootLayoutPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.Events.LoginEvent;
@@ -29,8 +26,6 @@ import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.client.UI.RegistrationPanel;
-import org.tapuachForum.shared.Member;
-import org.tapuachForum.shared.MemberData;
 import org.tapuachForum.shared.MemberInterface;
 import org.tapuachForum.shared.eMemberType;
 
@@ -264,6 +259,7 @@ public class LoginPanel extends Pane{
             getService().login(username, password, loginCallback);
         }
     };
+    
     final AsyncCallback<MemberInterface> loginCallback = new AsyncCallback<MemberInterface>() {
 
         public void onFailure(Throwable caught) {

@@ -10,16 +10,16 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
-import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
+import org.tapuachForum.client.Events.LogoutEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
+import org.tapuachForum.client.UI.LoginPanel.LogoutPanel;
 import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.SearchPanel.searchPanel;
@@ -33,6 +33,7 @@ public class mainWindow extends Composite {
 
     private LayoutPanel _mainPanel;
     private LoginPanel _loginPanel;
+    private LogoutPanel _logoutPanel;
     private OnlinePanel _onlinePanel;
     private MessageViewer _messageViewer;
     private StatusPanel _statusPanel;
@@ -53,6 +54,14 @@ public class mainWindow extends Composite {
         _mainPanel.setWidgetLeftRight(_loginPanel, 700, Unit.PX, 20, Unit.PX);
         _mainPanel.setWidgetTopHeight(_loginPanel, 5, Unit.PX, 125, Unit.PX);
         _loginPanel.addListener(new LoginPanelListener());
+
+        _logoutPanel = new LogoutPanel();
+        _mainPanel.add(_logoutPanel);
+        _mainPanel.setWidgetLeftRight(_logoutPanel, 700, Unit.PX, 20, Unit.PX);
+        _mainPanel.setWidgetTopHeight(_logoutPanel, 5, Unit.PX, 125, Unit.PX);
+        _logoutPanel.setVisible(false);
+        _logoutPanel.addListener(new LogoutPanelListener());
+
         //   SERACH PANEL      (number 1)
         _searchPanel = new searchPanel();
         _mainPanel.add(_searchPanel);
@@ -101,9 +110,25 @@ public class mainWindow extends Composite {
         public void handle(ApplicationEvent event) {
             if (event instanceof LoginEvent) {
                 _loginPanel.setVisible(false);
-                // put logout panel here (make it visible)
+               _logoutPanel.setVisible(true);
                 LoginEvent tEvent = (LoginEvent) event;
                 LoginManager.getInstance().setAuthentication(tEvent.getUser());
+                refresh();
+
+            }
+
+        }
+
+    }
+
+      protected class LogoutPanelListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof LogoutEvent) {
+                _loginPanel.setVisible(true);
+               _logoutPanel.setVisible(false);
+                //LogoutEvent tEvent = (LogoutEvent) event;
+                //LogoutEvent.getInstance().setAuthentication(tEvent.getUser());
                 refresh();
 
             }
