@@ -9,6 +9,7 @@ import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.ResetButton;
 import org.tapuachForum.client.Events.ApplicationEvent;
@@ -27,6 +28,7 @@ import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
 import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.SearchPanel.searchPanel;
 import org.tapuachForum.client.manager.LoginManager;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
@@ -94,8 +96,18 @@ public class mainWindow extends Composite {
 
             @Override
             public void onWindowClosing(final ClosingEvent event) {
-                if (ClientUser.getClient().isLogin()) {
-                    event.setMessage(" " + ClientUser.getClient().getNickName() + ", you are still login. Please go back and logout.");
+                if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest) {
+                    //event.setMessage(" " + ClientUser.getClient().getNickName() + ", you are still login. Please go back and logout.");
+                    getService().logout(LoginManager.getInstance().getAuthentication().getUsername(), new AsyncCallback() {
+
+                        public void onFailure(Throwable caught) {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
+
+                        public void onSuccess(Object result) {
+                            throw new UnsupportedOperationException("Not supported yet.");
+                        }
+                    });
                 } else {
                     //              event.setMessage(" bye bye ");
                 }
@@ -115,9 +127,9 @@ public class mainWindow extends Composite {
                 _mainPanel.add(_logoutPanel);
                 _mainPanel.setWidgetLeftRight(_logoutPanel, 700, Unit.PX, 20, Unit.PX);
                 _mainPanel.setWidgetTopHeight(_logoutPanel, 5, Unit.PX, 125, Unit.PX);
-                _logoutPanel.setButtons();
                 LoginEvent tEvent = (LoginEvent) event;
                 LoginManager.getInstance().setAuthentication(tEvent.getUser());
+                _logoutPanel.setButtons();
                 refresh();
 
             } else if (event instanceof ChangeStatusEvent) {

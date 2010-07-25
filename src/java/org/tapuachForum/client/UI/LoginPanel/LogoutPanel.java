@@ -45,12 +45,14 @@ public class LogoutPanel extends Pane {
         _buttp = new HorizontalPanel();
         _buttp.add(_logout);
         _buttp.add(_administer);
-  //      _administer.setVisible(false);
+        _administer.setVisible(false);
+        _administer.addClickHandler(new AdminClickHandler());
         _mainPanel.add(_infop);
         _mainPanel.add(_buttp);
         initWidget(_mainPanel);
 
         _logout.addClickHandler(logoutHandler);
+
 
     }
     ClickHandler logoutHandler = new ClickHandler() {
@@ -58,6 +60,7 @@ public class LogoutPanel extends Pane {
         public void onClick(ClickEvent event) {
             _logout.setEnabled(false);
             _administer.setEnabled(false);
+
             LogoutPanel.this.fireEvent(new ChangeStatusEvent(LogoutPanel.this, "Please wait while logging out..."));
             getService().logout(LoginManager.getInstance().getAuthentication().getUsername(), logoutCallback);
         }
@@ -84,16 +87,16 @@ public class LogoutPanel extends Pane {
 
     public void setButtons() {
         _logout.setEnabled(true);
-        if (LoginManager.getInstance().getAuthentication().getType() ==eMemberType.Admin){
+        if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.Admin) {
             _administer.setVisible(true);
             _administer.setEnabled(true);
         }
     }
-    protected class AdminClickHandler implements ClickHandler{
+
+    protected class AdminClickHandler implements ClickHandler {
 
         public void onClick(ClickEvent event) {
             AdminPanel ap = new AdminPanel();
         }
-
     }
 }

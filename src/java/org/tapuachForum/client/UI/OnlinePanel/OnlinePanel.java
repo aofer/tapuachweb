@@ -27,7 +27,7 @@ public class OnlinePanel extends Pane {
 
     private VerticalPanel _mainPanel;
     private Label _l;
-    private final int _timerInterval = 30000;
+    private final int _timerInterval = 60000;
     private Timer _refreshTimer;
 
     public OnlinePanel() {

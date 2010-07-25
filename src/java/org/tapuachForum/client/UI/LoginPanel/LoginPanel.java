@@ -38,7 +38,7 @@ import org.tapuachForum.shared.eMemberType;
  *
  * @author Arseny
  */
-public class LoginPanel extends Pane{
+public class LoginPanel extends Pane {
 
     private VerticalPanel _mainPanel;
     private HorizontalPanel _userp;
@@ -118,8 +118,10 @@ public class LoginPanel extends Pane{
         public void onClick(ClickEvent event) {
             _login.setEnabled(false);
             _reg.setEnabled(false);
+            _user.setEnabled(false);
+            _pass.setEnabled(false);
             // change status
-            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Please wait while the server is trying to login..."));
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Please wait while the server is trying to login..."));
             String username = _user.getText();
             String password = _pass.getText();
             try {
@@ -136,25 +138,24 @@ public class LoginPanel extends Pane{
             }
         }
     };
-    
     final AsyncCallback<MemberInterface> loginCallback = new AsyncCallback<MemberInterface>() {
 
         public void onFailure(Throwable caught) {
-            _login.setEnabled(true);
-            _reg.setEnabled(true);
-            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Failed to login, please try again."));
-          //  _info.setText(" Problem with login. Please try again.");
+            setButtons();
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Failed to login, please try again."));
+            //  _info.setText(" Problem with login. Please try again.");
         }
 
         public void onSuccess(MemberInterface result) {
-            LoginPanel.this._listeners.fireEvent(new LoginEvent(LoginPanel.this,result));
-            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this,"Login successful."));
+            LoginPanel.this._listeners.fireEvent(new LoginEvent(LoginPanel.this, result));
+            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Login successful."));
         }
     };
-
 
     public void setButtons() {
         _login.setEnabled(true);
         _reg.setEnabled(true);
+        _user.setEnabled(true);
+        _pass.setEnabled(true);
     }
 }
