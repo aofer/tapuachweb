@@ -150,9 +150,7 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
         this._listeners.clear();
     }
 
-    public void fireEvent(ApplicationEvent event) {
-        this._listeners.fireEvent(event);
-    }
+
     /**
      * click handler for the edit window save button
      */
@@ -172,8 +170,8 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
     final AsyncCallback<String> editCallback = new AsyncCallback<String>() {
 
         public void onSuccess(String result) {
-            addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was edited succesfully."));
-            addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
+            addMessageWindow.this._listeners.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was edited succesfully."));
+            addMessageWindow.this._listeners.fireEvent(new RefreshEvent(addMessageWindow.this));
         }
 
         public void onFailure(Throwable caught) {
@@ -210,8 +208,8 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
         }
 
         public void onSuccess(Object result) {
-            addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
-            addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
+            addMessageWindow.this._listeners.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
+            addMessageWindow.this._listeners.fireEvent(new RefreshEvent(addMessageWindow.this));
             addMessageWindow.super.hide();
         }
     };
@@ -234,8 +232,9 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
     final AsyncCallback<String> replyCallback = new AsyncCallback<String>() {
 
         public void onSuccess(String result) {
-            addMessageWindow.this.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
-            addMessageWindow.this.fireEvent(new RefreshEvent(addMessageWindow.this));
+            addMessageWindow.this._listeners.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was added succesfully."));
+            addMessageWindow.this._listeners.fireEvent(new RefreshEvent(addMessageWindow.this));
+            addMessageWindow.super.hide();
         }
 
         public void onFailure(Throwable caught) {

@@ -7,6 +7,7 @@ package org.tapuachForum.client.UI.MessageViewer;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
+import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.shared.MessageData;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -14,6 +15,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
+import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
@@ -83,7 +85,8 @@ public class MessageTree extends Pane {
     }
 
     public void gotoMessage(int index) {
-        //TODO
+        int destPage =1; //TODO later
+        
     }
 
     public void viewMessages() {
@@ -95,12 +98,13 @@ public class MessageTree extends Pane {
         for (int i = firstMessageIndex; i <= lastMessageIndex; i++) {
             MessageInterface m = _messages.get(i);
             MessageTreeItem tItem = new MessageTreeItem(m);
+            tItem.addListener(new TreeItemListener());
             this._messageTree.addItem(tItem);
             ArrayList<Message> tReplies = m.getReplies();
             addReplies(tReplies, tItem);
         }
     }
-
+/*
     public void viewMessages2() {
         this._messageTree.clear();
         //add the messages from the vector of messages
@@ -111,7 +115,7 @@ public class MessageTree extends Pane {
             addReplies(tReplies, tItem);
         }
     }
-
+*/
     /**
      * used for adding replies for each message in the tree
      * used by viewMessages
@@ -121,6 +125,7 @@ public class MessageTree extends Pane {
     private void addReplies(ArrayList<Message> replies, MessageTreeItem parent) {
         for (MessageInterface m : replies) {
             MessageTreeItem tItem = new MessageTreeItem(m);
+            tItem.addListener(new TreeItemListener());
             parent.addItem(tItem);
             addReplies(m.getReplies(), tItem);
         }
@@ -169,5 +174,14 @@ public class MessageTree extends Pane {
             maxPage = this._messages.size() / PAGESIZE + 1;
         }
         return maxPage;
+    }
+    protected class TreeItemListener implements ApplicationEventListener{
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof ChangeStatusEvent){
+                MessageTree.this._listeners.fireEvent(event);
+            }
+        }
+        
     }
 }
