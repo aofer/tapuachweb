@@ -96,14 +96,14 @@ public class searchResultsPanel extends PopupPanel {
         _scrollPanelGrid.add(_resultsTable);
         _scrollPanelGrid.setStyleName("blueBack");
         this.setGlassEnabled(true);
-        /*
+        
         this._resultsTable.addTableListener(new TableListener() {
 
             public void onCellClicked(SourcesTableEvents sender, int row, int column) {
                 searchResultsPanel.this.cellClicked(row, column);
             }
         });
-*/
+
         _navigationPanel.setSize("100%", "26px");
         _navigationPanel.add(_buttonReturn);
         _navigationPanel.add(_buttonFirstPage);
@@ -291,6 +291,18 @@ public class searchResultsPanel extends PopupPanel {
         }
         _buttonPrevPage.setEnabled(false);
         refreshResultsPanel();
+    }
+  private void cellClicked(int row, int column) {
+        if (_selectedRowIndex == row) {
+            _selectedRowIndex = -1;
+            _resultsTable.getRowFormatter().removeStyleName(row, "row-selected");
+        } else {
+            if (_selectedRowIndex != -1) {
+                _resultsTable.getRowFormatter().removeStyleName(_selectedRowIndex, "row-selected");
+            }
+            _selectedRowIndex = row;
+            _resultsTable.getRowFormatter().addStyleName(row, "row-selected");
+        }
     }
     /*
     private void cellClicked(int row, int column) {
