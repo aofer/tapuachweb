@@ -37,11 +37,9 @@ public class AdminPanel extends PopupPanel {
     final Button _upgrade;
     final Button _close;
     final Label _header;
-    private Vector<MemberInterface> _regularMembers;
 
     public AdminPanel() {
         super(false, true);
-        _regularMembers = new Vector<MemberInterface>();
         _upgrade = new Button("Upgrade");
         _close = new Button("Close");
         _header = new Label("Upgrade Users:");
@@ -49,18 +47,13 @@ public class AdminPanel extends PopupPanel {
         _holder = new VerticalPanel();
         _users = new ListBox();
         getRegularMembers();
-        
+
         _mainPanel.setAction("/myFormHandler");
         _mainPanel.setEncoding(FormPanel.ENCODING_MULTIPART);
         _mainPanel.setMethod(FormPanel.METHOD_POST);
         this.setWidget(_mainPanel);
-        this.setWidget(_holder);
         _holder.setStyleName("blueBack");
         _mainPanel.setWidget(_holder);
-
-
-
-
         _users.setSize("100px", "150px");
         _users.setVisibleItemCount(10);
 
@@ -124,7 +117,7 @@ public class AdminPanel extends PopupPanel {
             public void onSuccess(List<Member> result) {
                 for (Member m : result) {
                     if (m.getType() == eMemberType.member) {
-                        _regularMembers.add(m);
+                        _users.addItem(m.getUserName());
                     }
                 }
             }
