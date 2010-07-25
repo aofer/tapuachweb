@@ -5,6 +5,7 @@
 package org.tapuachForum.client.UI.OnlinePanel;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
@@ -26,6 +27,8 @@ public class OnlinePanel extends Pane {
 
     private VerticalPanel _mainPanel;
     private Label _l;
+    private final int _timerInterval = 30000;
+    private Timer _refreshTimer;
 
     public OnlinePanel() {
         _mainPanel = new VerticalPanel();
@@ -36,6 +39,13 @@ public class OnlinePanel extends Pane {
         RootPanel.get().add(_mainPanel);
         initWidget(_mainPanel);
         refreshUsers();
+        _refreshTimer = new Timer() {
+
+            public void run() {
+                refreshUsers();
+            }
+        };
+        _refreshTimer.scheduleRepeating(_timerInterval);
     }
 
     public static MyServiceAsync getService() {
@@ -47,18 +57,20 @@ public class OnlinePanel extends Pane {
      * used for refreshing the online users list
      */
     public void refreshUsers() {
+        _l.setText("Online users: Refreshing...");
         getService().onLineUsers(new AsyncCallback<Vector<MemberInterface>>() {
+
             public void onSuccess(Vector<MemberInterface> result) {
                 _l.setText("");
                 String tUsers = "Online users:";
                 for (MemberInterface m : result) {
-                    tUsers  = tUsers + m.getNickName() + " , ";
+                    tUsers = tUsers + m.getNickName() + " , ";
                 }
-                if ( !result.isEmpty()){
-                   tUsers = tUsers.substring(0, tUsers.length() - 3);
+                if (!result.isEmpty()) {
+                    tUsers = tUsers.substring(0, tUsers.length() - 3);
                 }
                 _l.setText(tUsers);
-          //      OnlinePanel.this._listeners.fireEvent(new ChangeStatusEvent(OnlinePanel.this, "done"));
+                //      OnlinePanel.this._listeners.fireEvent(new ChangeStatusEvent(OnlinePanel.this, "done"));
             }
 
             public void onFailure(Throwable caught) {

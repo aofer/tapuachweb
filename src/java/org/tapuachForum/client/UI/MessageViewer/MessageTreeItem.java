@@ -17,6 +17,10 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
+import org.tapuachForum.client.Events.ApplicationEventListener;
+import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
+import org.tapuachForum.client.Events.ApplicationEventSource;
+import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
@@ -30,7 +34,7 @@ import org.tapuachForum.shared.eMemberType;
  *
  * @author amit
  */
-public class MessageTreeItem extends TreeItem {
+public class MessageTreeItem extends TreeItem implements ApplicationEventSource {
 
     private Button _ReplyButton;
     private Button _ModifyButton;
@@ -39,27 +43,21 @@ public class MessageTreeItem extends TreeItem {
     private TextBox _body;
     private TextArea _body2;
     private Label _info;
-
+    private ApplicationEventListenerCollection _listeners;
     public MessageTreeItem(final MessageInterface msg) {
         super(msg.getSubject() + "   -   " + msg.getNickname() + "  -   " + msg.getWriteDate().toString());
+        _listeners = new ApplicationEventListenerCollection();
         _buttonHPanel = new HorizontalPanel();
         _body = new TextBox();
         _body2 = new TextArea();
         _info = new Label("");
         this._ReplyButton = new Button("Add reply");
         // this._ReplyButton.setSize("100", "25");
+        this._ReplyButton.setEnabled(false);
         this._ModifyButton = new Button("Modify message");
-        this._ModifyButton.setEnabled(true);
+        this._ModifyButton.setEnabled(false);
         this._DeleteButton = new Button("Delete message");
-        this._DeleteButton.setEnabled(true);
-        if (ClientUser.getClient().getType() == eMemberType.guest) {
-            this._DeleteButton.setEnabled(false);
-            this._ModifyButton.setEnabled(false);
-            this._ReplyButton.setEnabled(false);
-        } else if (ClientUser.getClient().getType() == eMemberType.member && !ClientUser.getClient().getNickName().equals(msg.getNickname())) {
-            this._DeleteButton.setEnabled(false);
-            this._ModifyButton.setEnabled(false);
-        }
+        this._DeleteButton.setEnabled(false);
 
 
         this._buttonHPanel.add(_ReplyButton);
@@ -81,23 +79,9 @@ public class MessageTreeItem extends TreeItem {
         addItem(_body2);
         addItem(_buttonHPanel);
 
-        _ModifyButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                int num = msg.getIndex();
-                String subject = msg.getSubject();
-                String nickName = msg.getNickname();
-                String body = msg.getBody();
-                addMessageWindow hr = new addMessageWindow(num, subject, body);
-            }
-        });
-        _ReplyButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                int num = msg.getIndex();
-                addMessageWindow aw = new addMessageWindow(num);
-            }
-        });
+        _ModifyButton.addClickHandler(new ModifyHandler());
+        _ReplyButton.addClickHandler(new ReplyHandler());
+        _DeleteButton.addClickHandler(new DeleteHandler());
         setButtons();
 
     }
@@ -109,18 +93,74 @@ public class MessageTreeItem extends TreeItem {
     public static MyServiceAsync getService() {
         return Locator.getInstance();
     }
-    public void setButtons(){
-        if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.Admin ||
-                LoginManager.getInstance().getAuthentication().getType()== eMemberType.Moderator ){
+
+    public void setButtons() {
+        if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.Admin
+                || LoginManager.getInstance().getAuthentication().getType() == eMemberType.Moderator) {
             _DeleteButton.setEnabled(true);
             _ModifyButton.setEnabled(true);
             _ReplyButton.setEnabled(true);
-        }
-        else if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.member){
+        } else if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.member) {
             _ReplyButton.setEnabled(true);
-            if (getMessage().getNickname().equals(LoginManager.getInstance().getAuthentication().getNickname())){
+            if (getMessage().getNickname().equals(LoginManager.getInstance().getAuthentication().getNickname())) {
                 _ModifyButton.setEnabled(true);
             }
         }
+    }
+
+    public void addListener(ApplicationEventListener listener) {
+        this._listeners.add(listener);
+    }
+
+    public void removeListener(ApplicationEventListener listener) {
+        this._listeners.remove(listener);
+    }
+
+    public void clearListeners() {
+        this._listeners.clear();
+    }
+
+    protected class ModifyHandler implements ClickHandler {
+
+        public void onClick(ClickEvent event) {
+            int num = getMessage().getIndex();
+            String subject = getMessage().getSubject();
+            String nickName = getMessage().getNickname();
+            String body = getMessage().getBody();
+            addMessageWindow hr = new addMessageWindow(num, subject, body);
+        }
+    }
+
+    protected class AddMessageHandler implements ClickHandler {
+
+        public void onClick(ClickEvent event) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+    }
+
+    protected class ReplyHandler implements ClickHandler {
+
+        public void onClick(ClickEvent event) {
+            int num = getMessage().getIndex();
+            addMessageWindow aw = new addMessageWindow(num);
+        }
+    }
+    protected class DeleteHandler implements ClickHandler{
+
+        public void onClick(ClickEvent event) {
+            MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this,"Trying to delete the message..."));
+            getService().deleteMessage(getMessage().getIndex(), new AsyncCallback(){
+
+                public void onFailure(Throwable caught) {
+                    MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this,"Message could not be deleted."));
+                }
+
+                public void onSuccess(Object result) {
+                    MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this,"Message was deleted successfully."));
+                }
+                
+            });
+        }
+        
     }
 }
