@@ -84,9 +84,92 @@ public class MessageTree extends Pane {
         }
     }
 
+    /**
+     * finds where the searched message is located in the message vector
+     * @param searchIndex - the index returned from search
+     */
+    public int findIndex(int searchIndex) {
+        int res = -1;
+        for (int i = 0; i < _messages.size(); i++) {
+            if (_messages.elementAt(i).getIndex() == searchIndex) {
+                res = i;
+                break;
+            }
+            int tResult = checkMessage(searchIndex, _messages.elementAt(i));
+            if (tResult != - 1) {
+                res = i;
+                break;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * check if the message is found down the post tree.
+     * @param searchIndex
+     * @return
+     */
+    private int checkMessage(int searchIndex, MessageInterface message) {
+        int res = -1;
+        for (int i = 0; i < message.getReplies().size(); i++) {
+            if (message.getReplies().get(i).getIndex() == searchIndex) {
+                res = i;
+                break;
+            }
+            int tResult = checkMessage(searchIndex, message.getReplies().get(i));
+            if (tResult != -1) {
+                res = tResult;
+                break;
+            }
+        }
+        return res;
+    }
+
+    /**
+     * opens the searched message in the tree
+     * @param index -  the index of the search result
+     */
     public void gotoMessage(int index) {
-        int destPage =1; //TODO later
-        
+        //get the real index inside the vector
+        int realIndex = findIndex(index);
+        //calculate the destination page where the message is
+        int destPage = realIndex / PAGESIZE + 1;
+        //goto the desired page
+        while (_currentPage != destPage) {
+            if (_currentPage > destPage) {
+                previousPage();
+            } else {
+                nextPage();
+            }
+        }
+        //open the searched message
+        OpenRepliesRec((MessageTreeItem) _messageTree.getItem(realIndex), index);
+    }
+/**
+ * opens the path where the searched message is located
+ * @param item - the parent item where the searched message is
+ * @param searchIndex - the index of the message we are searching for
+ * @return - true if the current tree item is at the path
+ */
+    public boolean OpenRepliesRec(MessageTreeItem item, int searchIndex) {
+        MessageInterface message = item.getMessage();
+        if (message.getReplies().size() == 0) {
+            boolean ans = (searchIndex == message.getIndex());
+            if (ans == true) {
+                item.setState(ans);
+            }
+            return ans;
+        } else {
+            boolean ans = false;
+            for (int i = 0; i < item.getChildCount(); i++) {
+                MessageTreeItem tItem = (MessageTreeItem) item.getChild(i);
+                ans = ans || OpenRepliesRec(tItem, searchIndex);
+            }
+            if (ans == true) {
+                item.setState(true);
+            }
+            return ans;
+        }
     }
 
     public void viewMessages() {
@@ -104,18 +187,19 @@ public class MessageTree extends Pane {
             addReplies(tReplies, tItem);
         }
     }
-/*
+    /*
     public void viewMessages2() {
-        this._messageTree.clear();
-        //add the messages from the vector of messages
-        for (MessageInterface m : _messages) {
-            MessageTreeItem tItem = new MessageTreeItem(m);
-            this._messageTree.addItem(tItem);
-            ArrayList<Message> tReplies = m.getReplies();
-            addReplies(tReplies, tItem);
-        }
+    this._messageTree.clear();
+    //add the messages from the vector of messages
+    for (MessageInterface m : _messages) {
+    MessageTreeItem tItem = new MessageTreeItem(m);
+    this._messageTree.addItem(tItem);
+    ArrayList<Message> tReplies = m.getReplies();
+    addReplies(tReplies, tItem);
     }
-*/
+    }
+     */
+
     /**
      * used for adding replies for each message in the tree
      * used by viewMessages
@@ -175,13 +259,13 @@ public class MessageTree extends Pane {
         }
         return maxPage;
     }
-    protected class TreeItemListener implements ApplicationEventListener{
+
+    protected class TreeItemListener implements ApplicationEventListener {
 
         public void handle(ApplicationEvent event) {
-            if (event instanceof ChangeStatusEvent){
+            if (event instanceof ChangeStatusEvent) {
                 MessageTree.this._listeners.fireEvent(event);
             }
         }
-        
     }
 }
