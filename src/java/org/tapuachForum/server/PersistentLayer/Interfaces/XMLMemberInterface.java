@@ -10,6 +10,7 @@ import java.util.List;
  */
 public interface XMLMemberInterface {
 
+     List<MemberData> geOnlinetMembers();
     /**
      * get the member data of the member
      * @param userName - the username of the member we need to get

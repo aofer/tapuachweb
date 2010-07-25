@@ -67,6 +67,11 @@ public class XMLMemberHandler implements XMLMemberInterface {
         }
         return (null);
     }
+
+    public List<MemberData> geOnlinetMembers() {
+        throw new UnsupportedOperationException("Not supported yet.");
+        // Bob will be back after he will finish to BUILD the Forum.
+    }
 }
 
 
