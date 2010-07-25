@@ -262,8 +262,8 @@ public class UserHandler {
         eMemberType type;
         Member tMember = null;
         for (MemberData data : membersData) {
-            type = this._XmlMember.getMemberType(data.getUserName());
-            tMember = new Member(data, type);
+            // It is not important the type. It's just a box.
+            tMember = new Member(data, eMemberType.member);
             res.add(tMember);
         }
         return res;
