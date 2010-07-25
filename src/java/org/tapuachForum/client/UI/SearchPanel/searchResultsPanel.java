@@ -4,7 +4,6 @@
  */
 package org.tapuachForum.client.UI.SearchPanel;
 
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -14,13 +13,18 @@ import com.google.gwt.user.client.ui.HasHorizontalAlignment;
 import com.google.gwt.user.client.ui.HasVerticalAlignment;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PopupPanel;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import java.util.Date;
+import org.tapuachForum.client.Events.ApplicationEvent;
+import org.tapuachForum.client.Events.ApplicationEventListener;
+import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
+import org.tapuachForum.client.Events.ApplicationEventSource;
+import org.tapuachForum.client.Events.GotomessageEvent;
+import org.tapuachForum.client.MyService.Locator;
+import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.SearchHit;
 import org.tapuachForum.shared.MessageInterface;
 
@@ -28,7 +32,7 @@ import org.tapuachForum.shared.MessageInterface;
  *
  * @author Liron Katav
  */
-public class searchResultsPanel extends PopupPanel {
+public class searchResultsPanel extends PopupPanel  implements ApplicationEventSource{
 
     private SearchHit[] new_Results;
     private static final int pageSize = 2;
@@ -47,6 +51,8 @@ public class searchResultsPanel extends PopupPanel {
     public int numberOfPages;
     private int restOfPages;
     private int[] indexesInt;
+    protected ApplicationEventListenerCollection _listeners;
+
 
     public searchResultsPanel(final SearchHit[] result) {
         super(false, true);
@@ -55,7 +61,7 @@ public class searchResultsPanel extends PopupPanel {
         _scrollPanelGrid = new ScrollPanel();
         //       _lTitle = new Label("Search Results:");
         _resultsTable = new FlexTable();
-        Label lAuther = new Label("Auther:");
+        Label lAuther = new Label("Author:");
         Label lSubject = new Label("Subject:");
         Label lContext = new Label("Context:");
         Label lDate = new Label("Date added:");
@@ -66,8 +72,9 @@ public class searchResultsPanel extends PopupPanel {
         _buttonPrevPage = new Button("Prev");
         _buttonNextPage = new Button("Next");
         _buttonLastPage = new Button("Last");
-        _lTitle = new Label("info");
+        _lTitle = new Label("Search Results:");
 
+        this._listeners = new ApplicationEventListenerCollection();
 
         this.setGlassEnabled(true);
         this.setWidget(contentDockPanel);
@@ -284,6 +291,11 @@ public class searchResultsPanel extends PopupPanel {
         refreshResultsPanel();
     }
 
+      public static MyServiceAsync getService() {
+
+        return Locator.getInstance();
+    }
+
     private void buttonFirstPageClicked() {
         indexOfPages = 0;
         if (indexOfPages < numberOfPages) {
@@ -292,7 +304,7 @@ public class searchResultsPanel extends PopupPanel {
         _buttonPrevPage.setEnabled(false);
         refreshResultsPanel();
     }
-  private void cellClicked(int row, int column) {
+ /* private void cellClicked(int row, int column) {
         if (_selectedRowIndex == row) {
             _selectedRowIndex = -1;
             _resultsTable.getRowFormatter().removeStyleName(row, "row-selected");
@@ -303,25 +315,30 @@ public class searchResultsPanel extends PopupPanel {
             _selectedRowIndex = row;
             _resultsTable.getRowFormatter().addStyleName(row, "row-selected");
         }
-    }
-    /*
+    }*/
+    
     private void cellClicked(int row, int column) {
     _lTitle.setText("row is " + row + ". coumn is " + column);
     if ((row > 0) & (row <= pageSize)) {
-    int getMeIndex = indexesInt[(indexOfPages * pageSize) + row - 1];
+    int msgIndex = indexesInt[(indexOfPages * pageSize) + row - 1];
+    searchResultsPanel.this.fireEvent(new GotomessageEvent(searchResultsPanel.this, msgIndex));
     searchResultsPanel.super.hide();
-    LayoutPanel lp = (LayoutPanel) RootLayoutPanel.get().getWidget(0);
-    //       _lTitle.setText("row is " + row + ". coumn is " + column + ". index is " + getMeIndex + "1");
-    lp.remove(3);
-    //     AfterSearch m = new AfterSearch(getMeIndex);
-    m.setSize("980 px", "320 px");
-    m.setHeight("320px");
-    lp.add(m);
-    lp.setWidgetTopHeight(m, 104, Unit.PX, 430, Unit.PX);
-    m.setStyleName("messageviewer");
+        }
+    }
+  public void addListener(ApplicationEventListener listener) {
+        this._listeners.add(listener);
     }
 
-     */
+    public void removeListener(ApplicationEventListener listener) {
+        this._listeners.remove(listener);
+    }
+
+    public void clearListeners() {
+        this._listeners.clear();
+    }
+    public void fireEvent(ApplicationEvent event){
+        this._listeners.fireEvent(event);
+    }
 }
 
 
