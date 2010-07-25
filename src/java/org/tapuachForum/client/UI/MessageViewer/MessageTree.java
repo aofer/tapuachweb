@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.Vector;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
+import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
@@ -145,12 +146,13 @@ public class MessageTree extends Pane {
         //open the searched message
         OpenRepliesRec((MessageTreeItem) _messageTree.getItem(realIndex), index);
     }
-/**
- * opens the path where the searched message is located
- * @param item - the parent item where the searched message is
- * @param searchIndex - the index of the message we are searching for
- * @return - true if the current tree item is at the path
- */
+
+    /**
+     * opens the path where the searched message is located
+     * @param item - the parent item where the searched message is
+     * @param searchIndex - the index of the message we are searching for
+     * @return - true if the current tree item is at the path
+     */
     public boolean OpenRepliesRec(MessageTreeItem item, int searchIndex) {
         MessageInterface message = item.getMessage();
         if (message.getReplies().size() == 0) {
@@ -172,6 +174,9 @@ public class MessageTree extends Pane {
         }
     }
 
+    /**
+     * view the current page messages in the tree
+     */
     public void viewMessages() {
         //first clean the tree
         this._messageTree.clear();
@@ -187,6 +192,24 @@ public class MessageTree extends Pane {
             addReplies(tReplies, tItem);
         }
     }
+    /*
+    public void viewMessages() {
+    //first clean the tree
+    this._messageTree.clear();
+    //add the messages from the vector of messages
+    int firstMessageIndex = (this.getCurrentPage() - 1) * PAGESIZE;
+    int lastMessageIndex = Math.min(this.getCurrentPage() * PAGESIZE - 1, this._messages.size() - 1);
+    for (int i = firstMessageIndex; i <= lastMessageIndex; i++) {
+    MessageInterface m = _messages.get(i);
+    MessageTreeItem tItem = new MessageTreeItem(m);
+    tItem.addListener(new TreeItemListener());
+    this._messageTree.addItem(tItem);
+    ArrayList<Message> tReplies = m.getReplies();
+    addReplies(tReplies, tItem);
+    }
+    }
+     * /*
+     */
     /*
     public void viewMessages2() {
     this._messageTree.clear();
@@ -229,7 +252,12 @@ public class MessageTree extends Pane {
             }
 
             public void onSuccess(Vector<MessageInterface> result) {
-                MessageTree.this._messages = result;
+                //    MessageTree.this._messages = result;
+                //inverts the message order in a horrible horrible way :)
+                MessageTree.this._messages.clear();
+                for (int i = result.size() - 1; i >= 0; i--) {
+                    MessageTree.this._messages.add(result.get(i));
+                }
                 viewMessages();
                 MessageTree.this.fireEvent(new resetButtonsEvent(MessageTree.this));
             }
@@ -264,6 +292,8 @@ public class MessageTree extends Pane {
 
         public void handle(ApplicationEvent event) {
             if (event instanceof ChangeStatusEvent) {
+                MessageTree.this._listeners.fireEvent(event);
+            } else if (event instanceof RefreshEvent) {
                 MessageTree.this._listeners.fireEvent(event);
             }
         }

@@ -17,10 +17,12 @@ import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.TreeItem;
+import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
 import org.tapuachForum.client.Events.ApplicationEventSource;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
+import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
@@ -44,6 +46,7 @@ public class MessageTreeItem extends TreeItem implements ApplicationEventSource 
     private TextArea _body2;
     private Label _info;
     private ApplicationEventListenerCollection _listeners;
+
     public MessageTreeItem(final MessageInterface msg) {
         super(msg.getSubject() + "   -   " + msg.getNickname() + "  -   " + msg.getWriteDate().toString());
         _listeners = new ApplicationEventListenerCollection();
@@ -128,13 +131,7 @@ public class MessageTreeItem extends TreeItem implements ApplicationEventSource 
             String nickName = getMessage().getNickname();
             String body = getMessage().getBody();
             addMessageWindow hr = new addMessageWindow(num, subject, body);
-        }
-    }
-
-    protected class AddMessageHandler implements ClickHandler {
-
-        public void onClick(ClickEvent event) {
-            throw new UnsupportedOperationException("Not supported yet.");
+            hr.addListener(new ModifyMessageListener());
         }
     }
 
@@ -143,24 +140,46 @@ public class MessageTreeItem extends TreeItem implements ApplicationEventSource 
         public void onClick(ClickEvent event) {
             int num = getMessage().getIndex();
             addMessageWindow aw = new addMessageWindow(num);
+            aw.addListener(new ReplyListener());
         }
     }
-    protected class DeleteHandler implements ClickHandler{
+
+    protected class DeleteHandler implements ClickHandler {
 
         public void onClick(ClickEvent event) {
-            MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this,"Trying to delete the message..."));
-            getService().deleteMessage(getMessage().getIndex(), new AsyncCallback(){
+            MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this, "Trying to delete the message..."));
+            getService().deleteMessage(getMessage().getIndex(), new AsyncCallback() {
 
                 public void onFailure(Throwable caught) {
-                    MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this,"Message could not be deleted."));
+                    MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this, "Message could not be deleted."));
                 }
 
                 public void onSuccess(Object result) {
-                    MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this,"Message was deleted successfully."));
+                    MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this, "Message was deleted successfully."));
                 }
-                
             });
         }
-        
+    }
+
+    protected class ModifyMessageListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof RefreshEvent) {
+                MessageTreeItem.this._listeners.fireEvent(event);
+            } else if (event instanceof ChangeStatusEvent) {
+                MessageTreeItem.this._listeners.fireEvent(event);
+            }
+        }
+    }
+
+    protected class ReplyListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof RefreshEvent) {
+                MessageTreeItem.this._listeners.fireEvent(event);
+            } else if (event instanceof ChangeStatusEvent) {
+                MessageTreeItem.this._listeners.fireEvent(event);
+            }
+        }
     }
 }
