@@ -495,7 +495,7 @@ public class RegistrationPanel extends PopupPanel {
             lusernameError.setText("invalid user name ");
             return false;
         }
-        if (!this.tNickName.getText().matches("[a-zA-Z0-9]+")){
+        if (!this.tNickName.getText().matches("[a-z\\sA-Z0-9]+")){
            lnicknameError.setText("invalid nickname ");
             return false;
         }

@@ -4,22 +4,20 @@
  */
 package org.tapuachForum.client.UI;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.Window.ClosingEvent;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.ResetButton;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
+import org.tapuachForum.client.Events.GotomessageEvent;
 import org.tapuachForum.client.Events.LoginEvent;
 import org.tapuachForum.client.Events.LogoutEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.Events.resetButtonsEvent;
-import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.LoginPanel.LoginPanel;
@@ -55,6 +53,7 @@ public class mainWindow extends Composite {
 
         //logout panel
         _logoutPanel = new LogoutPanel();
+
         _logoutPanel.addListener(new LogoutPanelListener());
 
         //LOGIN Panel ( number 0)
@@ -124,6 +123,7 @@ public class mainWindow extends Composite {
         public void handle(ApplicationEvent event) {
             if (event instanceof LoginEvent) {
                 _mainPanel.remove(_loginPanel);
+
                 _mainPanel.add(_logoutPanel);
                 _mainPanel.setWidgetLeftRight(_logoutPanel, 700, Unit.PX, 20, Unit.PX);
                 _mainPanel.setWidgetTopHeight(_logoutPanel, 5, Unit.PX, 125, Unit.PX);
@@ -171,6 +171,15 @@ public class mainWindow extends Composite {
             }
         }
     }
+
+       protected class GotomessageListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof GotomessageEvent) {
+                _messageViewer.getMessageTree().gotoMessage(((GotomessageEvent)(event)).getMessageNumber());
+        }
+    }
+  }
 
     protected class MessageViewerListener implements ApplicationEventListener {
 
