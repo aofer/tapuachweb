@@ -35,6 +35,40 @@ public class SQLMemberHandler implements XMLMemberInterface {
 
     }
 
+     public List<MemberData> geOnlinetMembers() {
+        List<MemberData> members = new ArrayList<MemberData>();
+        List<Members> MembersList = null;
+        Transaction tx = null;
+        Session session = SessionFactoryUtil.getInstance().getCurrentSession();
+        try {
+            tx = session.beginTransaction();
+            Query q = session.createQuery("from Members as members where members.isLogin = true");
+            MembersList = (List<Members>) q.list();
+            session.close();
+        } catch (RuntimeException e) {
+            if (tx != null && tx.isActive()) {
+                try {
+                    // Second try catch as the rollback could fail as well
+                    tx.rollback();
+                } catch (HibernateException e1) {
+                    // add logging
+                }
+                // throw again the first exception
+                throw e;
+            }
+        }
+
+        if (MembersList != null) {
+            for (Members m : MembersList) {
+                Date joined = m.getDateOfJoin();
+                Date birth = m.getDateOfJoin();
+                members.add(new MemberData(m.getUserName(), m.getNickName(), m.getPassword(),
+                        m.getFirstName(), m.getLastName(), m.getEmail(), joined, birth, m.isIsLogin()));
+            }
+        }
+        return members;
+     }
+
     public List<MemberData> getMember() {
         List<MemberData> members = new ArrayList<MemberData>();
     List< Members>    MembersList = null;

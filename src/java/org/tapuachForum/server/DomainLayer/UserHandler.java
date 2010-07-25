@@ -257,17 +257,14 @@ public class UserHandler {
     }
 
     public Vector<MemberInterface> getOnlineMembers() {
-        List<MemberData> membersData = this._XmlMember.getMember();
+        List<MemberData> membersData = this._XmlMember.geOnlinetMembers();
         Vector<MemberInterface> res = new Vector<MemberInterface>();
         eMemberType type;
         Member tMember = null;
-        for (int i = 0; i < membersData.size(); i++) {
-            MemberData data = membersData.get(i);
+        for (MemberData data : membersData) {
             type = this._XmlMember.getMemberType(data.getUserName());
-            if (data.getStatus()) {
-                tMember = new Member(data,type);
-                res.add(tMember);
-            }
+            tMember = new Member(data, type);
+            res.add(tMember);
         }
         return res;
     }
