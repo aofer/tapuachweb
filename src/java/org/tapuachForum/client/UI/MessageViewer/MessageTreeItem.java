@@ -22,6 +22,7 @@ import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
 import org.tapuachForum.client.Events.ApplicationEventSource;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
+import org.tapuachForum.client.Events.DeleteEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
@@ -148,14 +149,18 @@ public class MessageTreeItem extends TreeItem implements ApplicationEventSource 
 
         public void onClick(ClickEvent event) {
             MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this, "Trying to delete the message..."));
+            setButtons(false);
             getService().deleteMessage(getMessage().getIndex(), new AsyncCallback() {
 
                 public void onFailure(Throwable caught) {
                     MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this, "Message could not be deleted."));
+                    setButtons(true);
                 }
 
                 public void onSuccess(Object result) {
                     MessageTreeItem.this._listeners.fireEvent(new ChangeStatusEvent(MessageTreeItem.this, "Message was deleted successfully."));
+                    //MessageTreeItem.this._listeners.fireEvent(new RefreshEvent(MessageTreeItem.this));
+                    MessageTreeItem.this._listeners.fireEvent(new DeleteEvent(MessageTreeItem.this));
                 }
             });
         }
@@ -181,5 +186,10 @@ public class MessageTreeItem extends TreeItem implements ApplicationEventSource 
                 MessageTreeItem.this._listeners.fireEvent(event);
             }
         }
+    }
+    public void setButtons(boolean state){
+        this._DeleteButton.setEnabled(state);
+        this._ModifyButton.setEnabled(state);
+        this._ReplyButton.setEnabled(state);
     }
 }

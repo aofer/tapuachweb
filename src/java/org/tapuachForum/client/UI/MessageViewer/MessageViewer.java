@@ -156,6 +156,9 @@ public class MessageViewer extends Pane {
                 resetButtons();
                 MessageViewer.this.fireEvent(new ChangeStatusEvent(MessageViewer.this, "done."));
             }
+            else if (event instanceof  RefreshEvent){
+                refresh();
+            }
         }
     }
 

@@ -148,6 +148,7 @@ public class mainWindow extends Composite {
                 _mainPanel.setWidgetLeftRight(_loginPanel, 700, Unit.PX, 20, Unit.PX);
                 _mainPanel.setWidgetTopHeight(_loginPanel, 5, Unit.PX, 125, Unit.PX);
                 LoginManager.getInstance().resetAuthentication();
+                _loginPanel.clearFields();
                 _loginPanel.setButtons();
                 refresh();
 

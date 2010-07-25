@@ -153,4 +153,9 @@ public class LoginPanel extends Pane {
         _user.setEnabled(true);
         _pass.setEnabled(true);
     }
+
+    public void clearFields() {
+        this._user.setText("");
+        this._pass.setText("");
+    }
 }

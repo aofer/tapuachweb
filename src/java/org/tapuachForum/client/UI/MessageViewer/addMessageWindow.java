@@ -192,7 +192,7 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
             String tSubject = _TBSubject.getText();
             String body = _TABody.getText();
             lResult.setStyleName("panel");
-            lResult.setText("please wait while the server adding your message");
+            lResult.setText("please wait while the server is adding your message");
             getService().addMessage(LoginManager.getInstance().getAuthentication().getNickname(), tSubject, body, addMessageCallback);
         }
     };

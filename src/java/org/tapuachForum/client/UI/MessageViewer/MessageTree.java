@@ -6,6 +6,7 @@ package org.tapuachForum.client.UI.MessageViewer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.TreeItem;
 import java.util.ArrayList;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.shared.MessageData;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.Vector;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
+import org.tapuachForum.client.Events.DeleteEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
@@ -295,6 +297,12 @@ public class MessageTree extends Pane {
                 MessageTree.this._listeners.fireEvent(event);
             } else if (event instanceof RefreshEvent) {
                 MessageTree.this._listeners.fireEvent(event);
+            } else if (event instanceof DeleteEvent) {
+                MessageTreeItem tItem = (MessageTreeItem) event.getSource();
+                MessageTree.this._messages.remove(tItem.getMessage());
+                MessageTree.this._messageTree.removeItem(tItem);
+                viewMessages();
+
             }
         }
     }
