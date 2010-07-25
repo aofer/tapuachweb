@@ -70,6 +70,7 @@ public class mainWindow extends Composite {
         _mainPanel.add(_searchPanel);
         _mainPanel.setWidgetTopHeight(_searchPanel, 533, Unit.PX, 100, Unit.PX);
         _mainPanel.setWidgetLeftRight(_searchPanel, 10, Unit.PX, 500, Unit.PX);
+        _searchPanel.addListener(new SearchPanelListener());
 
         //ONline Panel (number 2)
         _onlinePanel = new OnlinePanel();
@@ -171,15 +172,16 @@ public class mainWindow extends Composite {
             }
         }
     }
+    /*
+    protected class GotomessageListener implements ApplicationEventListener {
 
-       protected class GotomessageListener implements ApplicationEventListener {
-
-        public void handle(ApplicationEvent event) {
-            if (event instanceof GotomessageEvent) {
-                _messageViewer.getMessageTree().gotoMessage(((GotomessageEvent)(event)).getMessageNumber());
-        }
+    public void handle(ApplicationEvent event) {
+    if (event instanceof GotomessageEvent) {
+    _messageViewer.getMessageTree().gotoMessage(((GotomessageEvent)(event)).getMessageNumber());
     }
-  }
+    }
+    }
+     */
 
     protected class MessageViewerListener implements ApplicationEventListener {
 
@@ -188,6 +190,15 @@ public class mainWindow extends Composite {
                 _onlinePanel.refreshUsers();
             } else if (event instanceof ChangeStatusEvent) {
                 _statusPanel.SetStatus(event.getDescription());
+            }
+        }
+    }
+
+    protected class SearchPanelListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof GotomessageEvent) {
+                _messageViewer.getMessageTree().gotoMessage(((GotomessageEvent) (event)).getMessageNumber());
             }
         }
     }

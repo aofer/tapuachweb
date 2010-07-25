@@ -20,6 +20,10 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RadioButton;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import org.tapuachForum.client.Events.ApplicationEvent;
+import org.tapuachForum.client.Events.ApplicationEventListener;
+import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
+import org.tapuachForum.client.Events.ApplicationEventSource;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
@@ -29,7 +33,7 @@ import org.tapuachForum.shared.SearchHit;
  *
  * @author Liron Katav
  */
-public class searchPanel extends Composite {
+public class searchPanel extends Composite implements ApplicationEventSource {
 
     private Label _lSearch;
     private Label _lFrom;
@@ -43,10 +47,12 @@ public class searchPanel extends Composite {
     private HorizontalPanel _hSearch;
     private HorizontalPanel _hRadiobuttons;
     private VerticalPanel _mainPanel;
-    DisclosurePanel _disPanel;
+    private DisclosurePanel _disPanel;
     private Label _info;
+    private ApplicationEventListenerCollection _listeners;
 
     public searchPanel() {
+        _listeners = new ApplicationEventListenerCollection();
         _lSearch = new Label("search: ");
         _tSearchBox = new TextBox();
         _lFrom = new Label("from ");
@@ -104,7 +110,7 @@ public class searchPanel extends Composite {
 
             public void onFailure(Throwable caught) {
                 _bsearchButton.setEnabled(true);
-                 _tSearchBox.setText("please try again");
+                _tSearchBox.setText("please try again");
                 //_tSearchBox.setText("problem " + caught.getMessage());
             }
 
@@ -120,15 +126,15 @@ public class searchPanel extends Composite {
                 int from;
                 int to;
                 if (_tFrom.getText().compareTo("") == 0) {
-            from = 0;
-        } else {
-            from = Integer.parseInt(_tFrom.getText());
-        }
-                          if (_tTo.getText().compareTo("") == 0) {
-            to = 0;
-        } else {
-            to = Integer.parseInt(_tTo.getText());
-        }
+                    from = 0;
+                } else {
+                    from = Integer.parseInt(_tFrom.getText());
+                }
+                if (_tTo.getText().compareTo("") == 0) {
+                    to = 0;
+                } else {
+                    to = Integer.parseInt(_tTo.getText());
+                }
                 _bsearchButton.setEnabled(false);
                 if (searchBy == true) {
                     _tSearchBox.setText("author");
@@ -147,6 +153,24 @@ public class searchPanel extends Composite {
     public static MyServiceAsync getService() {
         return Locator.getInstance();
     }
+
+    public void addListener(ApplicationEventListener listener) {
+        _listeners.add(listener);
+    }
+
+    public void removeListener(ApplicationEventListener listener) {
+        _listeners.remove(listener);
+    }
+
+    public void clearListeners() {
+        _listeners.clear();
+    }
+        protected class SearchResultsListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            searchPanel.this._listeners.fireEvent(event);
+        }
+    }
 }
 
 class DisclosurePanelHeader extends HorizontalPanel {
@@ -158,6 +182,8 @@ class DisclosurePanelHeader extends HorizontalPanel {
                 : images.disclosurePanelClosed().createImage());
         add(new HTML(html));
     }
+
+
 }
 
 
