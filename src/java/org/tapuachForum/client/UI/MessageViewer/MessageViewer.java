@@ -85,6 +85,7 @@ public class MessageViewer extends Pane {
 
             public void onClick(ClickEvent event) {
                 addMessageWindow aw = new addMessageWindow();
+                aw.addListener(new addMessageWindowListener());
             }
         });
         _refreshButton.addClickHandler(refreshHandler);
@@ -105,14 +106,7 @@ public class MessageViewer extends Pane {
     ClickHandler refreshHandler = new ClickHandler() {
 
         public void onClick(ClickEvent event) {
-            MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this, "refreshing"));
-            MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
-            //set all the buttons to be disabled while refreshing
-            _PrevButton.setEnabled(false);
-            _NextButton.setEnabled(false);
-            _refreshButton.setEnabled(false);
-            _addMessageButton.setEnabled(false);
-            MessageViewer.this._MessageTree.refreshTree();
+            refresh();
         }
     };
     ClickHandler nextPageHandler = new ClickHandler() {
@@ -143,7 +137,7 @@ public class MessageViewer extends Pane {
     public void checkPrivileges() {
         if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest) {
             _addMessageButton.setEnabled(true);
-        } else if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.guest){
+        } else if (LoginManager.getInstance().getAuthentication().getType() == eMemberType.guest) {
             _addMessageButton.setEnabled(false);
         }
     }
@@ -160,7 +154,7 @@ public class MessageViewer extends Pane {
                 MessageViewer.this.fireEvent(event);
             } else if (event instanceof resetButtonsEvent) {
                 resetButtons();
-                MessageViewer.this.fireEvent(new ChangeStatusEvent(MessageViewer.this,"done."));
+                MessageViewer.this.fireEvent(new ChangeStatusEvent(MessageViewer.this, "done."));
             }
         }
     }
@@ -176,6 +170,26 @@ public class MessageViewer extends Pane {
             _NextButton.setEnabled(true);
         }
         _refreshButton.setEnabled(true);
+    }
+
+    protected class addMessageWindowListener implements ApplicationEventListener {
+
+        public void handle(ApplicationEvent event) {
+            if (event instanceof RefreshEvent) {
+                refresh();
+            }
+        }
+    }
+
+    public void refresh() {
+        MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this, "refreshing..."));
+        MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
+        //set all the buttons to be disabled while refreshing
+ //       _PrevButton.setEnabled(false);
+   //     _NextButton.setEnabled(false);
+        _refreshButton.setEnabled(false);
+        _addMessageButton.setEnabled(false);
+        MessageViewer.this._MessageTree.refreshTree();
     }
 }
 
