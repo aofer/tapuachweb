@@ -19,9 +19,11 @@ import org.tapuachForum.client.Events.resetButtonsEvent;
 import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
+import org.tapuachForum.client.UI.AdminPanel;
 import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.client.manager.LoginManager;
 import org.tapuachForum.shared.MemberInterface;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
@@ -43,7 +45,7 @@ public class LogoutPanel extends Pane {
         _buttp = new HorizontalPanel();
         _buttp.add(_logout);
         _buttp.add(_administer);
-        _administer.setVisible(false);
+  //      _administer.setVisible(false);
         _mainPanel.add(_infop);
         _mainPanel.add(_buttp);
         initWidget(_mainPanel);
@@ -82,5 +84,16 @@ public class LogoutPanel extends Pane {
 
     public void setButtons() {
         _logout.setEnabled(true);
+        if (LoginManager.getInstance().getAuthentication().getType() ==eMemberType.Admin){
+            _administer.setVisible(true);
+            _administer.setEnabled(true);
+        }
+    }
+    protected class AdminClickHandler implements ClickHandler{
+
+        public void onClick(ClickEvent event) {
+            AdminPanel ap = new AdminPanel();
+        }
+
     }
 }
