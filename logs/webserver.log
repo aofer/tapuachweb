@@ -1,0 +1,177 @@
+[WARN] 404 - POST /org.tapuachForum.Main/myservice (127.0.0.1) 1417 bytes
+
+[WARN] 404 - POST /org.tapuachForum.Main/myservice (127.0.0.1) 1417 bytes
+
+[WARN] 404 - POST /org.tapuachForum.Main/myservice (127.0.0.1) 1417 bytes
+[WARN] 404 - POST /org.tapuachForum.Main/myservice (127.0.0.1) 1417 bytes
+
+
+Starting Jetty on port 8888
+   [WARN] EXCEPTION 
+java.lang.ClassNotFoundException: org.tapuachForum.client.testServlet
+	at java.lang.ClassLoader.findClass(ClassLoader.java:359)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:307)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:252)
+	at org.mortbay.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:352)
+	at org.mortbay.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:337)
+	at org.mortbay.util.Loader.loadClass(Loader.java:91)
+	at org.mortbay.util.Loader.loadClass(Loader.java:71)
+	at org.mortbay.jetty.servlet.Holder.doStart(Holder.java:73)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:233)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:616)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1220)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:513)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:448)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload.doStart(JettyLauncher.java:447)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:222)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher.start(JettyLauncher.java:543)
+	at com.google.gwt.dev.DevMode.doStartUpServer(DevMode.java:421)
+	at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)
+	at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)
+	at com.google.gwt.dev.DevMode.main(DevMode.java:275)
+   [WARN] failed testServlet
+javax.servlet.UnavailableException: org.tapuachForum.client.testServlet
+	at org.mortbay.jetty.servlet.Holder.doStart(Holder.java:79)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:233)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:616)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1220)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:513)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:448)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload.doStart(JettyLauncher.java:447)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:222)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher.start(JettyLauncher.java:543)
+	at com.google.gwt.dev.DevMode.doStartUpServer(DevMode.java:421)
+	at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)
+	at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)
+	at com.google.gwt.dev.DevMode.main(DevMode.java:275)
+   [WARN] Failed startup of context com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload@2209db{/,D:\המסמכים שלי\NetBeansProjects\TapuachForumWeb\hg\build\web}
+javax.servlet.UnavailableException: org.tapuachForum.client.testServlet
+	at org.mortbay.jetty.servlet.Holder.doStart(Holder.java:79)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:233)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:616)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1220)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:513)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:448)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload.doStart(JettyLauncher.java:447)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:222)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher.start(JettyLauncher.java:543)
+	at com.google.gwt.dev.DevMode.doStartUpServer(DevMode.java:421)
+	at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)
+	at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)
+	at com.google.gwt.dev.DevMode.main(DevMode.java:275)
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
+
+Starting Jetty on port 8888
+   [WARN] EXCEPTION 
+java.lang.ClassNotFoundException: org.tapuachForum.client.testServlet
+	at java.lang.ClassLoader.findClass(ClassLoader.java:359)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:307)
+	at java.lang.ClassLoader.loadClass(ClassLoader.java:252)
+	at org.mortbay.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:352)
+	at org.mortbay.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:337)
+	at org.mortbay.util.Loader.loadClass(Loader.java:91)
+	at org.mortbay.util.Loader.loadClass(Loader.java:71)
+	at org.mortbay.jetty.servlet.Holder.doStart(Holder.java:73)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:233)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:616)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1220)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:513)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:448)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload.doStart(JettyLauncher.java:447)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:222)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher.start(JettyLauncher.java:543)
+	at com.google.gwt.dev.DevMode.doStartUpServer(DevMode.java:421)
+	at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)
+	at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)
+	at com.google.gwt.dev.DevMode.main(DevMode.java:275)
+   [WARN] failed testServlet
+javax.servlet.UnavailableException: org.tapuachForum.client.testServlet
+	at org.mortbay.jetty.servlet.Holder.doStart(Holder.java:79)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:233)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:616)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1220)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:513)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:448)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload.doStart(JettyLauncher.java:447)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:222)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher.start(JettyLauncher.java:543)
+	at com.google.gwt.dev.DevMode.doStartUpServer(DevMode.java:421)
+	at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)
+	at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)
+	at com.google.gwt.dev.DevMode.main(DevMode.java:275)
+   [WARN] Failed startup of context com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload@10cec16{/,D:\המסמכים שלי\NetBeansProjects\TapuachForumWeb\hg\build\web}
+javax.servlet.UnavailableException: org.tapuachForum.client.testServlet
+	at org.mortbay.jetty.servlet.Holder.doStart(Holder.java:79)
+	at org.mortbay.jetty.servlet.ServletHolder.doStart(ServletHolder.java:233)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.servlet.ServletHandler.initialize(ServletHandler.java:616)
+	at org.mortbay.jetty.servlet.Context.startContext(Context.java:140)
+	at org.mortbay.jetty.webapp.WebAppContext.startContext(WebAppContext.java:1220)
+	at org.mortbay.jetty.handler.ContextHandler.doStart(ContextHandler.java:513)
+	at org.mortbay.jetty.webapp.WebAppContext.doStart(WebAppContext.java:448)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher$WebAppContextWithReload.doStart(JettyLauncher.java:447)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.handler.RequestLogHandler.doStart(RequestLogHandler.java:115)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at org.mortbay.jetty.handler.HandlerWrapper.doStart(HandlerWrapper.java:130)
+	at org.mortbay.jetty.Server.doStart(Server.java:222)
+	at org.mortbay.component.AbstractLifeCycle.start(AbstractLifeCycle.java:39)
+	at com.google.gwt.dev.shell.jetty.JettyLauncher.start(JettyLauncher.java:543)
+	at com.google.gwt.dev.DevMode.doStartUpServer(DevMode.java:421)
+	at com.google.gwt.dev.DevModeBase.startUp(DevModeBase.java:1035)
+	at com.google.gwt.dev.DevModeBase.run(DevModeBase.java:783)
+	at com.google.gwt.dev.DevMode.main(DevMode.java:275)
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
+[ERROR] 503 - GET /?gwt.codesvr=127.0.0.1:9997 (127.0.0.1) 1307 bytes
+[ERROR] 503 - GET /favicon.ico (127.0.0.1) 1318 bytes
