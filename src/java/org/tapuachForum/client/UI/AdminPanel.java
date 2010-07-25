@@ -65,7 +65,7 @@ public class AdminPanel extends PopupPanel {
         _holder.add(_buttonsPanel);
         this.setGlassEnabled(true);
 
-        _users.setItemSelected(0, true);
+        //   _users.setItemSelected(0, true);
 
 
         _close.addClickHandler(new ClickHandler() {
@@ -95,12 +95,15 @@ public class AdminPanel extends PopupPanel {
                 public void onSuccess(String result) {
                     _close.setEnabled(true);
                     _upgrade.setEnabled(true);
+                    _users.removeItem(_users.getSelectedIndex());
+                    fixButtons();
                 }
 
                 public void onFailure(Throwable caught) {
                     _close.setEnabled(true);
                     _upgrade.setEnabled(true);
                     _mainPanel.add(new Label("problem: " + caught.getMessage()));
+                    fixButtons();
 
                 }
             });
@@ -120,7 +123,17 @@ public class AdminPanel extends PopupPanel {
                         _users.addItem(m.getUserName());
                     }
                 }
+                fixButtons();
             }
         });
     }
+
+    public void fixButtons() {
+        if (_users.getItemCount() == 0) {
+            _upgrade.setEnabled(false);
+        } else {
+            _upgrade.setEnabled(true);
+        }
+    }
 }
+

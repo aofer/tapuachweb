@@ -4,35 +4,22 @@
  */
 package org.tapuachForum.client.UI.LoginPanel;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.LoginEvent;
-import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
-import org.tapuachForum.client.UI.AdminPanel;
-import org.tapuachForum.client.UI.ClientUser;
-import org.tapuachForum.client.UI.MessageViewer.MessageViewer;
-import org.tapuachForum.client.UI.OnlinePanel.OnlinePanel;
 import org.tapuachForum.client.UI.Pane;
 import org.tapuachForum.client.UI.RegistrationPanel;
-import org.tapuachForum.shared.MemberInterface;
-import org.tapuachForum.shared.NoSuchUserException;
-import org.tapuachForum.shared.UserLoggedException;
-import org.tapuachForum.shared.WrongPasswordException;
-import org.tapuachForum.shared.eMemberType;
+import org.tapuachForum.shared.*;
 
 /**
  *
@@ -142,8 +129,16 @@ public class LoginPanel extends Pane {
 
         public void onFailure(Throwable caught) {
             setButtons();
-            LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Failed to login, please try again."));
-            //  _info.setText(" Problem with login. Please try again.");
+            if (caught instanceof UserLoggedException) {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "User is already logged in."));
+            } else if (caught instanceof UserNotExistException) {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "User does not exist, please try a a different username."));
+            } else if (caught instanceof WrongPasswordException) {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Wrong password, please re-enter your password."));
+            } else {
+                LoginPanel.this.fireEvent(new ChangeStatusEvent(LoginPanel.this, "Failed to login, please try again."));
+                //  _info.setText(" Problem with login. Please try again.");
+            }
         }
 
         public void onSuccess(MemberInterface result) {

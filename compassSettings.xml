@@ -14,8 +14,8 @@
      </connection>
    
       <mappings>
-          <class name="Forum.DomainLayer.Message" />
-          <class name="Forum.PersistentLayer.Data.MessageData" />
+          <class name="org.tapuachForum.shared.Message" />
+          <class name="org.tapuachForum.shared.MessageData" />
       </mappings>
    
    </compass>
