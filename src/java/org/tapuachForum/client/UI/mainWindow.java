@@ -133,6 +133,7 @@ public class mainWindow extends Composite {
                 _logoutPanel.setButtons();
                 _messageViewer.getMessageTree().viewMessages();
                 _onlinePanel.refreshUsers();
+                _messageViewer.resetButtons();
                // refresh();
 
             } else if (event instanceof ChangeStatusEvent) {
@@ -153,7 +154,9 @@ public class mainWindow extends Composite {
                 LoginManager.getInstance().resetAuthentication();
                 _loginPanel.clearFields();
                 _loginPanel.setButtons();
-                refresh();
+                _messageViewer.resetButtons();
+                _onlinePanel.refreshUsers();
+               // refresh();
 
             } else if (event instanceof ChangeStatusEvent) {
                 _statusPanel.SetStatus(event.getDescription());

@@ -63,7 +63,7 @@ public class MessageViewer extends Pane {
         _PrevButton = new Button("<");
         _FirstButton = new Button("<<");
         _LastButton = new Button(">>");
-        _pageNum = new Label("0/0");
+        _pageNum = new Label("1/1");
         _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
         _toolbar.add(_FirstButton);
@@ -186,6 +186,9 @@ public class MessageViewer extends Pane {
     public void resetButtons() {
         if (LoginManager.getInstance().getAuthentication().getType() != eMemberType.guest) {
             _addMessageButton.setEnabled(true);
+        }
+        else{
+            _addMessageButton.setEnabled(false);
         }
         if (_MessageTree.getCurrentPage() > 1) {
             _PrevButton.setEnabled(true);
