@@ -177,6 +177,9 @@ public class MessageViewer extends Pane {
             } else if (event instanceof RefreshEvent) {
                 refresh();
             }
+            else if (event instanceof DeleteEvent){
+                resetButtons();
+            }
         }
     }
 
