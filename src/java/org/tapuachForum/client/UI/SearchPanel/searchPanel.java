@@ -24,7 +24,6 @@ import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
 import org.tapuachForum.client.Events.ApplicationEventSource;
-import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.SearchHit;
@@ -75,6 +74,7 @@ public class searchPanel extends Composite implements ApplicationEventSource {
         _hSearch.add(_lTo);
         _hSearch.add(_tTo);
         _hSearch.add(_bsearchButton);
+        _hSearch.add(_info);
         _hRadiobuttons.add(_byAuther);
         _hRadiobuttons.add(_byContext);
         _byAuther.setValue(true);
@@ -96,21 +96,22 @@ public class searchPanel extends Composite implements ApplicationEventSource {
         _disPanel.setWidth("350px");
         _disPanel.setHeight("100px");
         initWidget(_disPanel);
+
         final AsyncCallback<SearchHit[]> callback = new AsyncCallback<SearchHit[]>() {
 
             public void onSuccess(SearchHit[] result) {
-                _tSearchBox.setText("pop up should be open");
+                
                 if (result.length != 0) {
                     searchResultsPanel sRP = new searchResultsPanel(result);
                     sRP.center();
                 }
-                _tSearchBox.setText(result.length + " results.");
+                _info.setText(result.length + " results.");
                 _bsearchButton.setEnabled(true);
             }
 
             public void onFailure(Throwable caught) {
                 _bsearchButton.setEnabled(true);
-                _tSearchBox.setText("please try again");
+                _info.setText("please try again");
                 //_tSearchBox.setText("problem " + caught.getMessage());
             }
 
@@ -122,6 +123,7 @@ public class searchPanel extends Composite implements ApplicationEventSource {
 
             public void onClick(ClickEvent event) {
                 String searchValue = _tSearchBox.getText();
+                _tSearchBox.setText("");
                 Boolean searchBy = _byAuther.getValue();
                 int from;
                 int to;
@@ -135,15 +137,18 @@ public class searchPanel extends Composite implements ApplicationEventSource {
                 } else {
                     to = Integer.parseInt(_tTo.getText());
                 }
+                _tFrom.setText("");
+                _tTo.setText("");
+
                 _bsearchButton.setEnabled(false);
                 if (searchBy == true) {
-                    _tSearchBox.setText("author");
-                    _tSearchBox.setText("searching by author....");
+                    _info.setText("author");
+                    _info.setText("searching by author....");
                     //need to change
                     getService().searchByAuthor(searchValue, from, to, callback);
                 } else {
-                    _tSearchBox.setText("context");
-                    _tSearchBox.setText("searching by context...");
+                    _info.setText("context");
+                    _info.setText("searching by context...");
                     getService().searchByContext(searchValue, from, to, callback);
                 }
             }
@@ -173,11 +178,12 @@ public class searchPanel extends Composite implements ApplicationEventSource {
     }
 }
 
-class DisclosurePanelHeader extends HorizontalPanel {
+ class DisclosurePanelHeader extends HorizontalPanel {
 
     final DisclosurePanelImages images = (DisclosurePanelImages) GWT.create(DisclosurePanelImages.class);
 
     public DisclosurePanelHeader(boolean isOpen, String html) {
+
         add(isOpen ? images.disclosurePanelOpen().createImage()
                 : images.disclosurePanelClosed().createImage());
         add(new HTML(html));

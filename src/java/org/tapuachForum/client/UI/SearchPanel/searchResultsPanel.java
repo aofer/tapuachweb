@@ -6,6 +6,7 @@ package org.tapuachForum.client.UI.SearchPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.client.HasDirection.Direction;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DockPanel;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -39,13 +40,14 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
     private ScrollPanel _scrollPanelGrid;
     private HorizontalPanel _navigationPanel;
     private DockPanel contentDockPanel;
-    private Label _lTitle;
+   private Label _lTitle;
     private FlexTable _resultsTable;
     private Button _buttonFirstPage;
     private Button _buttonPrevPage;
     private Button _buttonNextPage;
     private Button _buttonLastPage;
     private Button _buttonReturn;
+     private Button _anotherButton;
     private int _selectedRowIndex = -1;
     public int indexOfPages;
     public int numberOfPages;
@@ -68,11 +70,12 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         Label lScore = new Label("Score:");
         _navigationPanel = new HorizontalPanel();
         _buttonReturn = new Button("Return ");
-        _buttonFirstPage = new Button("First");
-        _buttonPrevPage = new Button("Prev");
-        _buttonNextPage = new Button("Next");
-        _buttonLastPage = new Button("Last");
-        _lTitle = new Label("Search Results:");
+        _buttonFirstPage = new Button("<<");
+        _buttonPrevPage = new Button("<");
+        _buttonNextPage = new Button(">");
+        _buttonLastPage = new Button(">>");
+        _anotherButton = new Button("GOTO");
+        _lTitle = new Label("");
 
         this._listeners = new ApplicationEventListenerCollection();
 
@@ -101,7 +104,8 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _resultsTable.setWidget(0, 4, lDate);
         _resultsTable.setWidget(0, 5, lScore);
         _scrollPanelGrid.add(_resultsTable);
-        _scrollPanelGrid.setStyleName("blueBack");
+//        _scrollPanelGrid.add(_lTitle);
+        _scrollPanelGrid.setStyleName("blueBackWithBorder");
         this.setGlassEnabled(true);
         
         this._resultsTable.addTableListener(new TableListener() {
@@ -117,6 +121,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _navigationPanel.add(_buttonPrevPage);
         _navigationPanel.add(_buttonNextPage);
         _navigationPanel.add(_buttonLastPage);
+        _navigationPanel.add(_anotherButton);
         _buttonPrevPage.setEnabled(false);
         _buttonReturn.addClickHandler(new ClickHandler() {
 
@@ -148,6 +153,13 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
                 searchResultsPanel.this.buttonLastPageClicked();
             }
         });
+                _anotherButton.addClickHandler(new ClickHandler() {
+
+            public void onClick(ClickEvent event) {
+                if (_selectedRowIndex > -1)
+                    goToFun(_selectedRowIndex);
+            }
+        });
         _navigationPanel.setCellVerticalAlignment(_buttonReturn, HasVerticalAlignment.ALIGN_BOTTOM);
         _navigationPanel.setCellVerticalAlignment(_buttonFirstPage, HasVerticalAlignment.ALIGN_BOTTOM);
         _navigationPanel.setCellVerticalAlignment(_buttonPrevPage, HasVerticalAlignment.ALIGN_BOTTOM);
@@ -157,13 +169,13 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _navigationPanel.setCellHorizontalAlignment(_buttonPrevPage, HasHorizontalAlignment.ALIGN_RIGHT);
         _navigationPanel.setCellHorizontalAlignment(_buttonNextPage, HasHorizontalAlignment.ALIGN_RIGHT);
         _navigationPanel.setCellHorizontalAlignment(_buttonLastPage, HasHorizontalAlignment.ALIGN_RIGHT);
-        contentDockPanel.add(_lTitle, DockPanel.NORTH);
+        contentDockPanel.add(_lTitle, DockPanel.SOUTH);
         contentDockPanel.add(_scrollPanelGrid, DockPanel.NORTH);
         contentDockPanel.add(_navigationPanel, DockPanel.SOUTH);
         contentDockPanel.setCellHeight(_navigationPanel, "26px");
         contentDockPanel.setCellWidth(_navigationPanel, "100%");
         contentDockPanel.setCellVerticalAlignment(_navigationPanel, HasVerticalAlignment.ALIGN_BOTTOM);
-        contentDockPanel.setStyleName("blueBack");
+        contentDockPanel.setStyleName("blueBackWithBorder");
         indexOfPages = 0;
         numberOfPages = new_Results.length / pageSize;
         restOfPages = new_Results.length % pageSize;
@@ -188,7 +200,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         clearTable();
         if ((new_Results == null) || (new_Results.length == 0)) {
             contentDockPanel.remove(_scrollPanelGrid);
-            _lTitle.setText("bob");
+//            _lTitle.setText("bob");
             //   contentDockPanel.add(new Label("There are no results"), DockPanel.CENTER);
         } else {
             contentDockPanel.add(_scrollPanelGrid, DockPanel.NORTH);
@@ -225,7 +237,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _resultsTable.setWidget(row, 3, msgContext);
         _resultsTable.setWidget(row, 4, msgDate);
         _resultsTable.setWidget(row, 5, msgScore);
-        _resultsTable.setWidget(row, 6, msgIndex);
+   //     _resultsTable.setWidget(row, 6, msgIndex);
     }
 
     public void clearTable() {
@@ -304,7 +316,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _buttonPrevPage.setEnabled(false);
         refreshResultsPanel();
     }
- /* private void cellClicked(int row, int column) {
+  private void cellClicked(int row, int column) {
         if (_selectedRowIndex == row) {
             _selectedRowIndex = -1;
             _resultsTable.getRowFormatter().removeStyleName(row, "row-selected");
@@ -315,16 +327,30 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
             _selectedRowIndex = row;
             _resultsTable.getRowFormatter().addStyleName(row, "row-selected");
         }
-    }*/
+        _lTitle.setText("ready to go to line "+_selectedRowIndex+ ". just press go to." );
+    }
     
-    private void cellClicked(int row, int column) {
-    _lTitle.setText("row is " + row + ". coumn is " + column);
+    private void goToFun(int row) {
     if ((row > 0) & (row <= pageSize)) {
     int msgIndex = indexesInt[(indexOfPages * pageSize) + row - 1];
     searchResultsPanel.this.fireEvent(new GotomessageEvent(searchResultsPanel.this, msgIndex));
     searchResultsPanel.super.hide();
         }
     }
+
+//     private void cellClicked(int row, int column) {
+//        if (_selectedRowIndex == row) {
+//            _selectedRowIndex = -1;
+//            _resultsTable.getRowFormatter().removeStyleName(row, "row-selected");
+//        } else {
+//            if (_selectedRowIndex != -1) {
+//                _resultsTable.getRowFormatter().removeStyleName(_selectedRowIndex, "row-selected");
+//            }
+//            _selectedRowIndex = row;
+//            _resultsTable.getRowFormatter().addStyleName(row, "row-selected");
+//        }
+//    }
+
   public void addListener(ApplicationEventListener listener) {
         this._listeners.add(listener);
     }
