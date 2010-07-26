@@ -302,7 +302,6 @@ public class SQLForumHandler implements ForumHandlerInterface {
 
             }
             tx.rollback();
-            session.close();
             return oneOfMembers;
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
@@ -316,6 +315,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
                 throw e;
             }
         }
+        session.close();
         return null;
     }
 
