@@ -286,6 +286,7 @@ public class MessageTree extends Pane {
                 MessageTreeItem tItem = (MessageTreeItem) event.getSource();
                 MessageTree.this._messages.remove(tItem.getMessage());
                 MessageTree.this._messageTree.removeItem(tItem);
+                MessageTree.this._listeners.fireEvent(event);
                 viewMessages();
 
             }
