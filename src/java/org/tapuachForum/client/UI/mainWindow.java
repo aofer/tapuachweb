@@ -131,7 +131,9 @@ public class mainWindow extends Composite {
                 LoginEvent tEvent = (LoginEvent) event;
                 LoginManager.getInstance().setAuthentication(tEvent.getUser());
                 _logoutPanel.setButtons();
-                refresh();
+                _messageViewer.getMessageTree().viewMessages();
+                _onlinePanel.refreshUsers();
+               // refresh();
 
             } else if (event instanceof ChangeStatusEvent) {
                 _statusPanel.SetStatus(event.getDescription());

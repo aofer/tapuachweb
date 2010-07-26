@@ -149,8 +149,6 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
     public void clearListeners() {
         this._listeners.clear();
     }
-
-
     /**
      * click handler for the edit window save button
      */
@@ -172,6 +170,7 @@ public class addMessageWindow extends PopupPanel implements ApplicationEventSour
         public void onSuccess(String result) {
             addMessageWindow.this._listeners.fireEvent(new ChangeStatusEvent(addMessageWindow.this, "Message was edited succesfully."));
             addMessageWindow.this._listeners.fireEvent(new RefreshEvent(addMessageWindow.this));
+            //     addMessageWindow.this._listeners.fireEvent(new EditMessageEvent(addMessageWindow.this)));
         }
 
         public void onFailure(Throwable caught) {
