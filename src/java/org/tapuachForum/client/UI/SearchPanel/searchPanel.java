@@ -24,6 +24,8 @@ import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.client.Events.ApplicationEventListener;
 import org.tapuachForum.client.Events.ApplicationEventListenerCollection;
 import org.tapuachForum.client.Events.ApplicationEventSource;
+import org.tapuachForum.client.Events.GotomessageEvent;
+import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.shared.SearchHit;
@@ -103,6 +105,7 @@ public class searchPanel extends Composite implements ApplicationEventSource {
                 
                 if (result.length != 0) {
                     searchResultsPanel sRP = new searchResultsPanel(result);
+                    sRP.addListener(new SearchResultsListener());
                     sRP.center();
                 }
                 _info.setText(result.length + " results.");
@@ -117,6 +120,7 @@ public class searchPanel extends Composite implements ApplicationEventSource {
 
             private void showSearchResult(SearchHit[] result) {
                 searchResultsPanel sRP = new searchResultsPanel(result);
+                sRP.addListener(new SearchResultsListener());
             }
         };
         _bsearchButton.addClickHandler(new ClickHandler() {
@@ -170,10 +174,13 @@ public class searchPanel extends Composite implements ApplicationEventSource {
     public void clearListeners() {
         _listeners.clear();
     }
-        protected class SearchResultsListener implements ApplicationEventListener {
+
+    protected class SearchResultsListener implements ApplicationEventListener {
 
         public void handle(ApplicationEvent event) {
-            searchPanel.this._listeners.fireEvent(event);
+            if (event instanceof GotomessageEvent) {
+                searchPanel.this._listeners.fireEvent(event);
+            }
         }
     }
 }
@@ -188,8 +195,6 @@ public class searchPanel extends Composite implements ApplicationEventSource {
                 : images.disclosurePanelClosed().createImage());
         add(new HTML(html));
     }
-
-
 }
 
 

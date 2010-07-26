@@ -30,6 +30,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.delete(msg);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -52,6 +53,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.save(msg);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -73,6 +75,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.update(msg);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -94,6 +97,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.delete(oneMember);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -116,6 +120,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.save(oneMember);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -137,6 +142,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.update(oneMember);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -166,6 +172,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             oneOfMembers = (Members) q.uniqueResult();
             oneOfMembers.setIsLogin(true);
             updateMember(oneOfMembers);
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -195,6 +202,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             oneOfMembers = (Members) q.uniqueResult();
             oneOfMembers.setIsLogin(false);
             updateMember(oneOfMembers);
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -219,6 +227,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             //TODO change to good query to get message with max
             Query q = session.createQuery("from Foruminfo as foruminfo where foruminfo.name is 'Tapuach'");
             tForum = (Foruminfo) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -255,7 +264,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Members as members where members.userName is '" + username + "'");
             oneOfMembers = (Members) q.uniqueResult();
-            System.out.println("see");
+            session.close();
             if (oneOfMembers != null) {
                 return oneOfMembers.getPassword();
             } else {
@@ -293,6 +302,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
 
             }
             tx.rollback();
+            session.close();
             return oneOfMembers;
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
@@ -320,6 +330,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Message as message where message.number is '" + messageID + "'");
             oneMessage = (Message) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -347,6 +358,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Message as message where message.number is '" + messageID + "'");
             oneMessage = (Message) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -463,6 +475,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Members as members where members.nickName is '" + nickname + "'");
             oneOfMembers = (Members) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -493,6 +506,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Members as members where members.password is '" + password + "'");
             oneOfMembers = (Members) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -555,6 +569,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Members as members where members.userName is '" + username + "'");
             oneOfMembers = (Members) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -585,6 +600,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Members as members where members.userName is '" + username + "'");
             oneOfMembers = (Members) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -660,6 +676,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.save(tForum);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -689,6 +706,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             Query q = session.createQuery("from Foruminfo as foruminfo  where foruminfo.name  is 'Tapuach'");
             foruminfo = (Foruminfo) q.uniqueResult();
             foruminfo.setNumOfMessages(0);
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -709,6 +727,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             Query q = session.createQuery("from Members as members");
             System.out.println("cookl");
             MembersList = (List<Members>) q.list();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -733,7 +752,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             Query q = session.createQuery("from Message as message");
             MessagesList = (List<Message>) q.list();
-            System.out.println(MessagesList.size() + "sdf");
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -798,6 +817,7 @@ public class SQLForumHandler implements ForumHandlerInterface {
             tx = session.beginTransaction();
             session.save(tForum);
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -811,5 +831,4 @@ public class SQLForumHandler implements ForumHandlerInterface {
             }
         }
     }
-
-        }
+}

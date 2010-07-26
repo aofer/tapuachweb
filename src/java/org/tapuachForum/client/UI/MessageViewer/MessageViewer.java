@@ -259,6 +259,10 @@ public class MessageViewer extends Pane {
         public void setPageNum(){
             this._pageNum.setText(_MessageTree.getCurrentPage() + "/" + _MessageTree.getMaxPage());
         }
+        public void gotoMessage(int index){
+            this._MessageTree.gotoMessage(index);
+            resetButtons();
+        }
 }
 
 

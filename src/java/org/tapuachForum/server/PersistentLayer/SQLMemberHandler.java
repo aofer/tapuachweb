@@ -15,7 +15,6 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-
 /**
  *
  * @author Nir
@@ -26,16 +25,10 @@ public class SQLMemberHandler implements XMLMemberInterface {
      *
      * @return
      */
-
-
-
-
-
     public SQLMemberHandler() {
-
     }
 
-     public List<MemberData> geOnlinetMembers() {
+    public List<MemberData> geOnlinetMembers() {
         List<MemberData> members = new ArrayList<MemberData>();
         List<Members> MembersList = null;
         Transaction tx = null;
@@ -67,17 +60,18 @@ public class SQLMemberHandler implements XMLMemberInterface {
             }
         }
         return members;
-     }
+    }
 
     public List<MemberData> getMember() {
         List<MemberData> members = new ArrayList<MemberData>();
-    List< Members>    MembersList = null;
+        List<Members> MembersList = null;
         Transaction tx = null;
         Session session = SessionFactoryUtil.getInstance().getCurrentSession();
         try {
             tx = session.beginTransaction();
-        Query q = session.createQuery ("from Members as members");
-        MembersList = (List<Members>) q.list();
+            Query q = session.createQuery("from Members as members");
+            MembersList = (List<Members>) q.list();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -95,19 +89,20 @@ public class SQLMemberHandler implements XMLMemberInterface {
             Date joined = m.getDateOfJoin();
             Date birth = m.getDateOfJoin();
             members.add(new MemberData(m.getUserName(), m.getNickName(), m.getPassword(),
-                    m.getFirstName(), m.getLastName(), m.getEmail(), joined, birth,m.isIsLogin()));
+                    m.getFirstName(), m.getLastName(), m.getEmail(), joined, birth, m.isIsLogin()));
         }
         return members;
     }
 
     public MemberData getMember(String userName) {
-           Members   oneOfMembers = null;
+        Members oneOfMembers = null;
         Transaction tx = null;
         Session session = SessionFactoryUtil.getInstance().getCurrentSession();
         try {
             tx = session.beginTransaction();
-        Query q = session.createQuery ("from Members as members where members.userName is '"+userName+"'");
-        oneOfMembers = (Members) q.uniqueResult();
+            Query q = session.createQuery("from Members as members where members.userName is '" + userName + "'");
+            oneOfMembers = (Members) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -120,25 +115,26 @@ public class SQLMemberHandler implements XMLMemberInterface {
                 throw e;
             }
         }
-   
-            if (oneOfMembers != null ) {
-                Date joined = oneOfMembers.getDateOfJoin();
-                Date birth = oneOfMembers.getDataOfBirth();
-                return new MemberData(oneOfMembers.getUserName(), oneOfMembers.getNickName(), oneOfMembers.getPassword(),
-                        oneOfMembers.getFirstName(), oneOfMembers.getLastName(), oneOfMembers.getEmail(), joined, birth, oneOfMembers.isIsLogin());
-            }
-        
+
+        if (oneOfMembers != null) {
+            Date joined = oneOfMembers.getDateOfJoin();
+            Date birth = oneOfMembers.getDataOfBirth();
+            return new MemberData(oneOfMembers.getUserName(), oneOfMembers.getNickName(), oneOfMembers.getPassword(),
+                    oneOfMembers.getFirstName(), oneOfMembers.getLastName(), oneOfMembers.getEmail(), joined, birth, oneOfMembers.isIsLogin());
+        }
+
         return null;
     }
 
     public eMemberType getMemberType(String userName) {
-                 Members   oneOfMembers = null;
+        Members oneOfMembers = null;
         Transaction tx = null;
         Session session = SessionFactoryUtil.getInstance().getCurrentSession();
         try {
             tx = session.beginTransaction();
-        Query q = session.createQuery ("from Members as members where members.userName is '"+userName+"'");
-        oneOfMembers = (Members) q.uniqueResult();
+            Query q = session.createQuery("from Members as members where members.userName is '" + userName + "'");
+            oneOfMembers = (Members) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -151,15 +147,15 @@ public class SQLMemberHandler implements XMLMemberInterface {
                 throw e;
             }
         }
-               if (oneOfMembers != null ) {
-                if (oneOfMembers.isIsAdmin()) {
-                    return (eMemberType.Admin);
-                } else if (oneOfMembers.isIsModerator()) {
-                    return (eMemberType.Moderator);
-                } else {
-                    return eMemberType.member;
-                }
-            
+        if (oneOfMembers != null) {
+            if (oneOfMembers.isIsAdmin()) {
+                return (eMemberType.Admin);
+            } else if (oneOfMembers.isIsModerator()) {
+                return (eMemberType.Moderator);
+            } else {
+                return eMemberType.member;
+            }
+
         }
 
         return (null);

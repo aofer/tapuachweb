@@ -33,28 +33,27 @@ import org.tapuachForum.shared.MessageInterface;
  *
  * @author Liron Katav
  */
-public class searchResultsPanel extends PopupPanel  implements ApplicationEventSource{
+public class searchResultsPanel extends PopupPanel implements ApplicationEventSource {
 
     private SearchHit[] new_Results;
     private static final int pageSize = 2;
     private ScrollPanel _scrollPanelGrid;
     private HorizontalPanel _navigationPanel;
     private DockPanel contentDockPanel;
-   private Label _lTitle;
+    private Label _lTitle;
     private FlexTable _resultsTable;
     private Button _buttonFirstPage;
     private Button _buttonPrevPage;
     private Button _buttonNextPage;
     private Button _buttonLastPage;
     private Button _buttonReturn;
-     private Button _anotherButton;
+    private Button _GotoButton;
     private int _selectedRowIndex = -1;
     public int indexOfPages;
     public int numberOfPages;
     private int restOfPages;
     private int[] indexesInt;
     protected ApplicationEventListenerCollection _listeners;
-
 
     public searchResultsPanel(final SearchHit[] result) {
         super(false, true);
@@ -74,7 +73,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _buttonPrevPage = new Button("<");
         _buttonNextPage = new Button(">");
         _buttonLastPage = new Button(">>");
-        _anotherButton = new Button("GOTO");
+        _GotoButton = new Button("GOTO");
         _lTitle = new Label("");
 
         this._listeners = new ApplicationEventListenerCollection();
@@ -107,7 +106,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
 //        _scrollPanelGrid.add(_lTitle);
         _scrollPanelGrid.setStyleName("blueBackWithBorder");
         this.setGlassEnabled(true);
-        
+
         this._resultsTable.addTableListener(new TableListener() {
 
             public void onCellClicked(SourcesTableEvents sender, int row, int column) {
@@ -121,7 +120,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _navigationPanel.add(_buttonPrevPage);
         _navigationPanel.add(_buttonNextPage);
         _navigationPanel.add(_buttonLastPage);
-        _navigationPanel.add(_anotherButton);
+        _navigationPanel.add(_GotoButton);
         _buttonPrevPage.setEnabled(false);
         _buttonReturn.addClickHandler(new ClickHandler() {
 
@@ -153,13 +152,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
                 searchResultsPanel.this.buttonLastPageClicked();
             }
         });
-                _anotherButton.addClickHandler(new ClickHandler() {
-
-            public void onClick(ClickEvent event) {
-                if (_selectedRowIndex > -1)
-                    goToFun(_selectedRowIndex);
-            }
-        });
+        _GotoButton.addClickHandler(new gotoHandler());
         _navigationPanel.setCellVerticalAlignment(_buttonReturn, HasVerticalAlignment.ALIGN_BOTTOM);
         _navigationPanel.setCellVerticalAlignment(_buttonFirstPage, HasVerticalAlignment.ALIGN_BOTTOM);
         _navigationPanel.setCellVerticalAlignment(_buttonPrevPage, HasVerticalAlignment.ALIGN_BOTTOM);
@@ -237,7 +230,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _resultsTable.setWidget(row, 3, msgContext);
         _resultsTable.setWidget(row, 4, msgDate);
         _resultsTable.setWidget(row, 5, msgScore);
-   //     _resultsTable.setWidget(row, 6, msgIndex);
+        //     _resultsTable.setWidget(row, 6, msgIndex);
     }
 
     public void clearTable() {
@@ -303,7 +296,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         refreshResultsPanel();
     }
 
-      public static MyServiceAsync getService() {
+    public static MyServiceAsync getService() {
 
         return Locator.getInstance();
     }
@@ -316,7 +309,8 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
         _buttonPrevPage.setEnabled(false);
         refreshResultsPanel();
     }
-  private void cellClicked(int row, int column) {
+
+    private void cellClicked(int row, int column) {
         if (_selectedRowIndex == row) {
             _selectedRowIndex = -1;
             _resultsTable.getRowFormatter().removeStyleName(row, "row-selected");
@@ -326,15 +320,6 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
             }
             _selectedRowIndex = row;
             _resultsTable.getRowFormatter().addStyleName(row, "row-selected");
-        }
-        _lTitle.setText("ready to go to line "+_selectedRowIndex+ ". just press go to." );
-    }
-    
-    private void goToFun(int row) {
-    if ((row > 0) & (row <= pageSize)) {
-    int msgIndex = indexesInt[(indexOfPages * pageSize) + row - 1];
-    searchResultsPanel.this.fireEvent(new GotomessageEvent(searchResultsPanel.this, msgIndex));
-    searchResultsPanel.super.hide();
         }
     }
 
@@ -350,8 +335,7 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
 //            _resultsTable.getRowFormatter().addStyleName(row, "row-selected");
 //        }
 //    }
-
-  public void addListener(ApplicationEventListener listener) {
+    public void addListener(ApplicationEventListener listener) {
         this._listeners.add(listener);
     }
 
@@ -362,8 +346,20 @@ public class searchResultsPanel extends PopupPanel  implements ApplicationEventS
     public void clearListeners() {
         this._listeners.clear();
     }
-    public void fireEvent(ApplicationEvent event){
+
+    public void fireEvent(ApplicationEvent event) {
         this._listeners.fireEvent(event);
+    }
+
+    protected class gotoHandler implements ClickHandler {
+
+        public void onClick(ClickEvent event) {
+            if (_selectedRowIndex > -1 && (_selectedRowIndex > 0) & (_selectedRowIndex <= pageSize)) {
+                int msgIndex = indexesInt[(indexOfPages * pageSize) + _selectedRowIndex - 1];
+                searchResultsPanel.this.fireEvent(new GotomessageEvent(searchResultsPanel.this, msgIndex));
+                searchResultsPanel.super.hide();
+            }
+        }
     }
 }
 
