@@ -8,6 +8,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.shared.MessageData;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
@@ -31,7 +33,7 @@ public class MessageTree extends Pane {
 
     private HorizontalPanel _mainPanel;
     private Tree _messageTree;
-    private final int PAGESIZE = 10;
+    private final int PAGESIZE = 4;
     private Vector<MessageInterface> _messages;
     private int _currentPage;
 
@@ -154,7 +156,15 @@ public class MessageTree extends Pane {
             }
         }
         //open the searched message
-        OpenRepliesRec((MessageTreeItem) _messageTree.getItem(realIndex), index);
+        int openIndex = 0;
+        for (int i = 0; i < _messageTree.getItemCount();i++){
+            if (((MessageTreeItem)_messageTree.getItem(i)).getMessage().getIndex() == index){
+                openIndex = i;
+                break;
+            }
+        }
+        OpenRepliesRec((MessageTreeItem) _messageTree.getItem(openIndex), index);
+     //   OpenRepliesRec((MessageTreeItem) _messageTree.getItem(realIndex), index);
     }
 
     /**

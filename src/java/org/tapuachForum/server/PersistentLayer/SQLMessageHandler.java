@@ -20,26 +20,18 @@ import org.hibernate.Transaction;
  */
 public class SQLMessageHandler implements XMLMessageInterface {
 
-
-
-
-
-
-
-
-
     public SQLMessageHandler() {
-
     }
 
-     private Message findMessage(int messageID) {
-                  Message   oneMessage = null;
+    private Message findMessage(int messageID) {
+        Message oneMessage = null;
         Transaction tx = null;
         Session session = SessionFactoryUtil.getInstance().getCurrentSession();
         try {
             tx = session.beginTransaction();
-        Query q = session.createQuery ("from Message as message where message.number is '"+messageID+"'");
-        oneMessage = (Message) q.uniqueResult();
+            Query q = session.createQuery("from Message as message where message.number is '" + messageID + "'");
+            oneMessage = (Message) q.uniqueResult();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -53,39 +45,39 @@ public class SQLMessageHandler implements XMLMessageInterface {
             }
         }
         return oneMessage;
-     }
+    }
 
-
-    public MessageData getMessage(int messageID)    {
-      Message m = findMessage(messageID);
-      if  (m != null) {
-      //  for(MessageType m : this.xf.getForum().getMessages()){
-    //            if(m.getMessageId().intValue() == messageID){
-                    String nick=m.getAuthor();
-                    String sub=m.getTitle();
-                    String body = m.getBody();
-                    Date created=m.getDateOfAdd();
-                    Date modified =m.getDateOfEdit();
-                    int indexId = m.getNumber();
-                    //****************************************//
-                    // changed for getIndex   ****************/
-                    //the next line is the old constractor;
-                    //   return new MessageData(nick, sub, body, created, modified);
-                    return new MessageData(nick, sub, body, created, modified,indexId);
-   //             }
-            }
-           return null;
+    public MessageData getMessage(int messageID) {
+        Message m = findMessage(messageID);
+        if (m != null) {
+            //  for(MessageType m : this.xf.getForum().getMessages()){
+            //            if(m.getMessageId().intValue() == messageID){
+            String nick = m.getAuthor();
+            String sub = m.getTitle();
+            String body = m.getBody();
+            Date created = m.getDateOfAdd();
+            Date modified = m.getDateOfEdit();
+            int indexId = m.getNumber();
+            //****************************************//
+            // changed for getIndex   ****************/
+            //the next line is the old constractor;
+            //   return new MessageData(nick, sub, body, created, modified);
+            return new MessageData(nick, sub, body, created, modified, indexId);
+            //             }
+        }
+        return null;
     }
 
     public List<Integer> getRepliesIds(int messageID) {
-        List<Integer> listReplies =  new ArrayList<Integer>();
-          List< Message>    MeseggesList = null;
+        List<Integer> listReplies = new ArrayList<Integer>();
+        List<Message> MeseggesList = null;
         Transaction tx = null;
         Session session = SessionFactoryUtil.getInstance().getCurrentSession();
         try {
             tx = session.beginTransaction();
-        Query q = session.createQuery ("from Message as message where  message.idFather is  '"+messageID+"'");
-        MeseggesList = (List<Message>) q.list();
+            Query q = session.createQuery("from Message as message where  message.idFather is  '" + messageID + "'");
+            MeseggesList = (List<Message>) q.list();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -100,13 +92,15 @@ public class SQLMessageHandler implements XMLMessageInterface {
         }
 
 
-      if (MeseggesList != null)
-                 for (Message  m :MeseggesList){
-                 if (m != null)
-                   listReplies.add(new Integer(m.getNumber()));
-             }
-                  return (listReplies);
-      }
+        if (MeseggesList != null) {
+            for (Message m : MeseggesList) {
+                if (m != null) {
+                    listReplies.add(new Integer(m.getNumber()));
+                }
+            }
+        }
+        return (listReplies);
+    }
 }
       
 

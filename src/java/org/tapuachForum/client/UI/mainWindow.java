@@ -203,7 +203,7 @@ public class mainWindow extends Composite {
 
         public void handle(ApplicationEvent event) {
             if (event instanceof GotomessageEvent) {
-                _messageViewer.getMessageTree().gotoMessage(((GotomessageEvent) (event)).getMessageNumber());
+                _messageViewer.gotoMessage(((GotomessageEvent) (event)).getMessageNumber());
             }
         }
     }
