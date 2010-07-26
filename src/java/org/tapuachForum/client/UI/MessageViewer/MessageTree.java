@@ -86,7 +86,20 @@ public class MessageTree extends Pane {
             //TODO
         }
     }
-
+    /**
+     * goes to first page
+     */
+    public void firstPage() {
+        this._currentPage = 1;
+        viewMessages();
+    }
+    /**
+     * goes to last page
+     */
+    public void lastPage(){
+        this._currentPage = this.getMaxPage();
+        viewMessages();
+    }
     /**
      * finds where the searched message is located in the message vector
      * @param searchIndex - the index returned from search
@@ -194,36 +207,6 @@ public class MessageTree extends Pane {
             addReplies(tReplies, tItem);
         }
     }
-    /*
-    public void viewMessages() {
-    //first clean the tree
-    this._messageTree.clear();
-    //add the messages from the vector of messages
-    int firstMessageIndex = (this.getCurrentPage() - 1) * PAGESIZE;
-    int lastMessageIndex = Math.min(this.getCurrentPage() * PAGESIZE - 1, this._messages.size() - 1);
-    for (int i = firstMessageIndex; i <= lastMessageIndex; i++) {
-    MessageInterface m = _messages.get(i);
-    MessageTreeItem tItem = new MessageTreeItem(m);
-    tItem.addListener(new TreeItemListener());
-    this._messageTree.addItem(tItem);
-    ArrayList<Message> tReplies = m.getReplies();
-    addReplies(tReplies, tItem);
-    }
-    }
-     * /*
-     */
-    /*
-    public void viewMessages2() {
-    this._messageTree.clear();
-    //add the messages from the vector of messages
-    for (MessageInterface m : _messages) {
-    MessageTreeItem tItem = new MessageTreeItem(m);
-    this._messageTree.addItem(tItem);
-    ArrayList<Message> tReplies = m.getReplies();
-    addReplies(tReplies, tItem);
-    }
-    }
-     */
 
     /**
      * used for adding replies for each message in the tree
@@ -289,6 +272,8 @@ public class MessageTree extends Pane {
         }
         return maxPage;
     }
+
+
 
     protected class TreeItemListener implements ApplicationEventListener {
 

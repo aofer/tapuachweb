@@ -39,9 +39,12 @@ public class MessageViewer extends Pane {
     private Button _refreshButton;
     private Button _NextButton;
     private Button _PrevButton;
+    private Button _FirstButton;
+    private Button _LastButton;
     private MessageTree _MessageTree;
     private Label _info;
     private ScrollPanel scrollPan;
+    private Label _pageNum;
 
     public MessageViewer() {
         super();
@@ -56,16 +59,24 @@ public class MessageViewer extends Pane {
             _addMessageButton.setEnabled(false);
         }
         _refreshButton = new Button("Refresh");
-        _NextButton = new Button("Next");
-        _PrevButton = new Button("Prev");
+        _NextButton = new Button(">");
+        _PrevButton = new Button("<");
+        _FirstButton = new Button("<<");
+        _LastButton = new Button(">>");
+        _pageNum = new Label("0/0");
         _toolbar.add(_addMessageButton);
         _toolbar.add(_refreshButton);
+        _toolbar.add(_FirstButton);
         _toolbar.add(_PrevButton);
         _toolbar.add(_NextButton);
+        _toolbar.add(_LastButton);
+        _toolbar.add(_pageNum);
 //        _refreshButton.setEnabled(false);
         _NextButton.setEnabled(false);
         _PrevButton.setEnabled(false);
         _refreshButton.setEnabled(false);
+        _LastButton.setEnabled(false);
+        _FirstButton.setEnabled(false);
         //      _info = new Label("");
         _MessageTree = new MessageTree();
         _MessageTree.addListener(new MessageTreeListener());
@@ -81,6 +92,8 @@ public class MessageViewer extends Pane {
         checkPrivileges();
         _NextButton.addClickHandler(nextPageHandler);
         _PrevButton.addClickHandler(previousPageHandler);
+        _FirstButton.addClickHandler(new  FirstPageHandler());
+        _LastButton.addClickHandler(new  LastPageHandler());
         _addMessageButton.addClickHandler(new ClickHandler() {
 
             public void onClick(ClickEvent event) {
@@ -115,10 +128,13 @@ public class MessageViewer extends Pane {
             MessageViewer.this._MessageTree.nextPage();
             if (_MessageTree.getCurrentPage() == _MessageTree.getMaxPage()) {
                 _NextButton.setEnabled(false);
+                _LastButton.setEnabled(false);
             }
             if (_MessageTree.getCurrentPage() == 2) {
                 _PrevButton.setEnabled(true);
+                _FirstButton.setEnabled(true);
             }
+            setPageNum();
         }
     };
     ClickHandler previousPageHandler = new ClickHandler() {
@@ -127,10 +143,13 @@ public class MessageViewer extends Pane {
             MessageViewer.this._MessageTree.previousPage();
             if (_MessageTree.getCurrentPage() == (_MessageTree.getMaxPage() - 1)) {
                 _NextButton.setEnabled(true);
+                _LastButton.setEnabled(true);
             }
             if (_MessageTree.getCurrentPage() == 1) {
                 _PrevButton.setEnabled(false);
+                _FirstButton.setEnabled(false);
             }
+            setPageNum();
         }
     };
 
@@ -155,8 +174,7 @@ public class MessageViewer extends Pane {
             } else if (event instanceof resetButtonsEvent) {
                 resetButtons();
                 MessageViewer.this.fireEvent(new ChangeStatusEvent(MessageViewer.this, "done."));
-            }
-            else if (event instanceof  RefreshEvent){
+            } else if (event instanceof RefreshEvent) {
                 refresh();
             }
         }
@@ -168,11 +186,14 @@ public class MessageViewer extends Pane {
         }
         if (_MessageTree.getCurrentPage() > 1) {
             _PrevButton.setEnabled(true);
+            _FirstButton.setEnabled(true);
         }
         if (_MessageTree.getCurrentPage() < _MessageTree.getMaxPage()) {
             _NextButton.setEnabled(true);
+            _LastButton.setEnabled(true);
         }
         _refreshButton.setEnabled(true);
+        setPageNum();
     }
 
     protected class addMessageWindowListener implements ApplicationEventListener {
@@ -188,12 +209,50 @@ public class MessageViewer extends Pane {
         MessageViewer.this._listeners.fireEvent(new ChangeStatusEvent(MessageViewer.this, "refreshing..."));
         MessageViewer.this._listeners.fireEvent(new RefreshEvent(MessageViewer.this));
         //set all the buttons to be disabled while refreshing
- //       _PrevButton.setEnabled(false);
-   //     _NextButton.setEnabled(false);
+        //       _PrevButton.setEnabled(false);
+        //     _NextButton.setEnabled(false);
         _refreshButton.setEnabled(false);
         _addMessageButton.setEnabled(false);
         MessageViewer.this._MessageTree.refreshTree();
     }
+
+    protected class FirstPageHandler implements ClickHandler {
+
+        public void onClick(ClickEvent event) {
+            MessageViewer.this._MessageTree.firstPage();
+            MessageViewer.this._FirstButton.setEnabled(false);
+            MessageViewer.this._PrevButton.setEnabled(false);
+            if (_MessageTree.getCurrentPage() < (_MessageTree.getMaxPage() )) {
+                _NextButton.setEnabled(true);
+                _LastButton.setEnabled(true);
+            }
+            else{
+                _NextButton.setEnabled(false);
+                _LastButton.setEnabled(false);
+            }
+            setPageNum();
+        }
+    }
+        protected class LastPageHandler implements ClickHandler {
+
+        public void onClick(ClickEvent event) {
+            MessageViewer.this._MessageTree.lastPage();
+            MessageViewer.this._LastButton.setEnabled(false);
+            MessageViewer.this._NextButton.setEnabled(false);
+            if (_MessageTree.getCurrentPage() > 1) {
+                _PrevButton.setEnabled(true);
+                _FirstButton.setEnabled(true);
+            }
+            else{
+                _PrevButton.setEnabled(false);
+                _FirstButton.setEnabled(false);
+            }
+            setPageNum();
+        }
+    }
+        public void setPageNum(){
+            this._pageNum.setText(_MessageTree.getCurrentPage() + "/" + _MessageTree.getMaxPage());
+        }
 }
 
 

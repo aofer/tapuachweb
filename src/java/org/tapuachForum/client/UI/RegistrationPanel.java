@@ -11,6 +11,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import com.google.gwt.user.client.ui.*;
@@ -27,7 +28,7 @@ import org.xml.sax.ext.Locator2;
  */
 public class RegistrationPanel extends PopupPanel {
 
-   DockLayoutPanel dp = new DockLayoutPanel(Unit.PX);
+    DockLayoutPanel dp = new DockLayoutPanel(Unit.PX);
     final HorizontalPanel firstNamePanel;
     final HorizontalPanel lastNamePanel;
     final HorizontalPanel emailPanel;
@@ -74,7 +75,7 @@ public class RegistrationPanel extends PopupPanel {
     final Label lBirthDayError;
 
     public RegistrationPanel() {
-        super(false,true);
+        super(false, true);
         this.add(dp);
         //buttons
         bRegister = new Button("Register");
@@ -156,15 +157,16 @@ public class RegistrationPanel extends PopupPanel {
         tBirthDay.setValue(null);
         // Set the value in the text box when the user selects a date
         tBirthDay.getDatePicker().addValueChangeHandler(new ValueChangeHandler() {
+
             public void onValueChange(ValueChangeEvent event) {
-             
+
                 Date date = (Date) event.getValue();
                 //if ((date.compareTo(today) > 0) | (date == null)){
-              //      lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
-             //   } else {
+                //      lBirthDayError.setText("please re-enter logic birth day. Time traveling is not support yet");
+                //   } else {
                 //    lBirthDayError.setText("");
-                    tBirthDay.setValue(date);
-             //   }
+                tBirthDay.setValue(date);
+                //   }
 
             }
         });
@@ -317,19 +319,30 @@ public class RegistrationPanel extends PopupPanel {
                     lResult.setStyleName("redBack");
                 }
                 lResult.setText(result);
-                 bCancel.setEnabled(true);
-                 bRegister.setEnabled(true);
-                 bClear.setEnabled(true);
+                Timer timer = new Timer() {
+
+                    @Override
+                    public void run() {
+                        RegistrationPanel.super.hide();
+                        bCancel.setEnabled(true);
+                        bRegister.setEnabled(true);
+                        bClear.setEnabled(true);
+                    }
+                };
+                timer.schedule(1500);
+            //     bCancel.setEnabled(true);
+              //  bRegister.setEnabled(true);
+               // bClear.setEnabled(true);
 
 
             }
 
             public void onFailure(Throwable caught) {
-                lResult.setText("Communication failed. the problem is: " +caught.getMessage() );
+                lResult.setText("Communication failed. the problem is: " + caught.getMessage());
                 lResult.setStyleName("redResutl");
-                       bCancel.setEnabled(true);
-                    bRegister.setEnabled(true);
-                    bClear.setEnabled(true);
+                bCancel.setEnabled(true);
+                bRegister.setEnabled(true);
+                bClear.setEnabled(true);
 
             }
         };
@@ -473,30 +486,30 @@ public class RegistrationPanel extends PopupPanel {
             lpasswordError.setText("password to short");
             ans = false;
         }
-           Date today = new Date();
-       if((tBirthDay == null) | !(tBirthDay.getValue().compareTo(today)<0)){
-           lBirthDayError.setText("please enter logic BirthDay date.");
-                ans = false;
-       }
+        Date today = new Date();
+        if ((tBirthDay == null) | !(tBirthDay.getValue().compareTo(today) < 0)) {
+            lBirthDayError.setText("please enter logic BirthDay date.");
+            ans = false;
+        }
 
         if (!this.tFirstName.getText().matches("[a-zA-Z]{3,20}")) {
-            lFirstNameError.setText( "first name should be only between 3 to 20 letters ");
+            lFirstNameError.setText("first name should be only between 3 to 20 letters ");
             return false;
         }
         if (!this.tLastName.getText().matches("[a-zA-Z]{3,20}")) {
-           lLastNameError.setText("last name should be only between 3 to 20 letters ");
+            lLastNameError.setText("last name should be only between 3 to 20 letters ");
             return false;
         }
-        if (!tEmail.getText().matches("[a-zA-Z0-9]+@([a-zA-Z0-9]+)[.]{1}([a-zA-Z.]+)")){
+        if (!tEmail.getText().matches("[a-zA-Z0-9]+@([a-zA-Z0-9]+)[.]{1}([a-zA-Z.]+)")) {
             lemailError.setText("invalid email ");
             return false;
         }
-        if (!this.tUsername.getText().matches("[a-zA-Z0-9]+")){
+        if (!this.tUsername.getText().matches("[a-zA-Z0-9]+")) {
             lusernameError.setText("invalid user name ");
             return false;
         }
-        if (!this.tNickName.getText().matches("[a-z\\sA-Z0-9]+")){
-           lnicknameError.setText("invalid nickname ");
+        if (!this.tNickName.getText().matches("[a-z\\sA-Z0-9]+")) {
+            lnicknameError.setText("invalid nickname ");
             return false;
         }
         return ans;
