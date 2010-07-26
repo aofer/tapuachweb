@@ -81,6 +81,7 @@ public class MessageTree extends Pane {
             //TODO
         }
     }
+
     /**
      * goes to first page
      */
@@ -88,13 +89,15 @@ public class MessageTree extends Pane {
         this._currentPage = 1;
         viewMessages();
     }
+
     /**
      * goes to last page
      */
-    public void lastPage(){
+    public void lastPage() {
         this._currentPage = this.getMaxPage();
         viewMessages();
     }
+
     /**
      * finds where the searched message is located in the message vector
      * @param searchIndex - the index returned from search
@@ -145,9 +148,6 @@ public class MessageTree extends Pane {
         int realIndex = findIndex(index);
         //calculate the destination page where the message is
         int destPage = realIndex / PAGESIZE + 1;
-                if (realIndex % PAGESIZE == 0){
-                    destPage--;
-                }
         //goto the desired page
         while (_currentPage != destPage) {
             if (_currentPage > destPage) {
@@ -157,15 +157,16 @@ public class MessageTree extends Pane {
             }
         }
         //open the searched message
-       int openIndex = 1;
-        for (int i = 0; i < _messageTree.getItemCount();i++){
-            if (((MessageTreeItem)_messageTree.getItem(i)).getMessage().getIndex() == realIndex){
+        int openIndex = 1;
+        for (int i = 0; i < _messageTree.getItemCount(); i++) {
+            if (((MessageTreeItem) _messageTree.getItem(i)).getMessage().getIndex() == realIndex) {
                 openIndex = i;
                 break;
             }
         }
         OpenRepliesRec((MessageTreeItem) _messageTree.getItem(openIndex), index);
-     //   OpenRepliesRec((MessageTreeItem) _messageTree.getItem(realIndex), index);
+        _messageTree.getItem(openIndex).setState(true);
+        //   OpenRepliesRec((MessageTreeItem) _messageTree.getItem(realIndex), index);
     }
 
     /**
@@ -176,11 +177,10 @@ public class MessageTree extends Pane {
      */
     public boolean OpenRepliesRec(MessageTreeItem item, int searchIndex) {
         MessageInterface message = item.getMessage();
-        if (message.getIndex() == searchIndex){
+        if (message.getIndex() == searchIndex) {
             item.setState(true);
             return true;
-        }
-        else {
+        } else {
             boolean ans = false;
             for (int i = 0; i < item.getChildCount(); i++) {
                 MessageTreeItem tItem = (MessageTreeItem) item.getChild(i);
@@ -276,8 +276,6 @@ public class MessageTree extends Pane {
         }
         return maxPage;
     }
-
-
 
     protected class TreeItemListener implements ApplicationEventListener {
 
