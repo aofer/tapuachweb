@@ -19,6 +19,7 @@ import java.util.Set;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.tapuachForum.shared.eMemberType;
 
 /**
  *
@@ -95,9 +96,11 @@ public class MessageHandler {
     public void editMessage(String nickname, int messageId, String subject, String body) throws MessageNotFoundException, MessageOwnerException {
         Date tDate = new Date();
         String tNickname = this._XmlMessage.getMessage(messageId).getNickname();
-        if (nickname.equals(tNickname)) {
+        if (nickname.equals(tNickname) || Forum.getInstance().getMember(nickname).getType() == eMemberType.Moderator
+                ||Forum.getInstance().getMember(nickname).getType() == eMemberType.Admin) {
             this._XmlForum.editMessage(messageId, subject, body, tDate);
-        } else {
+        }
+        else {
             throw new MessageOwnerException();
         }
     }

@@ -30,22 +30,25 @@ import org.tapuachForum.shared.eMemberType;
  */
 public class AdminPanel extends PopupPanel {
 
-    final FormPanel _mainPanel = new FormPanel();
-    final VerticalPanel _holder;
-    final HorizontalPanel _buttonsPanel;
-    final ListBox _users;
-    final Button _upgrade;
-    final Button _close;
-    final Label _header;
+    private FormPanel _mainPanel;
+    private VerticalPanel _holder;
+    private HorizontalPanel _buttonsPanel;
+    private ListBox _users;
+    private Button _upgrade;
+    private Button _close;
+    private Label _header;
+    private Label _statusLabel;
 
     public AdminPanel() {
         super(false, true);
+        _mainPanel = new FormPanel();
         _upgrade = new Button("Upgrade");
         _close = new Button("Close");
         _header = new Label("Upgrade Users:");
         _buttonsPanel = new HorizontalPanel();
         _holder = new VerticalPanel();
         _users = new ListBox();
+        _statusLabel = new Label("Loading...");
         getRegularMembers();
 
         _mainPanel.setAction("/myFormHandler");
@@ -59,7 +62,7 @@ public class AdminPanel extends PopupPanel {
 
         _holder.add(_header);
         _holder.add(_users);
-
+        _holder.add(_statusLabel);
         _buttonsPanel.add(_upgrade);
         _buttonsPanel.add(_close);
         _holder.add(_buttonsPanel);
@@ -114,13 +117,14 @@ public class AdminPanel extends PopupPanel {
         getService().getMembers(new AsyncCallback<List<Member>>() {
 
             public void onFailure(Throwable caught) {
-                //TODO status change
+                _statusLabel.setText("Error loading users.");
             }
 
             public void onSuccess(List<Member> result) {
                 for (Member m : result) {
                     if (m.getType() == eMemberType.member) {
                         _users.addItem(m.getUserName());
+                        _statusLabel.setText("Done.");
                     }
                 }
                 fixButtons();

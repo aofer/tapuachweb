@@ -36,7 +36,7 @@ public class MessageTree extends Pane {
 
     private HorizontalPanel _mainPanel;
     private Tree _messageTree;
-    private final int PAGESIZE = 3;
+    private final int PAGESIZE = 10;
     private Vector<MessageInterface> _messages;
     private int _currentPage;
 
