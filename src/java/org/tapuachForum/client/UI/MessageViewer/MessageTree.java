@@ -156,9 +156,9 @@ public class MessageTree extends Pane {
             }
         }
         //open the searched message
-        int openIndex = 0;
+        int openIndex = 1;
         for (int i = 0; i < _messageTree.getItemCount();i++){
-            if (((MessageTreeItem)_messageTree.getItem(i)).getMessage().getIndex() == index){
+            if (((MessageTreeItem)_messageTree.getItem(i)).getMessage().getIndex() == realIndex){
                 openIndex = i;
                 break;
             }
