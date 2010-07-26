@@ -8,9 +8,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import java.util.ArrayList;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.shared.MessageData;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.DialogBox;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
@@ -31,9 +29,9 @@ import org.tapuachForum.shared.MessageInterface;
  */
 public class MessageTree extends Pane {
 
-    private HorizontalPanel _mainPanel;
+    private ScrollPanel _mainPanel;
     private Tree _messageTree;
-    private final int PAGESIZE = 4;
+    private final int PAGESIZE = 10;
     private Vector<MessageInterface> _messages;
     private int _currentPage;
 
@@ -41,7 +39,7 @@ public class MessageTree extends Pane {
         super();
         this._messages = new Vector<MessageInterface>();
         this._currentPage = 1;
-        this._mainPanel = new HorizontalPanel();
+        this._mainPanel = new ScrollPanel();
         this._mainPanel.setSize("980x", "320px");
         this._messageTree = new Tree();
         this._mainPanel.add(this._messageTree);
@@ -147,6 +145,9 @@ public class MessageTree extends Pane {
         int realIndex = findIndex(index);
         //calculate the destination page where the message is
         int destPage = realIndex / PAGESIZE + 1;
+                if (realIndex % PAGESIZE == 0){
+                    destPage--;
+                }
         //goto the desired page
         while (_currentPage != destPage) {
             if (_currentPage > destPage) {
@@ -156,7 +157,7 @@ public class MessageTree extends Pane {
             }
         }
         //open the searched message
-        int openIndex = 1;
+       int openIndex = 1;
         for (int i = 0; i < _messageTree.getItemCount();i++){
             if (((MessageTreeItem)_messageTree.getItem(i)).getMessage().getIndex() == realIndex){
                 openIndex = i;
@@ -175,13 +176,11 @@ public class MessageTree extends Pane {
      */
     public boolean OpenRepliesRec(MessageTreeItem item, int searchIndex) {
         MessageInterface message = item.getMessage();
-        if (message.getReplies().size() == 0) {
-            boolean ans = (searchIndex == message.getIndex());
-            if (ans == true) {
-                item.setState(ans);
-            }
-            return ans;
-        } else {
+        if (message.getIndex() == searchIndex){
+            item.setState(true);
+            return true;
+        }
+        else {
             boolean ans = false;
             for (int i = 0; i < item.getChildCount(); i++) {
                 MessageTreeItem tItem = (MessageTreeItem) item.getChild(i);
