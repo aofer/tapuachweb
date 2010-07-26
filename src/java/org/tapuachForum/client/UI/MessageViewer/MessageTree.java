@@ -4,15 +4,11 @@
  */
 package org.tapuachForum.client.UI.MessageViewer;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.TreeItem;
 import java.util.ArrayList;
 import org.tapuachForum.client.Events.ApplicationEvent;
 import org.tapuachForum.shared.MessageData;
-import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.Tree;
 import java.util.Date;
 import java.util.Vector;
@@ -21,7 +17,6 @@ import org.tapuachForum.client.Events.ChangeStatusEvent;
 import org.tapuachForum.client.Events.DeleteEvent;
 import org.tapuachForum.client.Events.RefreshEvent;
 import org.tapuachForum.client.Events.resetButtonsEvent;
-import org.tapuachForum.client.MyService;
 import org.tapuachForum.client.MyService.Locator;
 import org.tapuachForum.client.MyServiceAsync;
 import org.tapuachForum.client.UI.Pane;

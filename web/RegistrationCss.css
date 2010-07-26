@@ -82,6 +82,18 @@ root {
    background-color: #ADD8E6;
 }
 
+.blueBackWithBorder{
+   background-color: #ADD8E6;
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-right-color: navy;
+    border-left-color: navy;
+    border-bottom-color: navy;
+    border-top-color: navy;
+}
+
   BODY { background: url("test12.jpg") }
 
 
@@ -101,4 +113,16 @@ infoText{
     text-align: center;
     font-weight: bold;
     font-variant: normal;
+}
+.row-selected{
+
+    border-right-style: solid;
+    border-left-style: solid;
+    border-bottom-style: solid;
+    border-top-style: solid;
+    border-right-color: teal;
+    border-left-color: teal;
+    border-bottom-color: teal;
+    border-top-color: teal;
+    background-color: white;
 }
